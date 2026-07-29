@@ -4,7 +4,9 @@ title: Caching strategies
 section: interviews
 group: Building blocks
 summary: A cache is a faster copy of data; the caching strategy is the rule for what happens to that copy on a write.
+defines: [cache, caching strategy, read-through, write-through, write-behind, TTL, thundering herd]
 razors: [choose-boring-technology]
+prereq: []
 next: []
 ---
 

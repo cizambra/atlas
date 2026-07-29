@@ -1,4 +1,5 @@
 import { paragraphsOf, stripFences, countWords, countSentences, tokens } from './blocks.mjs';
+import { buildTermIndex, termReferences, duplicateDefinitions, normalize } from './terms.mjs';
 
 /**
  * The concept contract is a progressive-disclosure ladder. Each rung answers one
@@ -157,6 +158,23 @@ export function lintCollection(pages, sections) {
         if (!bySlug.has(slug)) {
           out.push({ rule: 'nav-orphan', file: `${section.id}/_section.json`, line: 1,
             message: `"${slug}" is listed in the nav but has no file` });
+        }
+      }
+    }
+  }
+
+  for (const { term, page, owner } of duplicateDefinitions(pages)) {
+    out.push(violation('terms-unique', page, 1,
+      `"${term}" is already defined by ${owner.slug} — a term needs exactly one source`));
+  }
+
+  const terms = buildTermIndex(pages);
+  for (const page of pages) {
+    for (const block of page.blocks) {
+      for (const { label } of termReferences(stripFences(block.text))) {
+        if (!terms.has(normalize(label))) {
+          out.push(violation('terms-resolve', page, block.startLine,
+            `[[${label}]] has no defining page — add it to some page's "defines:" or drop the link`));
         }
       }
     }

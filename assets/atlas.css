@@ -37,6 +37,12 @@ a { color: var(--accent); }
   padding: .75rem 1.25rem; background: var(--bg); border-bottom: 1px solid var(--rule);
 }
 .brand { font-weight: 700; text-decoration: none; letter-spacing: .04em; text-transform: uppercase; font-size: .85rem; }
+.topnav {
+  font-family: ui-sans-serif, system-ui, sans-serif; font-size: .78rem;
+  text-decoration: none; color: var(--muted); white-space: nowrap;
+}
+.topnav:hover { color: var(--accent); }
+@media (max-width: 640px) { .topnav { display: none; } }
 .search {
   flex: 1; max-width: 26rem; padding: .4rem .7rem; border: 1px solid var(--rule);
   border-radius: 6px; background: var(--card); color: var(--fg); font: inherit; font-size: .95rem;
@@ -70,6 +76,14 @@ main { min-width: 0; }
 .kicker { font-family: ui-sans-serif, system-ui, sans-serif; text-transform: uppercase; letter-spacing: .09em; font-size: .72rem; color: var(--muted); margin: 0 0 .3rem; }
 .page-title { font-size: 2.1rem; line-height: 1.15; margin: 0 0 .6rem; }
 .summary { color: var(--muted); font-size: 1.06rem; margin: 0 0 2rem; }
+
+/* A term linked to its defining page. Marked, but not loud enough to break the line. */
+a.term {
+  text-decoration: none;
+  border-bottom: 1px dotted var(--accent);
+}
+a.term:hover { border-bottom-style: solid; }
+td.term-name { font-weight: 600; }
 
 .prereq {
   display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem .9rem;

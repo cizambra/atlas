@@ -26,6 +26,8 @@ function shell({ title, depth, nav, main }) {
 <a class="skip" href="#main">Skip to content</a>
 <header class="topbar">
   <a class="brand" href="${prefix(depth)}index.html">Atlas</a>
+  <a class="topnav" href="${prefix(depth)}glossary.html">Glossary</a>
+  <a class="topnav" href="${prefix(depth)}razors/index.html">Razors</a>
   <input id="search" class="search" type="search" placeholder="Search" autocomplete="off"
          data-index="${prefix(depth)}search-index.json" data-prefix="${prefix(depth)}">
   <div id="results" class="results" hidden></div>
@@ -68,7 +70,7 @@ function renderBlocks(page, ctx) {
       : '';
     return `<section class="block block--${cls}">
 <h2>${escape(block.heading)}${meta}</h2>
-${ctx.md.render(block.text)}
+${ctx.md.render(block.text, { page })}
 </section>`;
   }).join('\n');
 }
@@ -150,6 +152,26 @@ export function renderRazorIndex(razors, ctx) {
 ${families}
 </article>`;
   return shell({ title: 'Razor index', depth: ctx.depth, nav: renderNav(ctx, null), main });
+}
+
+export function renderGlossary(termIndex, ctx) {
+  const rows = [...termIndex.values()]
+    .sort((a, b) => a.term.localeCompare(b.term))
+    .map(({ term, page }) => `<tr>
+<td class="term-name">${escape(term)}</td>
+<td><a href="${hrefFor(page, ctx.depth)}">${escape(page.title)}</a></td>
+<td class="source">${escape(page.section)}</td>
+</tr>`).join('\n');
+
+  const main = `<article class="page page--index">
+<h1 class="page-title">Glossary</h1>
+<p class="summary">Every term the atlas defines, and the one page that defines it. Writing <code>[[term]]</code> anywhere links here.</p>
+<table>
+<thead><tr><th>Term</th><th>Defined in</th><th>Section</th></tr></thead>
+<tbody>\n${rows}\n</tbody>
+</table>
+</article>`;
+  return shell({ title: 'Glossary', depth: ctx.depth, nav: renderNav(ctx, null), main });
 }
 
 export function renderHome(ctx) {

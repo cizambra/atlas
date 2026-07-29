@@ -15,6 +15,7 @@ export function loadPage(filePath, raw) {
     group: data.group,
     family: data.family,
     summary: data.summary,
+    defines: asArray(data.defines),
     razors: asArray(data.razors),
     prereq: asArray(data.prereq),
     next: asArray(data.next),

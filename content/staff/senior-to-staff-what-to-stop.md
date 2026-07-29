@@ -4,7 +4,9 @@ title: Senior to staff — what to stop doing
 section: staff
 group: The first 90 days
 summary: Staff engineering is accountable for outcomes larger than one person can build, which changes what your own hands should be doing.
+defines: [glue work, staff archetypes]
 razors: []
+prereq: []
 next: []
 sources:
   - "Will Larson, Staff Engineer: Leadership Beyond the Management Track (2021)"
