@@ -44,18 +44,21 @@ online monitoring, and a real offline eval.
 3. **Have two people score the same 50 items.** Their agreement is the ceiling on every
    score that follows, automated or not.
 4. **Score the full set.** That rate is your baseline, not your target.
-5. **Re-run on the same set after each change.** Count only the items where the two
-   versions disagree. If they disagree on $N$ items, the winner has to lead by more
-   than $2\sqrt{N}$ — otherwise you saw noise, and you do not ship on it.
+5. **Re-run on the same set after each change**, so you have an old score and a new
+   score for every item. Most items score the same both times — ignore those. Count
+   only the items where one version got it right and the other got it wrong: call that
+   count $N$, with $b$ of them won by the new version and $c$ by the old. Ship only if
+   $|b - c| > 2\sqrt{N}$.
 
 **Why it works** — one example proves nothing about a system that behaves differently
 on every input. A rate over a representative sample is the smallest thing that
 generalizes.
 
-**Numbers that govern** — ignore the two headline rates and count disagreements. Thirty
-disagreements splitting 18–12 is a lead of 6 against a bar of $2\sqrt{30} \approx 11$,
-so it is not a win. Two annotators who agree 85% of the time cap every downstream score
-at 85%.
+**Numbers that govern** — comparing the two overall percentages is the wrong move. What
+decides it is how many individual items changed hands: if the versions differ on 30
+items, 18 going to the new one and 12 to the old, the lead is 6 against a bar of
+$2\sqrt{30} \approx 11$, so it is not a win. Separately, two annotators who agree 85% of
+the time cap every downstream score at 85%.
 
 **The one failure everyone hits** — the golden set gets built from examples that were
 easy to collect, so it skews toward what somebody already thought of. The system then
@@ -107,13 +110,14 @@ versions honestly, because both were asked the same questions.
 
 ### Knowing your noise floor
 
-Only the disagreements carry information. On an item where both versions got it right —
-or both got it wrong — nothing distinguishes them, so those items are silent about
-which version is better.
+Score both versions on the same items and each item lands in one of four buckets: both
+right, both wrong, only the old one right, only the new one right. The first two
+buckets are silent — nothing there distinguishes the versions — so only the last two
+carry any information.
 
-So let the two versions disagree on $N$ items, $b$ of them going to version A and
-$c = N - b$ to version B. If the versions are genuinely equally good, each disagreement
-is a coin flip:
+Call those two buckets the disagreements: $N$ items in total, $b$ won by the new
+version and $c = N - b$ by the old. If the versions are genuinely equally good, each
+disagreement is a coin flip:
 
 $$b \sim \text{Binomial}\left(N, \tfrac{1}{2}\right)$$
 
@@ -184,10 +188,13 @@ Now the eval answers the question it was built for: chunk size 512 versus 1024. 
 rates come back 82% and 84%, which looks like a win for 1024 and is not the number that
 decides it.
 
-The deciding number is the disagreements. The two versions differ on 26 items, splitting
-15 to 11 — a lead of 4 against a bar of $2\sqrt{26} \approx 10$. So the honest report is
-"no detected difference," and chunk size gets decided on cost instead. "1024 wins" would
-have been true of this sample and false of the system.
+The deciding number is neither percentage. Both versions are scored on the same 200
+items, and 174 of them land the same way — both right or both wrong — so those say
+nothing. The two differ on 26 items: 15 go to 1024 and 11 to 512.
+
+That is a lead of 4 against a bar of $2\sqrt{26} \approx 10$. So the honest report is
+"no detected difference," and chunk size gets decided on cost instead. "1024 wins"
+would have been true of this sample and false of the system.
 
 ## Next
 
