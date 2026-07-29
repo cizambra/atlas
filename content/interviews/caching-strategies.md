@@ -3,7 +3,7 @@ type: concept
 title: Read-through vs write-through caching
 section: interviews
 group: Building blocks
-summary: A cache is a bet that reads outnumber writes, and the strategy names who pays for a miss.
+summary: A cache is a faster copy of data; the caching strategy is the rule for what happens to that copy on a write.
 razors: [choose-boring-technology]
 next: []
 ---

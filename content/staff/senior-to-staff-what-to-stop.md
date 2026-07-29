@@ -3,7 +3,7 @@ type: concept
 title: Senior to staff — what to stop doing
 section: staff
 group: The first 90 days
-summary: The transition is subtractive before it is additive; being the best implementer becomes a failure mode.
+summary: Staff engineering is accountable for outcomes larger than one person can build, which changes what your own hands should be doing.
 razors: []
 next: []
 sources:

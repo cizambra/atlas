@@ -3,7 +3,7 @@ type: concept
 title: What makes something an eval
 section: ai
 group: Evaluation
-summary: An eval is a measurement you would be willing to be wrong about in public.
+summary: "An eval is a rate: how often a system gets a task right, estimated from a sample of real inputs."
 razors: []
 next: []
 ---
