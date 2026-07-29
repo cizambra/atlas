@@ -5,7 +5,7 @@ section: ai
 group: Evaluation
 summary: "An eval is a rate: how often a system gets a task right, estimated from a sample of real inputs."
 defines: [eval, golden set, annotators, held-out set]
-razors: []
+razors: [goodharts-law]
 prereq: []
 next: []
 ---
@@ -162,10 +162,17 @@ winner without saying how many items separated them.
 An unrepresentative sample does not leave you ignorant. It leaves you confident and
 wrong, which is strictly worse — with no number at all you would have been more careful.
 
-Then Goodhart. Once the eval becomes the target it stops being a good measure, and
-optimizing against a fixed set is exactly what this work looks like. The defense is a
-second sample you never look at while tuning — a **held-out set** — checked only
-occasionally, and rotated when it starts to feel familiar.
+The second way it goes bad is [[Goodhart's Law]]: when a measure becomes a target, it
+stops being a good measure. That applies here with unusual force, because optimising
+against a fixed set of items is not a risk of this work — it is a literal description
+of it.
+
+In practice: after a month of tuning, the score on those 200 items is genuinely higher
+and the system is no better for anyone outside the sample. You have learned the answer
+key.
+
+The defence is a second sample you never look at while tuning — a **held-out set** —
+scored only occasionally, and rotated once it starts to feel familiar.
 
 ## See it work
 

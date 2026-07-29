@@ -1,6 +1,7 @@
 {
   "title": "Razors",
   "groups": [
+    { "id": "decision", "title": "Decision and judgment", "pages": ["goodharts-law"] },
     { "id": "delivery", "title": "Delivery and operations", "pages": ["choose-boring-technology"] }
   ]
 }
