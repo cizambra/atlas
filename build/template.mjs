@@ -1,0 +1,142 @@
+const escape = (s = '') => String(s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+const prefix = (depth) => (depth === 0 ? '' : '../'.repeat(depth));
+
+const hrefFor = (page, depth) => `${prefix(depth)}${page.section}/${page.slug}.html`;
+
+function shell({ title, depth, nav, main }) {
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${escape(title)} · Atlas</title>
+<link rel="stylesheet" href="${prefix(depth)}atlas.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <a class="brand" href="${prefix(depth)}index.html">Atlas</a>
+  <input id="search" class="search" type="search" placeholder="Search" autocomplete="off"
+         data-index="${prefix(depth)}search-index.json" data-prefix="${prefix(depth)}">
+  <div id="results" class="results" hidden></div>
+</header>
+<div class="layout">
+${nav}
+<main id="main">
+${main}
+</main>
+</div>
+<script src="${prefix(depth)}search.js"></script>
+</body>
+</html>
+`;
+}
+
+function renderNav(ctx, currentSlug) {
+  const sections = [...ctx.sections.values()].map((section) => {
+    const groups = section.groups.map((group) => {
+      const items = group.pages.map((slug) => {
+        const page = ctx.pagesBySlug.get(slug);
+        if (!page) return '';
+        const current = slug === currentSlug ? ' aria-current="page"' : '';
+        return `<li><a href="${hrefFor(page, ctx.depth)}"${current}>${escape(page.title)}</a></li>`;
+      }).join('\n');
+      return `<li class="nav-group"><span class="nav-group-title">${escape(group.title)}</span><ul>\n${items}\n</ul></li>`;
+    }).join('\n');
+    return `<li class="nav-section"><span class="nav-section-title">${escape(section.title)}</span><ul>\n${groups}\n</ul></li>`;
+  }).join('\n');
+  return `<nav class="sidebar" aria-label="Sections"><ul>\n${sections}\n</ul></nav>`;
+}
+
+function renderBlocks(page, ctx) {
+  return page.blocks.map((block) => {
+    const cls = slugify(block.heading);
+    return `<section class="block block--${cls}">
+<h2>${escape(block.heading)}</h2>
+${ctx.md.render(block.text)}
+</section>`;
+  }).join('\n');
+}
+
+function renderRazorLinks(page, ctx) {
+  if (page.razors.length === 0) return '';
+  const items = page.razors.map((slug) => {
+    const razor = ctx.pagesBySlug.get(slug);
+    if (!razor) return '';
+    return `<li><a href="${hrefFor(razor, ctx.depth)}">${escape(razor.title)}</a></li>`;
+  }).join('\n');
+  return `<aside class="razor-links"><h2>Razors this rests on</h2><ul>\n${items}\n</ul></aside>`;
+}
+
+function renderSources(page) {
+  if (page.sources.length === 0) return '';
+  const items = page.sources.map((s) => `<li>${escape(s)}</li>`).join('\n');
+  return `<aside class="sources"><h2>Sources</h2><ul>\n${items}\n</ul></aside>`;
+}
+
+export function renderPage(page, ctx) {
+  const kicker = page.type === 'razor' ? page.family : page.group;
+  const main = `<article class="page page--${escape(page.type)}">
+<p class="kicker">${escape(kicker ?? '')}</p>
+<h1 class="page-title">${escape(page.title)}</h1>
+${page.summary ? `<p class="summary">${escape(page.summary)}</p>` : ''}
+${renderBlocks(page, ctx)}
+${renderRazorLinks(page, ctx)}
+${renderSources(page)}
+</article>`;
+  return shell({ title: page.title, depth: ctx.depth, nav: renderNav(ctx, page.slug), main });
+}
+
+export function renderRazorIndex(razors, ctx) {
+  const byFamily = new Map();
+  for (const razor of razors) {
+    const family = razor.family ?? 'Unfiled';
+    if (!byFamily.has(family)) byFamily.set(family, []);
+    byFamily.get(family).push(razor);
+  }
+  const families = [...byFamily.entries()].map(([family, items]) => {
+    const rows = items.map((razor) => {
+      const statement = razor.blocks.find((b) => b.heading === 'Statement')?.text.trim() ?? '';
+      const source = razor.sources[0] ?? '';
+      return `<tr>
+<td><a href="${hrefFor(razor, ctx.depth)}">${escape(razor.title)}</a></td>
+<td>${escape(statement)}</td>
+<td class="source">${escape(source)}</td>
+</tr>`;
+    }).join('\n');
+    return `<section class="family">
+<h2>${escape(family)}</h2>
+<table class="razor-table">
+<thead><tr><th>Razor</th><th>Statement</th><th>Source</th></tr></thead>
+<tbody>\n${rows}\n</tbody>
+</table>
+</section>`;
+  }).join('\n');
+
+  const main = `<article class="page page--index">
+<h1 class="page-title">Razor index</h1>
+<p class="summary">Every razor in the atlas, grouped by family. Each links to its full entry.</p>
+${families}
+</article>`;
+  return shell({ title: 'Razor index', depth: ctx.depth, nav: renderNav(ctx, null), main });
+}
+
+export function renderHome(ctx) {
+  const cards = [...ctx.sections.values()].map((section) => {
+    const first = section.groups.flatMap((g) => g.pages).map((s) => ctx.pagesBySlug.get(s)).find(Boolean);
+    const count = section.groups.reduce((n, g) => n + g.pages.length, 0);
+    const href = first ? hrefFor(first, ctx.depth) : '#';
+    return `<li class="card"><a href="${href}"><h2>${escape(section.title)}</h2><p>${count} pages</p></a></li>`;
+  }).join('\n');
+
+  const main = `<article class="page page--home">
+<h1 class="page-title">Atlas</h1>
+<p class="summary">AI engineering, technical interviews, and staff engineering — the model, the decision, the mechanism, the example.</p>
+<ul class="cards">\n${cards}\n</ul>
+</article>`;
+  return shell({ title: 'Atlas', depth: ctx.depth, nav: renderNav(ctx, null), main });
+}
