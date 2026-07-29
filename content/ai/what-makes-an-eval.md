@@ -44,16 +44,17 @@ online monitoring, and a real offline eval.
 3. **Have two people score the same 50 items.** Their agreement is the ceiling on every
    score that follows, automated or not.
 4. **Score the full set.** That rate is your baseline, not your target.
-5. **Re-run on the same set after each change**, and ship only when the gap is bigger
-   than your noise floor.
+5. **Re-run on the same set after each change.** Count only the items where the two
+   versions disagree. If they disagree on N items, the winner has to lead by more than
+   **2 × √N** — otherwise you saw noise, and you do not ship on it.
 
 **Why it works** — one example proves nothing about a system that behaves differently
 on every input. A rate over a representative sample is the smallest thing that
 generalizes.
 
-**Numbers that govern** — on 200 items at a rate near 80%, the 95% interval is roughly
-±5 points, about 11 items. A three-item difference is noise. Two annotators who agree
-85% of the time cap every downstream score at 85%.
+**Numbers that govern** — ignore the two headline rates and count disagreements. Thirty
+disagreements splitting 18–12 is a lead of 6 against a bar of 2 × √30 ≈ 11, so it is
+not a win. Two annotators who agree 85% of the time cap every downstream score at 85%.
 
 **The one failure everyone hits** — the golden set gets built from examples that were
 easy to collect, so it skews toward what somebody already thought of. The system then
@@ -105,13 +106,22 @@ versions honestly, because both were asked the same questions.
 
 ### Knowing your noise floor
 
-On 200 items at a rate near 80%, the standard error is about 2.8 points, so the 95%
-interval spans roughly ±5.5 points — about eleven items. A three-item difference sits
-comfortably inside it.
+Where 2 × √N comes from: on the items where the two versions agree, neither is
+learning anything, so they carry no information about which is better. Only the
+disagreements do. If the versions were truly equal, each disagreement is a coin flip,
+and a fair coin flipped N times strays from even by about √N.
 
-The practical rule: never report a winner without saying how many items separated them.
-"1024 won by four items out of 200" is an honest sentence that stops a bad decision;
-"1024 wins" does not.
+Two of those is the usual 95% bar. That is the whole derivation, and it is why the
+headline rates are the wrong thing to look at — 82% versus 84% hides how many items
+actually changed hands.
+
+Comparing on the same set is what makes this work. Score two variants on two different
+samples and you inherit the sampling error of both, which needs a far larger set to see
+through.
+
+For a single rate rather than a comparison, use the interval instead: 200 items at
+around 80% has a 95% interval of roughly ±5.5 points. Report it, and never report a
+winner without saying how many items separated them.
 
 ### How the golden set goes bad
 
@@ -129,12 +139,13 @@ flowchart TD
   L[(Production logs)] -->|sample by frequency| G[Golden set · 200 items]
   G --> A[2 annotators score 50]
   A -->|agree on 43 = 86%| CEIL[Ceiling on any judge]
-  G --> RUN[Run variant A and B]
+  G --> RUN[Run chunk size 512 and 1024]
   RUN --> S[Score every output]
-  S --> RATE[Rates · 82% vs 84%]
-  CEIL -.->|bounds| RATE
-  RATE --> D{Gap bigger than<br/>the noise floor?}
-  D -->|4 items of 200 · no| ND[Report: no detected difference]
+  S --> RATE["Rates: 82% vs 84% — ignore these"]
+  RATE --> DIS["Disagreements: 26 items, split 15 vs 11"]
+  CEIL -.->|bounds| DIS
+  DIS --> D{"Lead of 4 beats bar of 2 x root 26 = 10?"}
+  D -->|no| ND["Report: no detected difference"]
   D -->|yes| SHIP[Ship the variant]
 ```
 
@@ -152,9 +163,13 @@ a judge scoring above that is not more accurate, it is reproducing one annotator
 bias.
 
 Now the eval answers the question it was built for: chunk size 512 versus 1024. The
-rates are 82% and 84% — four items out of 200. That is inside the noise floor, so the
-honest report is "no detected difference," and the chunk size decision gets made on
-cost instead.
+rates come back 82% and 84%, which looks like a win for 1024 and is not the number that
+decides it.
+
+The deciding number is the disagreements. The two versions differ on 26 items, splitting
+15 to 11 — a lead of 4 against a bar of 2 × √26 ≈ 10. So the honest report is "no
+detected difference," and chunk size gets decided on cost instead. "1024 wins" would
+have been true of this sample and false of the system.
 
 ## Next
 
