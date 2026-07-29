@@ -71,6 +71,17 @@ main { min-width: 0; }
 .page-title { font-size: 2.1rem; line-height: 1.15; margin: 0 0 .6rem; }
 .summary { color: var(--muted); font-size: 1.06rem; margin: 0 0 2rem; }
 
+.prereq {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem .9rem;
+  margin: 0 0 2rem; padding: .6rem .9rem;
+  border: 1px dashed var(--rule); border-radius: 8px;
+  font-family: ui-sans-serif, system-ui, sans-serif; font-size: .86rem;
+}
+.prereq-label {
+  text-transform: uppercase; letter-spacing: .09em; font-size: .68rem; color: var(--muted);
+}
+.prereq ul { display: flex; flex-wrap: wrap; gap: .9rem; list-style: none; margin: 0; padding: 0; }
+
 .block { margin: 0 0 1.75rem; }
 .block h2 {
   font-family: ui-sans-serif, system-ui, sans-serif; text-transform: uppercase;

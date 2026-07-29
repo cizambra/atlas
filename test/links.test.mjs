@@ -4,7 +4,8 @@ import { lintCollection } from '../build/lint.mjs';
 
 const page = (slug, section, extra = {}) => ({
   slug, section, type: 'concept', title: slug, filePath: `/c/${slug}.md`,
-  razors: [], next: [], sources: [], blocks: [{ heading: 'The model', text: 'x', startLine: 1 }], ...extra,
+  razors: [], prereq: [], next: [], sources: [],
+  blocks: [{ heading: 'The model', text: 'x', startLine: 1 }], ...extra,
 });
 
 const sections = (groups) => new Map([['ai', { id: 'ai', title: 'AI', groups }]]);
@@ -23,6 +24,12 @@ test('links-resolve rejects a dangling next slug', () => {
   const violations = lintCollection(pages, config);
   assert.ok(rulesOf(violations).includes('links-resolve'));
   assert.match(violations[0].message, /nope/);
+});
+
+test('links-resolve rejects a dangling prereq slug', () => {
+  const pages = [page('alpha', 'ai', { prereq: ['embeddings'] })];
+  const config = sections([{ id: 'g', title: 'G', pages: ['alpha'] }]);
+  assert.ok(rulesOf(lintCollection(pages, config)).includes('links-resolve'));
 });
 
 test('links-resolve rejects a dangling razor slug', () => {

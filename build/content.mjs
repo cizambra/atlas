@@ -16,6 +16,7 @@ export function loadPage(filePath, raw) {
     family: data.family,
     summary: data.summary,
     razors: asArray(data.razors),
+    prereq: asArray(data.prereq),
     next: asArray(data.next),
     sources: asArray(data.sources),
     blocks: splitBlocks(body, bodyStartLine),

@@ -106,6 +106,17 @@ test('links cited razors from a concept page', () => {
   assert.match(html, /href="\.\.\/razors\/littles-law\.html"/);
 });
 
+test('renders prerequisites above the blocks, and omits the strip when there are none', () => {
+  assert.doesNotMatch(renderPage(concept, ctx), /class="prereq"/);
+
+  const withPrereq = { ...concept, prereq: ['choose-boring-technology'] };
+  const html = renderPage(withPrereq, ctx);
+  assert.match(html, /class="prereq"/);
+  assert.match(html, /Read first/);
+  // Prerequisites must precede the first content block, or they are not prerequisites.
+  assert.ok(html.indexOf('class="prereq"') < html.indexOf('class="block block--the-model"'));
+});
+
 test('nav lists every section and the current page is marked', () => {
   const html = renderPage(concept, ctx);
   assert.match(html, /Interviews/);

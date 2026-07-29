@@ -142,7 +142,7 @@ export function lintCollection(pages, sections) {
   const bySlug = new Map(pages.map((p) => [p.slug, p]));
 
   for (const page of pages) {
-    for (const slug of [...page.next, ...page.razors]) {
+    for (const slug of [...page.next, ...page.razors, ...(page.prereq ?? [])]) {
       if (!bySlug.has(slug)) {
         out.push(violation('links-resolve', page, 1, `link target "${slug}" does not exist`));
       }

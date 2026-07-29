@@ -73,6 +73,21 @@ ${ctx.md.render(block.text)}
   }).join('\n');
 }
 
+/** Rendered above the page: what to read first to arrive with the vocabulary. */
+function renderPrereqs(page, ctx) {
+  const slugs = page.prereq ?? [];
+  if (slugs.length === 0) return '';
+  const items = slugs.map((slug) => {
+    const target = ctx.pagesBySlug.get(slug);
+    if (!target) return '';
+    return `<li><a href="${hrefFor(target, ctx.depth)}">${escape(target.title)}</a></li>`;
+  }).join('\n');
+  return `<nav class="prereq" aria-label="Read first">
+<span class="prereq-label">Read first</span>
+<ul>\n${items}\n</ul>
+</nav>`;
+}
+
 function renderRazorLinks(page, ctx) {
   if (page.razors.length === 0) return '';
   const items = page.razors.map((slug) => {
@@ -95,6 +110,7 @@ export function renderPage(page, ctx) {
 <p class="kicker">${escape(kicker ?? '')}</p>
 <h1 class="page-title">${escape(page.title)}</h1>
 ${page.summary ? `<p class="summary">${escape(page.summary)}</p>` : ''}
+${renderPrereqs(page, ctx)}
 ${renderBlocks(page, ctx)}
 ${renderRazorLinks(page, ctx)}
 ${renderSources(page)}

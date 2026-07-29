@@ -5,6 +5,7 @@ section: ai
 group: Evaluation
 summary: "An eval is a rate: how often a system gets a task right, estimated from a sample of real inputs."
 razors: []
+prereq: []
 next: []
 ---
 
@@ -39,10 +40,12 @@ online monitoring, and a real offline eval.
 **How to build one**
 
 1. **Sample 100–300 real inputs** from production logs, weighted by how often each kind
-   actually occurs.
+   actually occurs. This fixed set is your **golden set** — the same questions every
+   future version will be asked.
 2. **Define one outcome a person can score in ten seconds.** Narrow beats rich.
-3. **Have two people score the same 50 items.** Their agreement is the ceiling on every
-   score that follows, automated or not.
+3. **Have two people score the same 50 items.** Those two people are your
+   **annotators**, and how often they agree is the ceiling on every score that follows,
+   automated or not.
 4. **Score the full set.** That rate is your baseline, not your target.
 5. **Re-run on the same set after each change**, so you have an old score and a new
    score for every item. Most items score the same both times — ignore those. Count
@@ -160,7 +163,8 @@ wrong, which is strictly worse — with no number at all you would have been mor
 
 Then Goodhart. Once the eval becomes the target it stops being a good measure, and
 optimizing against a fixed set is exactly what this work looks like. The defense is a
-held-out set nobody tunes against, rotated periodically.
+second sample you never look at while tuning — a **held-out set** — checked only
+occasionally, and rotated when it starts to feel familiar.
 
 ## See it work
 
@@ -171,7 +175,7 @@ flowchart TD
   A -->|agree on 43 = 86%| CEIL[Ceiling on any judge]
   G --> RUN[Run chunk size 512 and 1024]
   RUN --> S[Score every output]
-  S --> RATE["Rates: 82% vs 84% — ignore these"]
+  S --> RATE["Overall rates: 82% vs 84% — not the deciding number"]
   RATE --> DIS["Disagreements: 26 items, split 15 vs 11"]
   CEIL -.->|bounds| DIS
   DIS --> D{"Lead of 4 beats bar of 2 x root 26 = 10?"}
@@ -179,22 +183,24 @@ flowchart TD
   D -->|yes| SHIP[Ship the variant]
 ```
 
-A retrieval-augmented support assistant, tuned roughly weekly. Run the three questions:
-it changes often, its answers are better-or-worse rather than right-or-wrong, and a
+A support assistant that looks up help-centre articles and writes its answer from them —
+*retrieval-augmented*, in the jargon — tuned roughly weekly. Run the three questions: it
+changes often, its answers are better-or-worse rather than right-or-wrong, and a
 wrong-but-plausible answer looks fine in production metrics. All three point the same
 way, so build the eval.
 
 Sampling: 200 questions pulled from logs by frequency, so common questions appear about
-as often as they truly do. Outcome: did the answer come from the right document — a
-binary a person scores in ten seconds.
+as often as they truly do. Outcome: did the answer come from the right article — a
+yes-or-no a person scores in ten seconds.
 
 Two annotators score the same 50 items first. They agree on 43, so 86% is the ceiling;
 a judge scoring above that is not more accurate, it is reproducing one annotator's
 bias.
 
-Now the eval answers the question it was built for: chunk size 512 versus 1024. The
-rates come back 82% and 84%, which looks like a win for 1024 and is not the number that
-decides it.
+Now the eval answers the question it was built for. Before storing them, the system
+cuts each help-centre article into pieces, and someone wants to know how big those
+pieces should be — 512 words or 1024. The rates come back 82% and 84%, which looks like
+a win for 1024 and is not the number that decides it.
 
 The deciding number is neither percentage. Both versions are scored on the same 200
 items, and 174 of them land the same way — both right or both wrong — so those say
