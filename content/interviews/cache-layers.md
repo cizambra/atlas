@@ -39,10 +39,24 @@ none of them.
 edge, reverse proxy, application memory, a shared store like Redis, and the database's
 [[buffer pool]].
 
-**A hit anywhere saves everything beyond it.** A request stops at the first layer
-holding the data, so a CDN hit never touches your infrastructure at all, while an
-application-memory hit still costs the user a full round trip to your server. The
-further out the hit lands, the more it saves.
+**How to place a piece of data**
+
+1. **Ask who it is identical for.** Everyone → it can reach the CDN or the browser.
+   Per-user → it stops at application memory or below.
+2. **Say the staleness budget in seconds, out loud, before choosing a layer.** "Sixty
+   seconds" is a decision; "fresh enough" is not.
+3. **Pick the outermost layer whose invalidation story you can live with** at that
+   budget. Outermost is cheapest; the constraint is always the fix, not the speed.
+4. **Give it a key containing only what the response actually depends on.** Every extra
+   dimension multiplies the entries and divides the hit rate.
+5. **Decide now how it gets corrected when it is wrong** — purge, short TTL, or a
+   versioned name. If the honest answer is "we wait for it to expire", you pushed it
+   one layer too far out.
+
+**Why it works** — a request stops at the first layer holding the data, so a hit
+removes every cost beyond that point. A CDN hit never touches your infrastructure at
+all, while an application-memory hit still costs the user a full round trip to your
+server. The further out the hit lands, the more it saves.
 
 **The six, in order**
 
@@ -95,6 +109,33 @@ all: no app server, no database, no bill.
 That is why the ordering is worth memorising in path order rather than speed order.
 Optimising the fastest layer is usually not the same as optimising the layer that
 matters.
+
+### Placing a piece of data: the judgment inside each step
+
+**Who it is identical for** is the question that eliminates most of the options in one
+move, and people skip it because the answer feels obvious. It usually is — right up
+until someone adds a per-user greeting to a page you were caching at the edge, and the
+hit rate silently collapses to nothing.
+
+**Saying the staleness budget in seconds** forces a conversation that otherwise happens
+after the incident. Nobody objects to "reasonably fresh." Plenty of people will object
+to "up to ten minutes stale", which is what "reasonably fresh" meant, and you want that
+objection before you build rather than after.
+
+**Outermost layer you can live with** inverts how most people choose. The instinct is
+to start at Redis and consider pushing further out as an optimisation. Start at the
+browser instead and walk inward until the invalidation story stops being frightening —
+you will land further out than instinct suggested.
+
+**The key containing only what it depends on** is where hit rates are quietly lost.
+Every dimension you vary on multiplies the entries, so the discipline is subtractive:
+begin with the URL and add a dimension only when you can name a response that would
+genuinely differ.
+
+**Deciding the correction path now** is the step that separates a cache you can operate
+from one you are afraid of. "We wait for expiry" is an acceptable answer for a hashed
+asset and an unacceptable one for a price, and noticing which you have is the whole
+judgment.
 
 ### The six layers, in full
 

@@ -21,7 +21,11 @@ A short model paragraph.
 
 **What** — a fixture page.
 
-**How** — it is parsed, linted, and rendered.
+**How to use it**
+
+1. Load it through the parser.
+2. Run the linter over the result.
+3. Render it and compare.
 
 **Why** — to prove the pipeline holds its shape.
 

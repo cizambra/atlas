@@ -40,9 +40,18 @@ write-behind.
 whole distance. There is usually more than one: browser, CDN, application memory, a
 shared Redis, the database's own buffer pool.
 
-**How** — a read checks the cache first. On a hit it returns the copy; on a miss it
-fetches from the source, fills the cache, and returns. On a write you pick one rule:
-update the copy, delete it, or let its TTL expire.
+**How to pick a strategy**
+
+1. **Name the staleness budget in seconds** before considering any option. Every later
+   step is a consequence of this number.
+2. **Choose the read path.** The application fills the cache on a miss (cache-aside), or
+   the cache fills itself (read-through). Cache-aside keeps the cache optional.
+3. **Choose the write path.** Update the copy (write-through), delete it (invalidate),
+   or write only to the database and let the copy age out (write-around).
+4. **Set the TTL below your staleness budget, with jitter**, so it is a correctness
+   backstop rather than the only thing keeping the copy honest.
+5. **Name the failure you are accepting.** Every combination has one — stale reads, lost
+   writes, or a cold first read. If you cannot name yours, you have not chosen yet.
 
 **When it is full** — something must be thrown out, usually the least recently used
 entry. TTL and eviction are different tools: TTL bounds how *stale* a copy can get,

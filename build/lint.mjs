@@ -46,6 +46,28 @@ function modelLength(page) {
     `"The model" is ${words} words (max ${MAX_MODEL_WORDS}) — if the model needs more, it is not yet a model`)];
 }
 
+/**
+ * The third capability — build it, or guide a team building it — is the one pages
+ * fail, and they fail it by describing the shape of the work instead of handing over
+ * a procedure. The wording of the beat is the author's ("How to hand work over" beats
+ * a generic label); its existence, and the numbered steps under it, are not.
+ */
+function procedurePresent(page) {
+  if (page.type !== 'concept') return [];
+  const block = blockByHeading(page, 'Speedrun');
+  if (!block) return [];
+
+  const hasHowBeat = /^\*\*How\b[^*]*\*\*/m.test(block.text);
+  const hasSteps = /^\s*1\.\s+\S/m.test(block.text);
+  if (hasHowBeat && hasSteps) return [];
+
+  const missing = !hasHowBeat
+    ? 'no "**How ...**" beat'
+    : 'a "How" beat with no numbered steps under it';
+  return [violation('procedure-present', page, block.startLine,
+    `"Speedrun" has ${missing} — a reader cannot build the thing from a description of it`)];
+}
+
 function speedrunLength(page) {
   if (page.type !== 'concept') return [];
   const block = blockByHeading(page, 'Speedrun');
@@ -156,7 +178,7 @@ function summaryPresent(page) {
 }
 
 const PAGE_RULES = [
-  blocksExact, modelLength, speedrunLength, paragraphSize,
+  blocksExact, modelLength, speedrunLength, procedurePresent, paragraphSize,
   examplePresent, visualPresent, limitsPresent, sourcesRequired, summaryPresent,
   illustrationCredited,
 ];

@@ -12,7 +12,8 @@ const EXAMPLE_BODY = `${DIAGRAM}\n\n${EXAMPLE_PARAGRAPH}\n\n${EXAMPLE_PARAGRAPH}
 const CONCEPT_BLOCKS = [
   '## The model', '', 'A model.', '',
   '## When to use it', '', '1. One?', '',
-  '## Speedrun', '', 'The vitals.', '',
+  '## Speedrun', '', '**What** — the vitals.', '',
+  '**How to do it**', '', '1. First step.', '2. Second step.', '',
   '## Going deeper', '', 'Because.', '',
   '## See it work', '', EXAMPLE_BODY, '',
   '## Next', '', 'Links.',
@@ -53,7 +54,23 @@ test('model-length rejects a model over 120 words', () => {
 
 test('speedrun-length rejects a speedrun over 500 words', () => {
   const long = Array.from({ length: 8 }, () => `${'word '.repeat(70)}.`).join('\n\n');
-  assert.ok(rulesOf(lintPage(concept(CONCEPT_BLOCKS.replace('The vitals.', long)))).includes('speedrun-length'));
+  assert.ok(rulesOf(lintPage(concept(CONCEPT_BLOCKS.replace('the vitals.', long)))).includes('speedrun-length'));
+});
+
+test('procedure-present rejects a Speedrun with no How beat', () => {
+  const blocks = CONCEPT_BLOCKS.replace('**How to do it**', '**Some other beat**');
+  assert.ok(rulesOf(lintPage(concept(blocks))).includes('procedure-present'));
+});
+
+test('procedure-present rejects a How beat with no numbered steps', () => {
+  const blocks = CONCEPT_BLOCKS
+    .replace('1. First step.\n2. Second step.', 'You sample, you score, you report.');
+  assert.ok(rulesOf(lintPage(concept(blocks))).includes('procedure-present'));
+});
+
+test('procedure-present accepts any topic-specific How wording', () => {
+  const blocks = CONCEPT_BLOCKS.replace('**How to do it**', '**How to hand work over**');
+  assert.ok(!rulesOf(lintPage(concept(blocks))).includes('procedure-present'));
 });
 
 test('speedrun-length does not count a diagram against the budget', () => {
