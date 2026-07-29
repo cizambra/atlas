@@ -1,0 +1,6 @@
+{
+  "title": "AI Engineering",
+  "groups": [
+    { "id": "foundations", "title": "Foundations", "pages": ["sample-concept"] }
+  ]
+}
