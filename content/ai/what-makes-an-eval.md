@@ -20,14 +20,38 @@ property.
 
 ## Decide it
 
-1. **What decision would a change in this number cause you to make?** If the honest
-   answer is none, you are building a dashboard.
-2. **Is the sample representative of what users send, or of what was easy to collect?**
-   The second is the default failure, and it is invisible from the inside.
-3. **Can two people score the same item and agree?** If they cannot, no automated judge
-   can do better.
+You are choosing between four things: eyeballing a few outputs, a deterministic test,
+online monitoring, and a real offline eval.
+
+1. **How many times will you change this system?** Once — spot-check a dozen outputs
+   and ship. Repeatedly — build the eval, because its cost is paid once and saved on
+   every later change.
+2. **Is the output right-or-wrong, or better-or-worse?** A fixed correct answer is a
+   test, and a test is cheaper. Only better-or-worse needs a rate over a sample.
+3. **Would a bad output show up in production, and can you afford to let it?** Visible
+   in metrics and cheap to roll back — monitor online instead. Invisible in aggregate,
+   or expensive once shipped — you need to catch it before release.
 
 ## Why it's true
+
+### When it is worth building one
+
+An eval is a fixed cost paid up front — collecting the sample, defining the outcome,
+scoring it once by hand — against a variable saving on every change that follows. One
+change does not repay it. Twenty do.
+
+That is why the honest first question is how many times you will touch the system.
+Teams build elaborate evals for something they ship once, then skip them for the
+component they will be tuning every week.
+
+The third alternative is not testing less, it is testing later. If a bad output appears
+in production metrics within a day and rolling back is cheap, online monitoring catches
+the same problem for a fraction of the work. Offline evals earn their place when the
+failure is invisible in aggregate or expensive to have shipped at all.
+
+One filter before any of that: name the decision the number will change. If a move from
+78% to 84% would not cause you to do anything differently, you are building a
+dashboard, not an eval.
 
 ### An eval is not a test
 
