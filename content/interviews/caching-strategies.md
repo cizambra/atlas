@@ -67,17 +67,28 @@ answer.
 
 ## Going deeper
 
-### Where this strategy is applied
+### Where the copy lives
 
-A strategy is a rule about writes; it says nothing about *where* the copy lives. Six
-places between a user and your database can each hold one — browser, CDN, reverse
-proxy, application memory, a shared Redis, the database's own buffer pool — and the
-same write-around policy behaves differently at each.
+None of the strategies mean anything until you know where the copy sits, because the
+same rule behaves differently in each place. Six of them line up between a user and your
+database.
 
-[[cache layers]] covers that dimension properly: what each layer costs, what a hit
-there saves, and why the further out you push data the harder it becomes to change.
-The two decisions are independent, and a complete answer names both — "cache-aside with
-write-around, in Redis" rather than either half alone.
+The browser holds copies you can never reach again. A CDN at the edge holds them for
+everyone, purgeable in seconds. A reverse proxy inside your own infrastructure holds
+them with instant control.
+
+Your application's memory is the fastest of all, but keeps one copy per instance with no
+way to clear them centrally. A shared store like Redis keeps a single copy every
+instance agrees on, one network hop away. The database's buffer pool holds recently-read
+pages in RAM, which you size but do not manage.
+
+One line organises them: the further out you push a copy, the cheaper the hit and the
+weaker your control over it. [[cache layers]] takes each one apart in full.
+
+**For the rest of this page, assume the copy is in Redis.** That is where a strategy
+question normally lands, because it is the only layer where all six strategies are
+actually available to you — a browser cannot write-behind, and a buffer pool does not
+take instructions.
 
 ### The strategies, in full
 
@@ -218,8 +229,8 @@ stated first, so the strategy reads as a consequence rather than a preference.
 
 ## Next
 
-[[cache layers]] is the other half of this decision: this page chose the *policy*, that
-one chooses *where the copy lives*, and a real design needs both.
+[[cache layers]] is next — this page assumed Redis, and that one covers what changes
+when the copy sits further out or further in.
 
-After that, consistency models makes "tolerate a stale read" precise, and hot keys
+After it, consistency models makes "tolerate a stale read" precise, and hot keys
 explains why one key can melt a cache sized correctly for the whole key space.
