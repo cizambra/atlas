@@ -41,6 +41,6 @@ test('loadSections reads every _section.json', () => {
 
 test('loadContent returns pages and sections together', () => {
   const { pages, sections } = loadContent(FIXTURES);
-  assert.equal(pages.length, 1);
-  assert.equal(sections.size, 1);
+  assert.deepEqual(pages.map((p) => p.slug).sort(), ['sample-concept', 'sample-razor']);
+  assert.deepEqual([...sections.keys()].sort(), ['ai', 'razors']);
 });

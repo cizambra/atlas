@@ -1,0 +1,6 @@
+{
+  "title": "Razors",
+  "groups": [
+    { "id": "delivery", "title": "Delivery", "pages": ["sample-razor"] }
+  ]
+}
