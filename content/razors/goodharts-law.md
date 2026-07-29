@@ -5,7 +5,8 @@ section: razors
 family: Decision and judgment
 defines: [Goodhart's Law]
 illustration: img/goodhart-divergence.svg
-illustration_alt: "Two lines rising together until a target is introduced, after which the measure keeps climbing while the thing you actually wanted falls away"
+illustration_alt: "A chart over time. Before the team is measured on time-to-close, the measure and the goal move together, both flat. After, time-to-close improves sharply while customers actually helped gets worse."
+illustration_caption: "The support-team example. While nobody is judged on it, time-to-close is a fair read on whether customers get helped. Once it becomes the target, agents close unresolved tickets — the measure improves and the thing it stood for gets worse."
 illustration_credit: "Authored for this atlas"
 sources:
   - "Charles Goodhart, 'Problems of Monetary Management: The U.K. Experience' (1975)"

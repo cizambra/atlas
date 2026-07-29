@@ -17,6 +17,7 @@ export function loadPage(filePath, raw) {
     summary: data.summary,
     illustration: data.illustration,
     illustrationAlt: data.illustration_alt,
+    illustrationCaption: data.illustration_caption,
     illustrationCredit: data.illustration_credit,
     illustrationSource: data.illustration_source,
     defines: asArray(data.defines),

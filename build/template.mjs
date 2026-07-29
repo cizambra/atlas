@@ -94,9 +94,15 @@ function renderIllustration(page, ctx) {
     ? `<a href="${escape(page.illustrationSource)}">${escape(page.illustrationCredit)}</a>`
     : escape(page.illustrationCredit);
 
+  // The caption explains the diagram; the credit says where it came from. A
+  // reader who cannot read the picture is not helped by an attribution line.
+  const caption = page.illustrationCaption
+    ? `<span class="illustration-caption">${escape(page.illustrationCaption)}</span>`
+    : '';
+
   return `<figure class="illustration">
 ${art}
-<figcaption>${credit}</figcaption>
+<figcaption>${caption}<span class="illustration-credit">${credit}</span></figcaption>
 </figure>`;
 }
 
