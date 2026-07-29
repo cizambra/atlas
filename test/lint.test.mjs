@@ -120,6 +120,18 @@ test('sources-required rejects a staff page with no sources', () => {
   assert.ok(rulesOf(lintPage(page)).includes('sources-required'));
 });
 
+test('sources-required rejects a communication page with no sources', () => {
+  const page = concept();
+  page.section = 'communication';
+  assert.ok(rulesOf(lintPage(page)).includes('sources-required'));
+});
+
+test('sources-required leaves other sections alone', () => {
+  const page = concept();
+  page.section = 'interviews';
+  assert.ok(!rulesOf(lintPage(page)).includes('sources-required'));
+});
+
 test('sources-required accepts a staff page with sources', () => {
   const page = concept();
   page.section = 'staff';

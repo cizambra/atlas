@@ -112,11 +112,18 @@ function limitsPresent(page) {
     '"Limits" is empty — a razor without a stated boundary is a slogan')];
 }
 
+/**
+ * Sections whose claims are about people and practice rather than mechanism.
+ * An unsourced claim here is indistinguishable, to a junior reader, from
+ * established practice — so it has to name an origin.
+ */
+const SOURCED_SECTIONS = new Set(['staff', 'communication']);
+
 function sourcesRequired(page) {
-  const needed = page.type === 'razor' || page.section === 'staff';
+  const needed = page.type === 'razor' || SOURCED_SECTIONS.has(page.section);
   if (!needed || page.sources.length > 0) return [];
   return [violation('sources-required', page, 1,
-    'sources are required for razor pages and every page in the staff section')];
+    `sources are required for razor pages and every page in: ${[...SOURCED_SECTIONS].join(', ')}`)];
 }
 
 function summaryPresent(page) {

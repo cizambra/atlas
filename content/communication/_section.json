@@ -1,0 +1,10 @@
+{
+  "title": "Communication",
+  "groups": [
+    {
+      "id": "foundations",
+      "title": "Foundations",
+      "pages": ["lead-with-the-answer"]
+    }
+  ]
+}
