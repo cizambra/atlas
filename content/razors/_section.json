@@ -1,7 +1,25 @@
 {
   "title": "Razors",
   "groups": [
-    { "id": "decision", "title": "Decision and judgment", "pages": ["goodharts-law"] },
-    { "id": "delivery", "title": "Delivery and operations", "pages": ["choose-boring-technology"] }
+    {
+      "id": "decision",
+      "title": "Decision and judgment",
+      "pages": ["type-1-type-2-decisions", "goodharts-law"]
+    },
+    {
+      "id": "systems",
+      "title": "Laws of systems",
+      "pages": ["littles-law", "conways-law", "hyrums-law", "cap-and-pacelc", "tail-at-scale"]
+    },
+    {
+      "id": "design",
+      "title": "Design and architecture",
+      "pages": ["wrong-abstraction"]
+    },
+    {
+      "id": "delivery",
+      "title": "Delivery and operations",
+      "pages": ["choose-boring-technology", "error-budgets"]
+    }
   ]
 }
