@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node build/build.mjs",
+    "lint": "node build/lint-cli.mjs",
     "test": "node --test",
     "serve": "python3 -m http.server -d dist 8080"
   },

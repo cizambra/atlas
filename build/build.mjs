@@ -3,11 +3,11 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createMarkdown } from './markdown.mjs';
 import { loadContent } from './content.mjs';
-import { lintPage, lintCollection } from './lint.mjs';
+import { lintContent } from './lint-cli.mjs';
 import { renderPage, renderRazorIndex, renderHome, renderGlossary } from './template.mjs';
 import { buildSearchIndex } from './search.mjs';
 import { buildTermIndex, normalize } from './terms.mjs';
-import { loadCatalog, mergeCatalog, catalogViolations } from './catalog.mjs';
+import { loadCatalog, mergeCatalog } from './catalog.mjs';
 
 const write = (distDir, relative, contents, written) => {
   const target = join(distDir, relative);
@@ -20,11 +20,9 @@ export function build({ contentDir, distDir, assetsDir, mermaidBundle, katexDir 
   const { pages, sections } = loadContent(contentDir);
 
   const catalog = loadCatalog(contentDir);
-  const violations = [
-    ...pages.flatMap(lintPage),
-    ...lintCollection(pages, sections),
-    ...catalogViolations(catalog, pages),
-  ];
+  // The same renderer-independent check the lint CLI runs; the build simply
+  // refuses to emit anything that would fail it.
+  const { violations } = lintContent(contentDir);
   if (violations.length > 0) return { written: [], violations };
 
   rmSync(distDir, { recursive: true, force: true });
