@@ -75,6 +75,33 @@ ${ctx.md.render(block.text, { page })}
   }).join('\n');
 }
 
+/**
+ * A local .svg is inlined so it inherits the page's colours through CSS and
+ * follows the light/dark theme. Anything else — a downloaded raster, a remote
+ * URL — renders as an <img>, which cannot be themed but does not need to be.
+ */
+function renderIllustration(page, ctx) {
+  if (!page.illustration) return '';
+
+  const isLocalSvg = page.illustration.endsWith('.svg') && !/^https?:/.test(page.illustration);
+  const inlined = isLocalSvg ? ctx.readAsset?.(page.illustration) : null;
+
+  const art = inlined
+    ? `<div class="illustration-art" role="img" aria-label="${escape(page.illustrationAlt)}">${inlined}</div>`
+    : `<img src="${escape(remoteOrLocal(page.illustration, ctx.depth))}" alt="${escape(page.illustrationAlt)}">`;
+
+  const credit = page.illustrationSource
+    ? `<a href="${escape(page.illustrationSource)}">${escape(page.illustrationCredit)}</a>`
+    : escape(page.illustrationCredit);
+
+  return `<figure class="illustration">
+${art}
+<figcaption>${credit}</figcaption>
+</figure>`;
+}
+
+const remoteOrLocal = (src, depth) => (/^https?:/.test(src) ? src : `${prefix(depth)}${src}`);
+
 /** Rendered above the page: what to read first to arrive with the vocabulary. */
 function renderPrereqs(page, ctx) {
   const slugs = page.prereq ?? [];
@@ -113,6 +140,7 @@ export function renderPage(page, ctx) {
 <h1 class="page-title">${escape(page.title)}</h1>
 ${page.summary ? `<p class="summary">${escape(page.summary)}</p>` : ''}
 ${renderPrereqs(page, ctx)}
+${renderIllustration(page, ctx)}
 ${renderBlocks(page, ctx)}
 ${renderRazorLinks(page, ctx)}
 ${renderSources(page)}

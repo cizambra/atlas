@@ -176,6 +176,21 @@ test('sources-required rejects a razor with no sources', () => {
   assert.ok(rulesOf(lintPage(page)).includes('sources-required'));
 });
 
+test('illustration-credited requires alt text and a credit', () => {
+  const page = concept();
+  page.illustration = 'img/x.svg';
+  const violations = lintPage(page).filter((v) => v.rule === 'illustration-credited');
+  assert.equal(violations.length, 2);
+
+  page.illustrationAlt = 'A rising line';
+  page.illustrationCredit = 'Authored for this atlas';
+  assert.ok(!rulesOf(lintPage(page)).includes('illustration-credited'));
+});
+
+test('illustration-credited stays quiet when there is no illustration', () => {
+  assert.ok(!rulesOf(lintPage(concept())).includes('illustration-credited'));
+});
+
 test('violations carry file and line', () => {
   const blocks = CONCEPT_BLOCKS.replace('A model.', 'word '.repeat(121));
   const [violation] = lintPage(concept(blocks)).filter((v) => v.rule === 'model-length');

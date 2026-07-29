@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync, copyFileSync, cpSync, rmSync, existsSync } from 'node:fs';
+import { mkdirSync, writeFileSync, readFileSync, copyFileSync, cpSync, rmSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createMarkdown } from './markdown.mjs';
@@ -39,8 +39,14 @@ export function build({ contentDir, distDir, assetsDir, mermaidBundle, katexDir 
   const pagesBySlug = new Map(pages.map((p) => [p.slug, p]));
   const written = [];
 
+  // Local SVGs are inlined into the page so they inherit the theme's colours.
+  const readAsset = (relative) => {
+    const file = join(assetsDir, relative);
+    return existsSync(file) ? readFileSync(file, 'utf8') : null;
+  };
+
   for (const page of pages) {
-    const ctx = { md, sections, pagesBySlug, depth: 1 };
+    const ctx = { md, sections, pagesBySlug, readAsset, depth: 1 };
     write(distDir, `${page.section}/${page.slug}.html`, renderPage(page, ctx), written);
   }
 
@@ -53,6 +59,14 @@ export function build({ contentDir, distDir, assetsDir, mermaidBundle, katexDir 
   for (const asset of ['atlas.css', 'search.js', 'mermaid-init.js']) {
     copyFileSync(join(assetsDir, asset), join(distDir, asset));
     written.push(asset);
+  }
+
+  // Downloaded illustrations. Local copies rather than hotlinks: the site stays
+  // self-contained and a moved upstream file cannot silently blank a page.
+  const imgDir = join(assetsDir, 'img');
+  if (existsSync(imgDir)) {
+    cpSync(imgDir, join(distDir, 'img'), { recursive: true });
+    written.push('img/');
   }
 
   // mermaid ships as a devDependency and is copied into dist rather than committed:

@@ -4,6 +4,9 @@ title: Goodhart's Law
 section: razors
 family: Decision and judgment
 defines: [Goodhart's Law]
+illustration: img/goodhart-divergence.svg
+illustration_alt: "Two lines rising together until a target is introduced, after which the measure keeps climbing while the thing you actually wanted falls away"
+illustration_credit: "Authored for this atlas"
 sources:
   - "Charles Goodhart, 'Problems of Monetary Management: The U.K. Experience' (1975)"
   - "Marilyn Strathern, 'Improving Ratings: Audit in the British University System' (1997) — the standard phrasing"

@@ -1,0 +1,27 @@
+<svg viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg" class="ill">
+  <!-- axes -->
+  <line class="ill-axis" x1="60" y1="40" x2="60" y2="250"/>
+  <line class="ill-axis" x1="60" y1="250" x2="610" y2="250"/>
+  <text class="ill-axis-label" x="52" y="46" text-anchor="end">high</text>
+  <text class="ill-axis-label" x="52" y="250" text-anchor="end">low</text>
+  <text class="ill-axis-label" x="335" y="275" text-anchor="middle">pressure applied to the measure &#8594;</text>
+
+  <!-- the moment the measure becomes a target -->
+  <line class="ill-divider" x1="330" y1="45" x2="330" y2="250"/>
+  <text class="ill-note" x="336" y="60">the measure becomes a target</text>
+
+  <!-- shared history: proxy and goal move together -->
+  <path class="ill-shared" d="M60,205 C150,182 245,150 330,125"/>
+  <text class="ill-note" x="120" y="230">they move together — which is why</text>
+  <text class="ill-note" x="120" y="244">someone picked this measure</text>
+
+  <!-- after the target: the measure keeps climbing -->
+  <path class="ill-metric" d="M330,125 C405,103 505,80 600,62"/>
+  <circle class="ill-metric-dot" cx="600" cy="62" r="4"/>
+  <text class="ill-label ill-label-metric" x="592" y="48" text-anchor="end">the measure</text>
+
+  <!-- after the target: the thing you cared about falls away -->
+  <path class="ill-goal" d="M330,125 C405,142 505,180 600,208"/>
+  <circle class="ill-goal-dot" cx="600" cy="208" r="4"/>
+  <text class="ill-label ill-label-goal" x="592" y="228" text-anchor="end">what you actually wanted</text>
+</svg>

@@ -106,6 +106,36 @@ test('links cited razors from a concept page', () => {
   assert.match(html, /href="\.\.\/razors\/littles-law\.html"/);
 });
 
+test('inlines a local SVG illustration so it can inherit the theme', () => {
+  const page = {
+    ...concept,
+    illustration: 'img/x.svg',
+    illustrationAlt: 'A rising line',
+    illustrationCredit: 'Authored for this atlas',
+  };
+  const html = renderPage(page, { ...ctx, readAsset: () => '<svg class="ill"></svg>' });
+  assert.match(html, /<div class="illustration-art" role="img" aria-label="A rising line"><svg/);
+  assert.match(html, /Authored for this atlas/);
+  assert.doesNotMatch(html, /<img/);
+});
+
+test('renders a remote illustration as an img, and links the credit to its source', () => {
+  const page = {
+    ...concept,
+    illustration: 'https://upload.wikimedia.org/x.png',
+    illustrationAlt: 'The OODA loop',
+    illustrationCredit: 'P. Moran, CC BY 3.0',
+    illustrationSource: 'https://commons.wikimedia.org/wiki/File:OODA.Boyd.svg',
+  };
+  const html = renderPage(page, ctx);
+  assert.match(html, /<img src="https:\/\/upload\.wikimedia\.org\/x\.png" alt="The OODA loop">/);
+  assert.match(html, /<a href="https:\/\/commons\.wikimedia\.org[^"]*">P\. Moran, CC BY 3\.0<\/a>/);
+});
+
+test('omits the illustration entirely when there is none', () => {
+  assert.doesNotMatch(renderPage(concept, ctx), /class="illustration"/);
+});
+
 test('renders prerequisites above the blocks, and omits the strip when there are none', () => {
   assert.doesNotMatch(renderPage(concept, ctx), /class="prereq"/);
 

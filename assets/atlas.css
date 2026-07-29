@@ -77,6 +77,29 @@ main { min-width: 0; }
 .page-title { font-size: 2.1rem; line-height: 1.15; margin: 0 0 .6rem; }
 .summary { color: var(--muted); font-size: 1.06rem; margin: 0 0 2rem; }
 
+.illustration { margin: 0 0 2rem; }
+.illustration img, .illustration-art svg { width: 100%; height: auto; display: block; }
+.illustration figcaption {
+  margin-top: .5rem; font-family: ui-sans-serif, system-ui, sans-serif;
+  font-size: .74rem; color: var(--muted);
+}
+
+/* Inlined SVGs inherit these, so an illustration follows the light/dark theme. */
+.ill { overflow: visible; }
+.ill-axis { stroke: var(--rule); stroke-width: 1; }
+.ill-divider { stroke: var(--muted); stroke-width: 1; stroke-dasharray: 3 4; opacity: .7; }
+.ill-shared { fill: none; stroke: var(--muted); stroke-width: 2.5; }
+.ill-metric { fill: none; stroke: var(--accent); stroke-width: 2.5; }
+.ill-goal { fill: none; stroke: var(--muted); stroke-width: 2.5; stroke-dasharray: 5 4; }
+.ill-metric-dot { fill: var(--accent); }
+.ill-goal-dot { fill: var(--muted); }
+.ill-axis-label, .ill-note {
+  fill: var(--muted); font-family: ui-sans-serif, system-ui, sans-serif; font-size: 11px;
+}
+.ill-label { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 12px; font-weight: 600; }
+.ill-label-metric { fill: var(--accent); }
+.ill-label-goal { fill: var(--muted); }
+
 /* A term linked to its defining page. Marked, but not loud enough to break the line. */
 a.term {
   text-decoration: none;

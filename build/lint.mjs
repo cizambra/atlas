@@ -126,6 +126,25 @@ function sourcesRequired(page) {
     `sources are required for razor pages and every page in: ${[...SOURCED_SECTIONS].join(', ')}`)];
 }
 
+/**
+ * An illustration carries an attribution obligation whether or not anyone else
+ * ever sees the page, and alt text is what makes it readable at all when the
+ * image fails to load. Both are required whenever an illustration is present.
+ */
+function illustrationCredited(page) {
+  if (!page.illustration) return [];
+  const out = [];
+  if (!page.illustrationAlt) {
+    out.push(violation('illustration-credited', page, 1,
+      'illustration needs illustration_alt — describe what it shows, not that it is an image'));
+  }
+  if (!page.illustrationCredit) {
+    out.push(violation('illustration-credited', page, 1,
+      'illustration needs illustration_credit — creator and licence, or "authored for this atlas"'));
+  }
+  return out;
+}
+
 function summaryPresent(page) {
   if (page.type !== 'concept') return [];
   if (!page.summary) return [violation('summary-present', page, 1, 'summary is required on concept pages')];
@@ -139,6 +158,7 @@ function summaryPresent(page) {
 const PAGE_RULES = [
   blocksExact, modelLength, speedrunLength, paragraphSize,
   examplePresent, visualPresent, limitsPresent, sourcesRequired, summaryPresent,
+  illustrationCredited,
 ];
 
 export function lintPage(page) {
