@@ -50,9 +50,9 @@ online monitoring, and a real offline eval.
    count $N$, with $b$ of them won by the new version and $c$ by the old. Ship only if
    $|b - c| > 2\sqrt{N}$.
 
-**Why it works** — one example proves nothing about a system that behaves differently
-on every input. A rate over a representative sample is the smallest thing that
-generalizes.
+**Why it works** — you tweak a prompt to fix one bad answer. That same tweak silently
+changed the other 199 answers too, and nothing tells you which way. A rate over a fixed
+set is what catches a fix that broke more than it repaired.
 
 **Numbers that govern** — comparing the two overall percentages is the wrong move. What
 decides it is how many individual items changed hands: if the versions differ on 30
@@ -101,12 +101,20 @@ disagree — a much smaller and steadier quantity than the two rates.
 
 ### Why a rate and not an example
 
-A system that behaves identically on every input can be checked with one example. No
-useful model-backed system behaves that way, so a single output tells you about that
-output and nothing else.
+Ordinary code is local. Fix a bug in the date parser and the JSON serializer is
+unaffected, which is exactly what makes a handful of unit tests enough — each one covers
+a piece, and the pieces do not move when you touch a different one.
 
-The rate is what survives that variability. It is also what lets you compare two
-versions honestly, because both were asked the same questions.
+A prompt has no locality. Add "cite your source" to fix one unsourced answer and every
+other answer changes as well: some improve, some get longer and worse, some start citing
+a plausible but wrong document. The change is global by construction.
+
+That is why a single example is worthless as evidence here. It tells you what happened
+to one input and nothing about the 199 others your change also touched.
+
+The rate is the smallest thing that says something about all of them at once. And
+because both versions answer the same questions, any difference between them is the
+change itself rather than the luck of which questions got asked.
 
 ### Knowing your noise floor
 
