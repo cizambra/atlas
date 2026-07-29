@@ -59,7 +59,7 @@ export function build({ contentDir, distDir, assetsDir, mermaidBundle, katexDir 
   write(distDir, 'index.html', renderHome({ md, sections, pagesBySlug, depth: 0 }), written);
   write(distDir, 'search-index.json', JSON.stringify(buildSearchIndex(pages)), written);
 
-  for (const asset of ['atlas.css', 'search.js', 'mermaid-init.js']) {
+  for (const asset of ['atlas.css', 'search.js', 'mermaid-init.js', 'favicon.svg']) {
     copyFileSync(join(assetsDir, asset), join(distDir, asset));
     written.push(asset);
   }
