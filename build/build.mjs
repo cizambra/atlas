@@ -1,7 +1,7 @@
-import { mkdirSync, writeFileSync, copyFileSync, rmSync } from 'node:fs';
+import { mkdirSync, writeFileSync, copyFileSync, rmSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import MarkdownIt from 'markdown-it';
+import { createMarkdown } from './markdown.mjs';
 import { loadContent } from './content.mjs';
 import { lintPage, lintCollection } from './lint.mjs';
 import { renderPage, renderRazorIndex, renderHome } from './template.mjs';
@@ -14,7 +14,7 @@ const write = (distDir, relative, contents, written) => {
   written.push(relative);
 };
 
-export function build({ contentDir, distDir, assetsDir }) {
+export function build({ contentDir, distDir, assetsDir, mermaidBundle }) {
   const { pages, sections } = loadContent(contentDir);
 
   const violations = [
@@ -26,7 +26,7 @@ export function build({ contentDir, distDir, assetsDir }) {
   rmSync(distDir, { recursive: true, force: true });
   mkdirSync(distDir, { recursive: true });
 
-  const md = new MarkdownIt({ html: false, linkify: true, typographer: true });
+  const md = createMarkdown();
   const pagesBySlug = new Map(pages.map((p) => [p.slug, p]));
   const written = [];
 
@@ -40,9 +40,16 @@ export function build({ contentDir, distDir, assetsDir }) {
   write(distDir, 'index.html', renderHome({ md, sections, pagesBySlug, depth: 0 }), written);
   write(distDir, 'search-index.json', JSON.stringify(buildSearchIndex(pages)), written);
 
-  for (const asset of ['atlas.css', 'search.js']) {
+  for (const asset of ['atlas.css', 'search.js', 'mermaid-init.js']) {
     copyFileSync(join(assetsDir, asset), join(distDir, asset));
     written.push(asset);
+  }
+
+  // mermaid ships as a devDependency and is copied into dist rather than committed:
+  // the bundle is ~3.5 MB, which does not belong in git history.
+  if (mermaidBundle && existsSync(mermaidBundle)) {
+    copyFileSync(mermaidBundle, join(distDir, 'mermaid.min.js'));
+    written.push('mermaid.min.js');
   }
 
   return { written, violations: [] };
@@ -55,6 +62,7 @@ if (isMain) {
     contentDir: join(root, 'content'),
     distDir: join(root, 'dist'),
     assetsDir: join(root, 'assets'),
+    mermaidBundle: join(root, 'node_modules', 'mermaid', 'dist', 'mermaid.min.js'),
   });
   if (violations.length > 0) {
     for (const v of violations) console.error(`${v.file}:${v.line} [${v.rule}] ${v.message}`);

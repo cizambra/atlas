@@ -30,10 +30,14 @@ export function splitBlocks(body, bodyStartLine) {
   return blocks;
 }
 
+/** Drop fenced code blocks. Diagrams and code are not prose and must not be measured as it. */
+export function stripFences(text) {
+  return text.replace(/```[\s\S]*?(```|$)/g, '');
+}
+
 /** Prose paragraphs only — tables, lists, quotes, fenced code and headings are not prose. */
 export function paragraphsOf(text) {
-  return text
-    .replace(/```[\s\S]*?(```|$)/g, '')
+  return stripFences(text)
     .split(/\n\s*\n/)
     .map((p) => p.trim())
     .filter(Boolean)

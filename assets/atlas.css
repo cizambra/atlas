@@ -63,7 +63,10 @@ a { color: var(--accent); }
 .sidebar a[aria-current="page"] { border-left-color: var(--accent); color: var(--accent); font-weight: 600; }
 
 main { min-width: 0; }
-.page { max-width: var(--measure); }
+/* Prose is capped at the reading measure; diagrams are not prose and get more room. */
+.page { max-width: 100%; }
+.kicker, .page-title, .summary, .block, .razor-links, .sources { max-width: var(--measure); }
+.block--see-it-work { max-width: min(100%, 52rem); }
 .kicker { font-family: ui-sans-serif, system-ui, sans-serif; text-transform: uppercase; letter-spacing: .09em; font-size: .72rem; color: var(--muted); margin: 0 0 .3rem; }
 .page-title { font-size: 2.1rem; line-height: 1.15; margin: 0 0 .6rem; }
 .summary { color: var(--muted); font-size: 1.06rem; margin: 0 0 2rem; }
@@ -77,10 +80,39 @@ main { min-width: 0; }
 .block p { margin: 0 0 .9rem; }
 .block--the-model { background: var(--model-bg); padding: 1.1rem 1.25rem; border-radius: 8px; }
 .block--the-model p { font-size: 1.1rem; }
-.block--decide-it { background: var(--decide-bg); padding: 1.1rem 1.25rem; border-radius: 8px; }
-.block--decide-it ol, .block--decide-it ul { margin: 0; padding-left: 1.3rem; }
-.block--decide-it li { margin-bottom: .45rem; }
-.block--worked-example { background: var(--example-bg); padding: 1.1rem 1.25rem; border-radius: 8px; border-left: 3px solid var(--accent); }
+
+.block--when-to-use-it { background: var(--decide-bg); padding: 1.1rem 1.25rem; border-radius: 8px; }
+.block--when-to-use-it ol, .block--when-to-use-it ul { margin: 0; padding-left: 1.3rem; }
+.block--when-to-use-it li { margin-bottom: .45rem; }
+
+/* The centrepiece: the five-minute read. Carries the strongest frame on the page. */
+.block--speedrun {
+  border: 1px solid var(--rule); border-left: 3px solid var(--accent);
+  border-radius: 8px; padding: 1.1rem 1.25rem; background: var(--card);
+}
+.block--speedrun p { margin: 0 0 .75rem; }
+.block--speedrun p:last-child { margin-bottom: 0; }
+.block--speedrun strong {
+  font-family: ui-sans-serif, system-ui, sans-serif; font-size: .72rem;
+  text-transform: uppercase; letter-spacing: .09em; color: var(--accent);
+}
+.reading-time {
+  float: right; text-transform: none; letter-spacing: 0;
+  font-weight: 400; color: var(--muted);
+}
+
+/* Deliberately unboxed: this block is optional, and should not compete with Speedrun. */
+.block--going-deeper { padding-left: 0; }
+
+.block--see-it-work { background: var(--example-bg); padding: 1.1rem 1.25rem; border-radius: 8px; }
+.block--see-it-work .mermaid {
+  background: none; margin: 0 0 1.4rem; padding: 0; text-align: center;
+  overflow-x: auto;
+}
+/* Prose inside the example stays at the reading measure even though the block is wider. */
+.block--see-it-work p { max-width: var(--measure); }
+.mermaid { font-family: ui-sans-serif, system-ui, sans-serif; }
+.mermaid svg { max-width: 100%; height: auto; }
 .block--statement p { font-size: 1.25rem; line-height: 1.45; }
 .block--limits { border-left: 3px solid var(--accent); padding-left: 1rem; }
 

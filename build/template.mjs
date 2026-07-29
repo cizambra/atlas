@@ -1,3 +1,8 @@
+import { countWords, stripFences } from './blocks.mjs';
+
+/** Average adult reading speed is ~200 wpm. Computed, never typed, so it cannot drift. */
+const readingMinutes = (text) => Math.max(1, Math.round(countWords(stripFences(text)) / 200));
+
 const escape = (s = '') => String(s)
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -31,6 +36,8 @@ ${main}
 </main>
 </div>
 <script src="${prefix(depth)}search.js"></script>
+<script src="${prefix(depth)}mermaid.min.js"></script>
+<script src="${prefix(depth)}mermaid-init.js"></script>
 </body>
 </html>
 `;
@@ -55,8 +62,11 @@ function renderNav(ctx, currentSlug) {
 function renderBlocks(page, ctx) {
   return page.blocks.map((block) => {
     const cls = slugify(block.heading);
+    const meta = block.heading === 'Speedrun'
+      ? `<span class="reading-time">${readingMinutes(block.text)} min</span>`
+      : '';
     return `<section class="block block--${cls}">
-<h2>${escape(block.heading)}</h2>
+<h2>${escape(block.heading)}${meta}</h2>
 ${ctx.md.render(block.text)}
 </section>`;
   }).join('\n');

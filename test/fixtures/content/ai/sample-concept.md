@@ -12,16 +12,31 @@ next: []
 
 A short model paragraph.
 
-## Decide it
+## When to use it
 
 1. First question?
 2. Second question?
 
-## Why it's true
+## Speedrun
+
+**What** — a fixture page.
+
+**How** — it is parsed, linted, and rendered.
+
+**Why** — to prove the pipeline holds its shape.
+
+## Going deeper
 
 Because the fixture says so.
 
-## Worked example
+## See it work
+
+```mermaid
+flowchart LR
+  A[Markdown] --> B[Loader]
+  B --> C[Linter]
+  C --> D[HTML]
+```
 
 The loader reads this sample file from disk and hands it to the parser. Frontmatter
 becomes a data object, and the body is split on its second-level headings. Each block

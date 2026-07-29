@@ -6,13 +6,15 @@ import { lintPage } from '../build/lint.mjs';
 // Two paragraphs, each under both paragraph limits, together over the 100-word
 // example minimum, and containing "cache" so the summary-overlap check passes.
 const EXAMPLE_PARAGRAPH = `${'word '.repeat(50)}cache.`;
-const EXAMPLE_BODY = `${EXAMPLE_PARAGRAPH}\n\n${EXAMPLE_PARAGRAPH}`;
+const DIAGRAM = '```mermaid\nflowchart LR\n  A --> B\n```';
+const EXAMPLE_BODY = `${DIAGRAM}\n\n${EXAMPLE_PARAGRAPH}\n\n${EXAMPLE_PARAGRAPH}`;
 
 const CONCEPT_BLOCKS = [
   '## The model', '', 'A model.', '',
-  '## Decide it', '', '1. One?', '',
-  "## Why it's true", '', 'Because.', '',
-  '## Worked example', '', EXAMPLE_BODY, '',
+  '## When to use it', '', '1. One?', '',
+  '## Speedrun', '', 'The vitals.', '',
+  '## Going deeper', '', 'Because.', '',
+  '## See it work', '', EXAMPLE_BODY, '',
   '## Next', '', 'Links.',
 ].join('\n');
 
@@ -39,13 +41,25 @@ test('blocks-exact rejects a missing block', () => {
 });
 
 test('blocks-exact rejects blocks in the wrong order', () => {
-  const blocks = ['## Decide it', '', 'x.', '', '## The model', '', 'y.', '',
-    "## Why it's true", '', 'z.', '', '## Worked example', '', EXAMPLE_BODY, '', '## Next', '', 'n.'].join('\n');
+  const blocks = ['## When to use it', '', 'x.', '', '## The model', '', 'y.', '',
+    '## Speedrun', '', 'z.', '', '## Going deeper', '', 'g.', '',
+    '## See it work', '', EXAMPLE_BODY, '', '## Next', '', 'n.'].join('\n');
   assert.ok(rulesOf(lintPage(concept(blocks))).includes('blocks-exact'));
 });
 
 test('model-length rejects a model over 120 words', () => {
   assert.ok(rulesOf(lintPage(concept(CONCEPT_BLOCKS.replace('A model.', 'word '.repeat(121))))).includes('model-length'));
+});
+
+test('speedrun-length rejects a speedrun over 500 words', () => {
+  const long = Array.from({ length: 8 }, () => `${'word '.repeat(70)}.`).join('\n\n');
+  assert.ok(rulesOf(lintPage(concept(CONCEPT_BLOCKS.replace('The vitals.', long)))).includes('speedrun-length'));
+});
+
+test('speedrun-length does not count a diagram against the budget', () => {
+  const bigDiagram = ['```mermaid', 'flowchart LR', ...Array(400).fill('  A --> B'), '```'].join('\n');
+  const blocks = CONCEPT_BLOCKS.replace('The vitals.', `The vitals.\n\n${bigDiagram}`);
+  assert.ok(!rulesOf(lintPage(concept(blocks))).includes('speedrun-length'));
 });
 
 test('paragraph-size rejects a paragraph over 80 words', () => {
@@ -61,13 +75,31 @@ test('paragraph-size ignores tables', () => {
   assert.ok(!rulesOf(lintPage(concept(CONCEPT_BLOCKS.replace('Because.', table)))).includes('paragraph-size'));
 });
 
-test('example-present rejects an example under 100 words', () => {
-  assert.ok(rulesOf(lintPage(concept(CONCEPT_BLOCKS.replace(EXAMPLE_BODY, 'Too short cache.')))).includes('example-present'));
+test('example-present rejects an example under 100 words of prose', () => {
+  const short = `${DIAGRAM}\n\nToo short cache.`;
+  assert.ok(rulesOf(lintPage(concept(CONCEPT_BLOCKS.replace(EXAMPLE_BODY, short)))).includes('example-present'));
+});
+
+test('example-present does not count the diagram toward the word minimum', () => {
+  const bigDiagram = ['```mermaid', 'flowchart LR', ...Array(200).fill('  A --> B'), '```'].join('\n');
+  const padded = `${bigDiagram}\n\nToo short cache.`;
+  assert.ok(rulesOf(lintPage(concept(CONCEPT_BLOCKS.replace(EXAMPLE_BODY, padded)))).includes('example-present'));
 });
 
 test('example-present rejects an example sharing no token with the summary', () => {
-  const unrelated = `${'zzzz '.repeat(50)}zzzz.\n\n${'zzzz '.repeat(50)}zzzz.`;
+  const unrelated = `${DIAGRAM}\n\n${'zzzz '.repeat(50)}zzzz.\n\n${'zzzz '.repeat(50)}zzzz.`;
   assert.ok(rulesOf(lintPage(concept(CONCEPT_BLOCKS.replace(EXAMPLE_BODY, unrelated)))).includes('example-present'));
+});
+
+test('visual-present rejects an example with no mermaid diagram', () => {
+  const noDiagram = `${EXAMPLE_PARAGRAPH}\n\n${EXAMPLE_PARAGRAPH}`;
+  assert.ok(rulesOf(lintPage(concept(CONCEPT_BLOCKS.replace(EXAMPLE_BODY, noDiagram)))).includes('visual-present'));
+});
+
+test('visual-present rejects a non-mermaid fence', () => {
+  const jsFence = '```js\nconst a = 1;\n```';
+  const body = `${jsFence}\n\n${EXAMPLE_PARAGRAPH}\n\n${EXAMPLE_PARAGRAPH}`;
+  assert.ok(rulesOf(lintPage(concept(CONCEPT_BLOCKS.replace(EXAMPLE_BODY, body)))).includes('visual-present'));
 });
 
 test('summary-present rejects a summary over 25 words', () => {
@@ -112,6 +144,13 @@ function razor(body = RAZOR_BODY, sources = '  - "Dan McKinley, Choose Boring Te
 
 test('a conforming razor page produces no violations', () => {
   assert.deepEqual(lintPage(razor()), []);
+});
+
+test('razors are exempt from the concept-only rules', () => {
+  const rules = rulesOf(lintPage(razor()));
+  for (const rule of ['visual-present', 'speedrun-length', 'model-length', 'summary-present']) {
+    assert.ok(!rules.includes(rule), `razor should not be subject to ${rule}`);
+  }
 });
 
 test('limits-present rejects an empty Limits block', () => {

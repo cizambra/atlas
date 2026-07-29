@@ -1,18 +1,19 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import MarkdownIt from 'markdown-it';
 import { loadPage } from '../build/content.mjs';
+import { createMarkdown } from '../build/markdown.mjs';
 import { renderPage, renderRazorIndex, renderHome } from '../build/template.mjs';
 
-const md = new MarkdownIt({ html: false, linkify: true, typographer: true });
+const md = createMarkdown();
 
 const conceptRaw = [
   '---', 'type: concept', 'title: Caching', 'section: interviews', 'group: Building blocks',
   'summary: A cache is a bet that reads outnumber writes.', 'razors: [littles-law]', 'next: [hot-keys]', '---', '',
   '## The model', '', 'A model.', '',
-  '## Decide it', '', '1. One?', '',
-  "## Why it's true", '', 'Because.', '',
-  '## Worked example', '', 'An example.', '',
+  '## When to use it', '', '1. One?', '',
+  '## Speedrun', '', `${'word '.repeat(400)}.`, '',
+  '## Going deeper', '', 'Because.', '',
+  '## See it work', '', '```mermaid', 'flowchart LR', '  A --> B', '```', '', 'An example.', '',
   '## Next', '', 'Links.', '',
 ].join('\n');
 
@@ -54,13 +55,30 @@ test('renders the page title into <title> and <h1>', () => {
 
 test('renders one section element per contract block', () => {
   const html = renderPage(concept, ctx);
-  for (const cls of ['the-model', 'decide-it', 'why-it-s-true', 'worked-example', 'next']) {
+  for (const cls of ['the-model', 'when-to-use-it', 'speedrun', 'going-deeper', 'see-it-work', 'next']) {
     assert.match(html, new RegExp(`class="block block--${cls}"`));
   }
 });
 
 test('renders markdown inside blocks', () => {
   assert.match(renderPage(concept, ctx), /<ol>\s*<li>One\?<\/li>/);
+});
+
+test('computes a reading time for Speedrun and for no other block', () => {
+  const html = renderPage(concept, ctx);
+  // 401 words at 200 wpm rounds to 2.
+  assert.match(html, /<h2>Speedrun<span class="reading-time">2 min<\/span><\/h2>/);
+  assert.equal(html.match(/class="reading-time"/g).length, 1);
+});
+
+test('renders a mermaid fence as a mermaid element, not a code block', () => {
+  const html = renderPage(concept, ctx);
+  assert.match(html, /<pre class="mermaid">flowchart LR/);
+  assert.doesNotMatch(html, /language-mermaid/);
+});
+
+test('loads the mermaid runtime with a depth-correct path', () => {
+  assert.match(renderPage(concept, ctx), /<script src="\.\.\/mermaid\.min\.js"><\/script>/);
 });
 
 test('renders razor blocks and the sources list', () => {

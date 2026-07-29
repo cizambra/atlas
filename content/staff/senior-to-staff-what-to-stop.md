@@ -23,48 +23,73 @@ That is an arithmetic constraint, not a philosophy. Once what you are accountabl
 exceeds what you can personally build, time spent building is time not spent on the
 part only you can do.
 
-## Decide it
+## When to use it
 
-1. **Would this still get done, roughly as well, if I did not do it?** If yes, it is
-   probably not yours.
-2. **Does doing it myself build anyone else's capability?** Work that grows another
-   person is worth your time even when you are slower at it.
-3. **Is this the highest-leverage use of the one thing I have that nobody else does —
-   context across teams?**
+For any piece of work in front of you, you are choosing between three things: doing it
+yourself, handing it over while staying accountable, and leaving it alone.
 
-## Why it's true
+1. **Would this still get done, roughly as well, if I did not do it?** If yes, leave it
+   — your involvement is not what is scarce here.
+2. **Does doing it myself build anyone else's capability?** Then hand it over with
+   support. Work that grows another person is worth your time even when you are slower.
+3. **Is this the highest-leverage use of the one thing nobody else has — context across
+   teams?** If yes, it is genuinely yours.
 
-The shorthand is that the transition is subtractive before it is additive. You do not
-begin by adding staff behaviours; you begin by removing the senior ones that no longer
-fit, and the gap that opens is what the new work fills. Nobody tells you to stop,
-because from the outside it still looks like your best work.
+## Speedrun
 
-### The archetypes all point away from the keyboard
+**What** — the shift from being accountable for your own output to being accountable
+for outcomes bigger than your own hands.
 
-Larson's four staff archetypes — tech lead, architect, solver, right hand — differ in
-almost everything, but they share one property. The bottleneck on their work is never
-typing speed; it is deciding what should be built and getting other people to agree.
+**How** — the transition is subtractive first. You remove the senior behaviours that no
+longer fit — taking the hardest ticket, being the fastest implementer — and the gap
+that opens is what the new work fills.
 
-### But not all invisible work is waste
+**Why it works** — all four of Larson's staff archetypes (tech lead, architect, solver,
+right hand) share one property. The bottleneck on their work is never typing speed; it
+is deciding what should be built and getting other people to agree.
 
-Reilly's "glue work" is the necessary counterweight. Some of the least glamorous
-coordination — noticing the gap between two teams, writing the document nobody owns —
-is precisely the job rather than a distraction from it.
+**The counterweight** — not all invisible work is waste. Reilly's "glue work" — noticing
+the gap between two teams, writing the document nobody owns — is precisely the job. The
+razor is narrower: stop doing work whose only justification is that you are fast at it.
 
-So the razor is not "stop doing unglamorous work." It is narrower, and harder: stop
-doing work whose only justification is that you happen to be fast at it.
+**The one failure everyone hits** — drifting back to the keyboard. Implementing is
+legible and rewarding today; direction-setting pays off on a lag of months, and often
+the payoff is a bad thing that quietly did not happen.
+
+## Going deeper
 
 ### Why the pull is so strong
 
-The failure reinforces itself. Implementing is legible and immediately rewarding — a
-merged PR, a green build, something visible today. Direction-setting pays off on a lag
-of months, and often the payoff is a bad thing that quietly did not happen.
+That asymmetry is not a character flaw, it is a feedback loop. A merged PR rewards you
+this afternoon; a migration that did not go wrong rewards you never, because nobody
+notices an incident that failed to occur.
 
-That asymmetry means the feedback loop actively pulls you toward the wrong behaviour.
 Left alone you drift back to the keyboard, and the drift feels like productivity the
 entire time it is happening.
 
-## Worked example
+### Nobody will tell you
+
+From the outside, a staff engineer doing senior work still looks like a strong
+contributor. No alarm fires. The cost — the four teams whose sequencing nobody held —
+is invisible, because it shows up as things that did not happen.
+
+Watkins' framing for the first 90 days applies directly: the behaviours that made you
+successful in the previous role are the default you have to actively override, because
+nothing in the environment will override them for you.
+
+## See it work
+
+```mermaid
+flowchart TD
+  T[Riskiest task is unassigned] --> Q{Would it get done<br/>without me?}
+  Q -->|yes| LEAVE[Leave it]
+  Q -->|no, but someone could learn| HAND[Hand over, stay on the hook]
+  Q -->|no, and it needs cross-team context| MINE[Genuinely mine]
+  HAND --> P[Pair on the first one]
+  P --> O[They own it, I review]
+  O --> C[I am in the room for the cutover]
+  C --> ACC[If it slips, that is on me]
+```
 
 A newly promoted staff engineer is three weeks into a migration spanning four teams.
 The riskiest piece — rewriting the dual-write path — is unassigned, so they take it,
@@ -75,7 +100,7 @@ unavailable to the four teams whose sequencing nobody is holding, and the one en
 who could have learned the dual-write path does not learn it.
 
 The alternative is not "delegate and walk away." It is to move the work while staying
-on the hook for the outcome: "I will pair with you on the first dual-write, then you
+accountable for the outcome: "I will pair with you on the first dual-write, then you
 own it and I review. I will be in the room for the cutover. If it slips, that is on me,
 not you."
 

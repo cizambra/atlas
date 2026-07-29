@@ -7,9 +7,10 @@ const concept = loadPage('/c/caching-strategies.md', [
   '---', 'type: concept', 'title: Caching', 'section: interviews', 'group: Building blocks',
   'summary: A cache is a bet that reads outnumber writes.', '---', '',
   '## The model', '', 'Thundering herd matters.', '',
-  '## Decide it', '', '1. Stale?', '',
-  "## Why it's true", '', '### Divergence', '', 'Because.', '',
-  '## Worked example', '', 'Example.', '',
+  '## When to use it', '', '1. Stale?', '',
+  '## Speedrun', '', 'The vitals.', '',
+  '## Going deeper', '', '### Divergence', '', 'Because.', '',
+  '## See it work', '', 'Example.', '',
   '## Next', '', 'Links.', '',
 ].join('\n'));
 

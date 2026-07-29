@@ -18,7 +18,7 @@ That makes it an estimate, not a fact. Measure the same system on a different 20
 examples and the number moves. Everything else about evals follows from that one
 property.
 
-## Decide it
+## When to use it
 
 You are choosing between four things: eyeballing a few outputs, a deterministic test,
 online monitoring, and a real offline eval.
@@ -30,9 +30,31 @@ online monitoring, and a real offline eval.
    test, and a test is cheaper. Only better-or-worse needs a rate over a sample.
 3. **Would a bad output show up in production, and can you afford to let it?** Visible
    in metrics and cheap to roll back — monitor online instead. Invisible in aggregate,
-   or expensive once shipped — you need to catch it before release.
+   or expensive once shipped — catch it before release.
 
-## Why it's true
+## Speedrun
+
+**What** — a scored run of a system over a fixed set of examples, reported as a rate.
+
+**How** — sample inputs from real traffic, define one outcome you can score, score
+every item, report the rate. Re-run it after each change and compare the rates.
+
+**Why it works** — one example proves nothing about a system that behaves differently
+on every input. A rate over a representative sample is the smallest thing that does.
+
+**The number that governs everything** — sample size. A 20-item eval moving from 14 to
+16 has told you nothing, because that swing is noise. Teams ship on exactly that
+evidence constantly.
+
+**Agreement is your ceiling** — if two careful people disagree about whether an answer
+was right, no judge can be more right than that disagreement allows. Measure agreement
+before trusting any score, automated or not.
+
+**The one failure everyone hits** — the golden set gets built from examples that were
+easy to collect, so it skews toward what somebody already thought of. The system then
+gets tuned against a distribution nobody actually sends.
+
+## Going deeper
 
 ### When it is worth building one
 
@@ -40,46 +62,18 @@ An eval is a fixed cost paid up front — collecting the sample, defining the ou
 scoring it once by hand — against a variable saving on every change that follows. One
 change does not repay it. Twenty do.
 
-That is why the honest first question is how many times you will touch the system.
-Teams build elaborate evals for something they ship once, then skip them for the
-component they will be tuning every week.
-
 The third alternative is not testing less, it is testing later. If a bad output appears
 in production metrics within a day and rolling back is cheap, online monitoring catches
-the same problem for a fraction of the work. Offline evals earn their place when the
-failure is invisible in aggregate or expensive to have shipped at all.
+the same problem for a fraction of the work.
 
-One filter before any of that: name the decision the number will change. If a move from
+One filter before any of it: name the decision the number will change. If a move from
 78% to 84% would not cause you to do anything differently, you are building a
 dashboard, not an eval.
-
-### An eval is not a test
-
-A test asserts a fixed correct answer and fails when it is not there. An eval estimates
-a rate over a population, which means it carries sampling error and has to be large
-enough to separate a real change from noise.
-
-That difference has a sharp practical edge. A 20-item eval that moves from 14 to 16 has
-told you almost nothing, and teams ship on exactly that evidence constantly.
 
 ### Why a bad golden set is worse than none
 
 An unrepresentative sample does not leave you ignorant. It leaves you confident and
 wrong, which is strictly worse — with no number at all you would have been more careful.
-
-The usual mechanism is mundane. The golden set gets built from examples that were easy
-to collect, which skews it toward questions somebody already thought of, and the system
-then gets tuned against a distribution nobody actually sends.
-
-### Agreement is the ceiling
-
-If two careful people disagree about whether an answer was correct, the task carries
-irreducible ambiguity, and no judge — human or model — can be more right than that
-ambiguity allows.
-
-So measure agreement before trusting any judge. It tells you the ceiling on the metric,
-and an unexpected disagreement rate usually means the rubric is underspecified rather
-than that the annotators were careless.
 
 ### And then Goodhart
 
@@ -87,7 +81,20 @@ Once the eval becomes the target it stops being a good measure. That is Goodhart
 and it applies here with full force, because optimizing against a fixed set is exactly
 what the work looks like. The defense is a held-out set nobody tunes against.
 
-## Worked example
+## See it work
+
+```mermaid
+flowchart TD
+  L[(Production logs)] -->|sample by frequency| G[Golden set · 200 items]
+  G --> RUN[Run the variant]
+  RUN --> S[Score each output]
+  S --> RATE[Rate · e.g. 82%]
+  A[2 annotators · 50 items] -->|agree on 43 = 86%| CEIL[Ceiling on any judge]
+  CEIL -.->|bounds| RATE
+  RATE --> D{Gap bigger than noise?}
+  D -->|yes| SHIP[Ship the variant]
+  D -->|no| ND[Report: no detected difference]
+```
 
 A retrieval-augmented support assistant, tuned roughly weekly. Run the three questions:
 it changes often, its answers are better-or-worse rather than right-or-wrong, and a

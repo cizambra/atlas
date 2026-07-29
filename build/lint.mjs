@@ -1,11 +1,21 @@
-import { paragraphsOf, countWords, countSentences, tokens } from './blocks.mjs';
+import { paragraphsOf, stripFences, countWords, countSentences, tokens } from './blocks.mjs';
 
+/**
+ * The concept contract is a progressive-disclosure ladder. Each rung answers one
+ * reader question and is readable without the rung below it:
+ *   summary   — what are we talking about, in one line
+ *   The model — what are we talking about, in one paragraph
+ *   Speedrun  — everything I need, in five minutes
+ *   Going deeper — what takes me to the next level
+ */
 export const CONTRACTS = {
-  concept: ['The model', 'Decide it', "Why it's true", 'Worked example', 'Next'],
+  concept: ['The model', 'When to use it', 'Speedrun', 'Going deeper', 'See it work', 'Next'],
   razor: ['Statement', 'Decides', 'Why it holds', 'Example', 'Limits', 'Source'],
 };
 
 const MAX_MODEL_WORDS = 120;
+/** Five minutes is absorbing, not skimming. 500 words is roughly half of it read aloud. */
+const MAX_SPEEDRUN_WORDS = 500;
 const MAX_PARAGRAPH_WORDS = 80;
 const MAX_PARAGRAPH_SENTENCES = 4;
 const MIN_EXAMPLE_WORDS = 100;
@@ -35,6 +45,16 @@ function modelLength(page) {
     `"The model" is ${words} words (max ${MAX_MODEL_WORDS}) — if the model needs more, it is not yet a model`)];
 }
 
+function speedrunLength(page) {
+  if (page.type !== 'concept') return [];
+  const block = blockByHeading(page, 'Speedrun');
+  if (!block) return [];
+  const words = countWords(stripFences(block.text));
+  if (words <= MAX_SPEEDRUN_WORDS) return [];
+  return [violation('speedrun-length', page, block.startLine,
+    `"Speedrun" is ${words} words (max ${MAX_SPEEDRUN_WORDS}) — it promises five minutes, so it has to fit in five minutes`)];
+}
+
 function paragraphSize(page) {
   const out = [];
   for (const block of page.blocks) {
@@ -56,21 +76,30 @@ function paragraphSize(page) {
 
 function examplePresent(page) {
   if (page.type !== 'concept') return [];
-  const block = blockByHeading(page, 'Worked example');
+  const block = blockByHeading(page, 'See it work');
   if (!block) return [];
   const out = [];
-  const words = countWords(block.text);
+  const words = countWords(stripFences(block.text));
   if (words < MIN_EXAMPLE_WORDS) {
     out.push(violation('example-present', page, block.startLine,
-      `"Worked example" is ${words} words (min ${MIN_EXAMPLE_WORDS})`));
+      `"See it work" is ${words} words of prose (min ${MIN_EXAMPLE_WORDS}) — the diagram does not count`));
   }
   const exampleTokens = new Set(tokens(block.text));
   const shared = tokens(page.summary ?? '').filter((t) => exampleTokens.has(t));
   if (shared.length === 0) {
     out.push(violation('example-present', page, block.startLine,
-      '"Worked example" shares no significant word with the summary — it may not be an example of this page'));
+      '"See it work" shares no significant word with the summary — it may not be an example of this page'));
   }
   return out;
+}
+
+function visualPresent(page) {
+  if (page.type !== 'concept') return [];
+  const block = blockByHeading(page, 'See it work');
+  if (!block) return [];
+  if (/^\s*```mermaid\b/m.test(block.text)) return [];
+  return [violation('visual-present', page, block.startLine,
+    '"See it work" has no ```mermaid diagram — the example is meant to be seen, not only read')];
 }
 
 function limitsPresent(page) {
@@ -99,7 +128,10 @@ function summaryPresent(page) {
   return [];
 }
 
-const PAGE_RULES = [blocksExact, modelLength, paragraphSize, examplePresent, limitsPresent, sourcesRequired, summaryPresent];
+const PAGE_RULES = [
+  blocksExact, modelLength, speedrunLength, paragraphSize,
+  examplePresent, visualPresent, limitsPresent, sourcesRequired, summaryPresent,
+];
 
 export function lintPage(page) {
   return PAGE_RULES.flatMap((rule) => rule(page));

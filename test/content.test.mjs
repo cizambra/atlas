@@ -29,7 +29,7 @@ test('loadPage defaults absent array fields to empty arrays', () => {
 test('loadPage attaches parsed blocks', () => {
   const page = loadPage(SAMPLE, readFileSync(SAMPLE, 'utf8'));
   assert.deepEqual(page.blocks.map((b) => b.heading), [
-    'The model', 'Decide it', "Why it's true", 'Worked example', 'Next',
+    'The model', 'When to use it', 'Speedrun', 'Going deeper', 'See it work', 'Next',
   ]);
 });
 

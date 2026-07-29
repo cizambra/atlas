@@ -7,10 +7,11 @@ import { build } from '../build/build.mjs';
 
 const CONTENT = new URL('./fixtures/content/', import.meta.url).pathname;
 const ASSETS = new URL('../assets/', import.meta.url).pathname;
+const MERMAID = new URL('../node_modules/mermaid/dist/mermaid.min.js', import.meta.url).pathname;
 
 function run(contentDir = CONTENT) {
   const distDir = mkdtempSync(join(tmpdir(), 'atlas-'));
-  const result = build({ contentDir, distDir, assetsDir: ASSETS });
+  const result = build({ contentDir, distDir, assetsDir: ASSETS, mermaidBundle: MERMAID });
   return { ...result, distDir };
 }
 
@@ -23,9 +24,18 @@ test('writes one html file per page', () => {
 
 test('writes the home page, razor index, search index and assets', () => {
   const { distDir } = run();
-  for (const file of ['index.html', 'razors/index.html', 'search-index.json', 'atlas.css', 'search.js']) {
+  const expected = ['index.html', 'razors/index.html', 'search-index.json',
+    'atlas.css', 'search.js', 'mermaid-init.js', 'mermaid.min.js'];
+  for (const file of expected) {
     assert.ok(existsSync(join(distDir, file)), `missing ${file}`);
   }
+});
+
+test('builds without a mermaid bundle rather than failing', () => {
+  const distDir = mkdtempSync(join(tmpdir(), 'atlas-'));
+  const result = build({ contentDir: CONTENT, distDir, assetsDir: ASSETS, mermaidBundle: undefined });
+  assert.deepEqual(result.violations, []);
+  assert.ok(!result.written.includes('mermaid.min.js'));
 });
 
 test('the search index contains every page', () => {
