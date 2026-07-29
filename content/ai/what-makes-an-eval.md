@@ -36,19 +36,24 @@ online monitoring, and a real offline eval.
 
 **What** — a scored run of a system over a fixed set of examples, reported as a rate.
 
-**How** — sample inputs from real traffic, define one outcome you can score, score
-every item, report the rate. Re-run it after each change and compare the rates.
+**How to build one**
+
+1. **Sample 100–300 real inputs** from production logs, weighted by how often each kind
+   actually occurs.
+2. **Define one outcome a person can score in ten seconds.** Narrow beats rich.
+3. **Have two people score the same 50 items.** Their agreement is the ceiling on every
+   score that follows, automated or not.
+4. **Score the full set.** That rate is your baseline, not your target.
+5. **Re-run on the same set after each change**, and ship only when the gap is bigger
+   than your noise floor.
 
 **Why it works** — one example proves nothing about a system that behaves differently
-on every input. A rate over a representative sample is the smallest thing that does.
+on every input. A rate over a representative sample is the smallest thing that
+generalizes.
 
-**The number that governs everything** — sample size. A 20-item eval moving from 14 to
-16 has told you nothing, because that swing is noise. Teams ship on exactly that
-evidence constantly.
-
-**Agreement is your ceiling** — if two careful people disagree about whether an answer
-was right, no judge can be more right than that disagreement allows. Measure agreement
-before trusting any score, automated or not.
+**Numbers that govern** — on 200 items at a rate near 80%, the 95% interval is roughly
+±5 points, about 11 items. A three-item difference is noise. Two annotators who agree
+85% of the time cap every downstream score at 85%.
 
 **The one failure everyone hits** — the golden set gets built from examples that were
 easy to collect, so it skews toward what somebody already thought of. The system then
@@ -56,44 +61,81 @@ gets tuned against a distribution nobody actually sends.
 
 ## Going deeper
 
-### When it is worth building one
+The same five beats, with room to breathe.
 
-An eval is a fixed cost paid up front — collecting the sample, defining the outcome,
-scoring it once by hand — against a variable saving on every change that follows. One
-change does not repay it. Twenty do.
+### What it is, precisely
 
-The third alternative is not testing less, it is testing later. If a bad output appears
-in production metrics within a day and rolling back is cheap, online monitoring catches
-the same problem for a fraction of the work.
+An eval is an estimate with error bars, even when nobody draws them. Run the same
+system on a different sample and the number moves, which is why a percentage reported
+without a sample size is close to meaningless.
 
-One filter before any of it: name the decision the number will change. If a move from
-78% to 84% would not cause you to do anything differently, you are building a
-dashboard, not an eval.
+That is also the difference from a test. A test asserts a fixed correct answer and
+fails when it is absent. An eval estimates a rate over a population, so it carries
+sampling error by construction rather than by accident.
 
-### Why a bad golden set is worse than none
+### Building it: the judgment inside each step
+
+**Sampling by frequency** means the set is dominated by common inputs, which is usually
+right — you are optimizing for the traffic you actually have. If rare-but-expensive
+cases matter too, hold a second small set for them rather than distorting the main one.
+
+**The outcome** has to be cheap to score. "Did the answer come from the right document"
+takes seconds. "Was the answer good" does not, and a rubric costing two minutes an item
+means the eval is run once and then quietly abandoned.
+
+**Agreement** that comes back low usually means the rubric is underspecified, not that
+the annotators were careless. Fix the rubric and re-measure before blaming anyone or
+reaching for a model judge.
+
+**The baseline** is a starting point, not a target. Teams that pick a goal before
+measuring end up designing an eval that hits the goal.
+
+**Re-running on the same set** matters more than it sounds. Paired comparison removes
+most of the sampling noise, because you only care about items where the two variants
+disagree — a much smaller and steadier quantity than the two rates.
+
+### Why a rate and not an example
+
+A system that behaves identically on every input can be checked with one example. No
+useful model-backed system behaves that way, so a single output tells you about that
+output and nothing else.
+
+The rate is what survives that variability. It is also what lets you compare two
+versions honestly, because both were asked the same questions.
+
+### Knowing your noise floor
+
+On 200 items at a rate near 80%, the standard error is about 2.8 points, so the 95%
+interval spans roughly ±5.5 points — about eleven items. A three-item difference sits
+comfortably inside it.
+
+The practical rule: never report a winner without saying how many items separated them.
+"1024 won by four items out of 200" is an honest sentence that stops a bad decision;
+"1024 wins" does not.
+
+### How the golden set goes bad
 
 An unrepresentative sample does not leave you ignorant. It leaves you confident and
 wrong, which is strictly worse — with no number at all you would have been more careful.
 
-### And then Goodhart
-
-Once the eval becomes the target it stops being a good measure. That is Goodhart's Law,
-and it applies here with full force, because optimizing against a fixed set is exactly
-what the work looks like. The defense is a held-out set nobody tunes against.
+Then Goodhart. Once the eval becomes the target it stops being a good measure, and
+optimizing against a fixed set is exactly what this work looks like. The defense is a
+held-out set nobody tunes against, rotated periodically.
 
 ## See it work
 
 ```mermaid
 flowchart TD
   L[(Production logs)] -->|sample by frequency| G[Golden set · 200 items]
-  G --> RUN[Run the variant]
-  RUN --> S[Score each output]
-  S --> RATE[Rate · e.g. 82%]
-  A[2 annotators · 50 items] -->|agree on 43 = 86%| CEIL[Ceiling on any judge]
+  G --> A[2 annotators score 50]
+  A -->|agree on 43 = 86%| CEIL[Ceiling on any judge]
+  G --> RUN[Run variant A and B]
+  RUN --> S[Score every output]
+  S --> RATE[Rates · 82% vs 84%]
   CEIL -.->|bounds| RATE
-  RATE --> D{Gap bigger than noise?}
+  RATE --> D{Gap bigger than<br/>the noise floor?}
+  D -->|4 items of 200 · no| ND[Report: no detected difference]
   D -->|yes| SHIP[Ship the variant]
-  D -->|no| ND[Report: no detected difference]
 ```
 
 A retrieval-augmented support assistant, tuned roughly weekly. Run the three questions:
@@ -101,20 +143,18 @@ it changes often, its answers are better-or-worse rather than right-or-wrong, an
 wrong-but-plausible answer looks fine in production metrics. All three point the same
 way, so build the eval.
 
-The population is real support questions, so the set is sampled from logs by frequency
-rather than hand-picked — 200 items, weighted so common questions appear about as often
-as they truly do.
+Sampling: 200 questions pulled from logs by frequency, so common questions appear about
+as often as they truly do. Outcome: did the answer come from the right document — a
+binary a person scores in ten seconds.
 
-The outcome is deliberately narrow: did the answer come from the right document? A
-person can score that in ten seconds, which matters more than it sounds, because an
-outcome nobody can afford to score does not get scored.
+Two annotators score the same 50 items first. They agree on 43, so 86% is the ceiling;
+a judge scoring above that is not more accurate, it is reproducing one annotator's
+bias.
 
-Two annotators label the same 50 items first. They agree on 43. That 86% is the ceiling
-— a judge scoring above it is not more accurate, it is reproducing one annotator's bias.
-
-Only now does the eval answer the question it was built for: chunk size 512 versus
-1024. If the gap is three items out of 200, that sits inside the noise, and the honest
-report is "no detected difference" rather than "1024 wins."
+Now the eval answers the question it was built for: chunk size 512 versus 1024. The
+rates are 82% and 84% — four items out of 200. That is inside the noise floor, so the
+honest report is "no detected difference," and the chunk size decision gets made on
+cost instead.
 
 ## Next
 
