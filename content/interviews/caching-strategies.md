@@ -7,7 +7,7 @@ summary: A cache is a faster copy of data; the caching strategy is the rule for 
 defines: [cache, caching strategy, cache-aside, read-through, write-through, write-behind, write-around, refresh-ahead, TTL, eviction, hit rate, thundering herd, cache penetration, hot key]
 razors: [choose-boring-technology]
 prereq: []
-next: []
+next: [cache-layers]
 ---
 
 ## The model
@@ -67,20 +67,17 @@ answer.
 
 ## Going deeper
 
-### Where caches actually live
+### Where this strategy is applied
 
-A read can be served from six places before it reaches your database, and every one of
-them is a cache: the browser, a CDN at the edge, a reverse proxy such as nginx or
-Varnish, your application's own memory, a shared store such as Redis or Memcached, and
-finally the database's buffer pool.
+A strategy is a rule about writes; it says nothing about *where* the copy lives. Six
+places between a user and your database can each hold one — browser, CDN, reverse
+proxy, application memory, a shared Redis, the database's own buffer pool — and the
+same write-around policy behaves differently at each.
 
-Each layer is smaller and faster than the one behind it. The design question is rarely
-*which* layer — it is how far out a given piece of data can be pushed, because every
-layer you get past is a network hop nobody pays for.
-
-In-process caches are the fastest and the hardest to invalidate. Every instance holds
-its own copy and there is no single place to clear it, so they suit data that is small,
-hot, and changes rarely: feature flags, configuration, reference tables.
+[[cache layers]] covers that dimension properly: what each layer costs, what a hit
+there saves, and why the further out you push data the harder it becomes to change.
+The two decisions are independent, and a complete answer names both — "cache-aside with
+write-around, in Redis" rather than either half alone.
 
 ### The strategies, in full
 
@@ -221,6 +218,8 @@ stated first, so the strategy reads as a consequence rather than a preference.
 
 ## Next
 
-Consistency models and hot keys are the two pages this one leans on next — the first
-makes "tolerate a stale read" precise, the second explains why a single key can melt a
-cache that is sized correctly for the whole key space.
+[[cache layers]] is the other half of this decision: this page chose the *policy*, that
+one chooses *where the copy lives*, and a real design needs both.
+
+After that, consistency models makes "tolerate a stale read" precise, and hot keys
+explains why one key can melt a cache sized correctly for the whole key space.

@@ -1,6 +1,10 @@
 {
   "title": "Interviews",
   "groups": [
-    { "id": "building-blocks", "title": "Building blocks", "pages": ["caching-strategies"] }
+    {
+      "id": "building-blocks",
+      "title": "Building blocks",
+      "pages": ["caching-strategies", "cache-layers"]
+    }
   ]
 }
