@@ -158,11 +158,25 @@ test('asset paths respect depth', () => {
   assert.match(renderHome({ ...ctx, depth: 0 }), /href="atlas\.css"/);
 });
 
-test('razor index lists every razor with its statement and family', () => {
-  const html = renderRazorIndex([razor], ctx);
-  assert.match(html, /Choose Boring Technology/);
+test('razor index lists written and unwritten entries, and links only the written ones', () => {
+  const groups = [{
+    family: 'Delivery',
+    entries: [
+      { id: 'choose-boring-technology', title: 'Choose Boring Technology', statement: 'catalog text', source: 'McKinley (2015)', page: razor },
+      { id: 'error-budgets', title: 'Error budgets', statement: '100% is the wrong target.', source: 'Google SRE', page: null },
+    ],
+  }];
+  const html = renderRazorIndex(groups, ctx);
+
+  // A written page supplies its own Statement block, overriding the catalog line.
+  assert.match(html, /<a href="\.\.\/razors\/choose-boring-technology\.html">Choose Boring Technology<\/a>/);
   assert.match(html, /Spend innovation tokens where the novelty is the product\./);
-  assert.match(html, /Delivery/);
+  assert.doesNotMatch(html, /catalog text/);
+
+  // An unwritten one still carries its statement and source, but is not a link.
+  assert.match(html, /Error budgets <span class="pending">not yet written<\/span>/);
+  assert.match(html, /100% is the wrong target\./);
+  assert.match(html, /Delivery <span class="family-count">2<\/span>/);
 });
 
 test('home page links each section', () => {

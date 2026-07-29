@@ -1,0 +1,19 @@
+{
+  "families": ["Delivery"],
+  "razors": [
+    {
+      "id": "sample-razor",
+      "title": "Sample razor",
+      "family": "Delivery",
+      "statement": "A sample statement.",
+      "source": "A Source, Somewhere (2020)"
+    },
+    {
+      "id": "unwritten-razor",
+      "title": "Unwritten razor",
+      "family": "Delivery",
+      "statement": "Catalogued but not yet written.",
+      "source": "Another Source (2021)"
+    }
+  ]
+}

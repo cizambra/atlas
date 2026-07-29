@@ -154,25 +154,29 @@ ${renderSources(page)}
   return shell({ title: page.title, depth: ctx.depth, nav: renderNav(ctx, page.slug), main });
 }
 
-export function renderRazorIndex(razors, ctx) {
-  const byFamily = new Map();
-  for (const razor of razors) {
-    const family = razor.family ?? 'Unfiled';
-    if (!byFamily.has(family)) byFamily.set(family, []);
-    byFamily.get(family).push(razor);
-  }
-  const families = [...byFamily.entries()].map(([family, items]) => {
-    const rows = items.map((razor) => {
-      const statement = razor.blocks.find((b) => b.heading === 'Statement')?.text.trim() ?? '';
-      const source = razor.sources[0] ?? '';
-      return `<tr>
-<td><a href="${hrefFor(razor, ctx.depth)}">${escape(razor.title)}</a></td>
+export function renderRazorIndex(groups, ctx) {
+  const total = groups.reduce((n, g) => n + g.entries.length, 0);
+  const written = groups.reduce((n, g) => n + g.entries.filter((e) => e.page).length, 0);
+
+  const families = groups.map(({ family, entries }) => {
+    const rows = entries.map((entry) => {
+      // A written page overrides its catalog entry: its Statement block is the
+      // live text, and the title becomes a link.
+      const statement = entry.page
+        ? (entry.page.blocks.find((b) => b.heading === 'Statement')?.text.trim() ?? entry.statement)
+        : entry.statement;
+      const name = entry.page
+        ? `<a href="${hrefFor(entry.page, ctx.depth)}">${escape(entry.title)}</a>`
+        : `${escape(entry.title)} <span class="pending">not yet written</span>`;
+      return `<tr${entry.page ? '' : ' class="row-pending"'}>
+<td>${name}</td>
 <td>${escape(statement)}</td>
-<td class="source">${escape(source)}</td>
+<td class="source">${escape(entry.source)}</td>
 </tr>`;
     }).join('\n');
+
     return `<section class="family">
-<h2>${escape(family)}</h2>
+<h2>${escape(family)} <span class="family-count">${entries.length}</span></h2>
 <table class="razor-table">
 <thead><tr><th>Razor</th><th>Statement</th><th>Source</th></tr></thead>
 <tbody>\n${rows}\n</tbody>
@@ -182,7 +186,7 @@ export function renderRazorIndex(razors, ctx) {
 
   const main = `<article class="page page--index">
 <h1 class="page-title">Razor index</h1>
-<p class="summary">Every razor in the atlas, grouped by family. Each links to its full entry.</p>
+<p class="summary">Every razor in the atlas, grouped by family — ${total} of them, ${written} with a full entry so far. The rest carry their statement and source until written.</p>
 ${families}
 </article>`;
   return shell({ title: 'Razor index', depth: ctx.depth, nav: renderNav(ctx, null), main });

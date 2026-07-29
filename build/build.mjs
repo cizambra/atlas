@@ -7,6 +7,7 @@ import { lintPage, lintCollection } from './lint.mjs';
 import { renderPage, renderRazorIndex, renderHome, renderGlossary } from './template.mjs';
 import { buildSearchIndex } from './search.mjs';
 import { buildTermIndex, normalize } from './terms.mjs';
+import { loadCatalog, mergeCatalog, catalogViolations } from './catalog.mjs';
 
 const write = (distDir, relative, contents, written) => {
   const target = join(distDir, relative);
@@ -18,9 +19,11 @@ const write = (distDir, relative, contents, written) => {
 export function build({ contentDir, distDir, assetsDir, mermaidBundle, katexDir }) {
   const { pages, sections } = loadContent(contentDir);
 
+  const catalog = loadCatalog(contentDir);
   const violations = [
     ...pages.flatMap(lintPage),
     ...lintCollection(pages, sections),
+    ...catalogViolations(catalog, pages),
   ];
   if (violations.length > 0) return { written: [], violations };
 
@@ -50,8 +53,8 @@ export function build({ contentDir, distDir, assetsDir, mermaidBundle, katexDir 
     write(distDir, `${page.section}/${page.slug}.html`, renderPage(page, ctx), written);
   }
 
-  const razors = pages.filter((p) => p.type === 'razor');
-  write(distDir, 'razors/index.html', renderRazorIndex(razors, { md, sections, pagesBySlug, depth: 1 }), written);
+  const razorGroups = mergeCatalog(catalog, pages);
+  write(distDir, 'razors/index.html', renderRazorIndex(razorGroups, { md, sections, pagesBySlug, depth: 1 }), written);
   write(distDir, 'glossary.html', renderGlossary(terms, { md, sections, pagesBySlug, depth: 0 }), written);
   write(distDir, 'index.html', renderHome({ md, sections, pagesBySlug, depth: 0 }), written);
   write(distDir, 'search-index.json', JSON.stringify(buildSearchIndex(pages)), written);

@@ -1,0 +1,892 @@
+{
+  "families": [
+    "Decision and judgment",
+    "Laws of systems",
+    "Design and architecture",
+    "Delivery and operations",
+    "Communication",
+    "People, organization, influence"
+  ],
+  "razors": [
+    {
+      "id": "type-1-type-2-decisions",
+      "title": "Type 1 / Type 2 decisions",
+      "family": "Decision and judgment",
+      "statement": "One-way doors deserve deliberation; two-way doors deserve speed, and most doors are two-way.",
+      "source": "Jeff Bezos, Amazon shareholder letters (1997, 2015)"
+    },
+    {
+      "id": "disagree-and-commit",
+      "title": "Disagree and commit",
+      "family": "Decision and judgment",
+      "statement": "Argue hard before the decision, then execute as if you had won the argument.",
+      "source": "Andy Grove, Intel; formalised as an Amazon leadership principle"
+    },
+    {
+      "id": "chestertons-fence",
+      "title": "Chesterton's fence",
+      "family": "Decision and judgment",
+      "statement": "Do not remove a fence until you know why it was put there.",
+      "source": "G. K. Chesterton, The Thing (1929)"
+    },
+    {
+      "id": "yagni",
+      "title": "YAGNI",
+      "family": "Decision and judgment",
+      "statement": "Build it when you need it, not when you foresee needing it — foresight is usually wrong and always expensive.",
+      "source": "Kent Beck and Ron Jeffries, Extreme Programming"
+    },
+    {
+      "id": "rule-of-three",
+      "title": "The rule of three",
+      "family": "Decision and judgment",
+      "statement": "Duplicate twice; abstract on the third occurrence, when you can finally see the shape.",
+      "source": "Martin Fowler, Refactoring (1999), crediting Don Roberts"
+    },
+    {
+      "id": "galls-law",
+      "title": "Gall's Law",
+      "family": "Decision and judgment",
+      "statement": "A complex system that works evolved from a simple system that worked; one designed complex from scratch does not.",
+      "source": "John Gall, Systemantics (1975)"
+    },
+    {
+      "id": "goodharts-law",
+      "title": "Goodhart's Law",
+      "family": "Decision and judgment",
+      "statement": "When a measure becomes a target, it stops being a good measure.",
+      "source": "Charles Goodhart (1975); phrasing by Marilyn Strathern (1997)"
+    },
+    {
+      "id": "campbells-law",
+      "title": "Campbell's Law",
+      "family": "Decision and judgment",
+      "statement": "The more a social indicator is used for decisions, the more it distorts the process it was meant to monitor.",
+      "source": "Donald T. Campbell (1976)"
+    },
+    {
+      "id": "what-would-have-to-be-true",
+      "title": "What would have to be true?",
+      "family": "Decision and judgment",
+      "statement": "Stop arguing about which option is right and ask what the world would have to look like for each to be right.",
+      "source": "Roger Martin, Playing to Win (2013)"
+    },
+    {
+      "id": "hammings-question",
+      "title": "Hamming's question",
+      "family": "Decision and judgment",
+      "statement": "What are the important problems in your field, and why are you not working on them?",
+      "source": "Richard Hamming, 'You and Your Research' (1986)"
+    },
+    {
+      "id": "cynefin",
+      "title": "Cynefin",
+      "family": "Decision and judgment",
+      "statement": "Match the method to the domain: clear, complicated, complex and chaotic problems each need a different move.",
+      "source": "Dave Snowden; Snowden & Boone, HBR (2007)"
+    },
+    {
+      "id": "ooda-loop",
+      "title": "The OODA loop",
+      "family": "Decision and judgment",
+      "statement": "Observe, orient, decide, act — and win by cycling faster than the situation changes, not by deciding better.",
+      "source": "John Boyd, US Air Force"
+    },
+    {
+      "id": "second-order-thinking",
+      "title": "Second-order thinking",
+      "family": "Decision and judgment",
+      "statement": "Ask 'and then what?' — the first consequence is rarely the one that decides whether it was a good idea.",
+      "source": "Howard Marks, The Most Important Thing (2011)"
+    },
+    {
+      "id": "sunk-cost",
+      "title": "Sunk cost",
+      "family": "Decision and judgment",
+      "statement": "What you already spent is not a reason to continue; only the remaining cost and benefit are.",
+      "source": "Arkes & Blumer (1985)"
+    },
+    {
+      "id": "regret-minimization",
+      "title": "Regret minimisation",
+      "family": "Decision and judgment",
+      "statement": "For decisions at the scale of years, choose what you would least regret at eighty rather than what optimises now.",
+      "source": "Jeff Bezos"
+    },
+    {
+      "id": "kiss",
+      "title": "KISS",
+      "family": "Decision and judgment",
+      "statement": "Design so it can be repaired under pressure by someone who did not build it.",
+      "source": "Kelly Johnson, Lockheed Skunk Works"
+    },
+    {
+      "id": "occams-razor",
+      "title": "Occam's razor",
+      "family": "Decision and judgment",
+      "statement": "Prefer the explanation that needs the fewest assumptions — in debugging, the boring cause is usually the cause.",
+      "source": "William of Ockham"
+    },
+    {
+      "id": "hanlons-razor",
+      "title": "Hanlon's razor",
+      "family": "Decision and judgment",
+      "statement": "Never attribute to malice what is adequately explained by missing context.",
+      "source": "Folk aphorism; no reliable attribution"
+    },
+    {
+      "id": "parkinsons-law",
+      "title": "Parkinson's Law",
+      "family": "Decision and judgment",
+      "statement": "Work expands to fill the time available, which is why deadlines shape scope more than estimates do.",
+      "source": "C. Northcote Parkinson, The Economist (1955)"
+    },
+    {
+      "id": "hofstadters-law",
+      "title": "Hofstadter's Law",
+      "family": "Decision and judgment",
+      "statement": "It always takes longer than you expect, even when you account for Hofstadter's Law.",
+      "source": "Douglas Hofstadter, Gödel, Escher, Bach (1979)"
+    },
+    {
+      "id": "pareto-principle",
+      "title": "The Pareto principle",
+      "family": "Decision and judgment",
+      "statement": "Roughly 80% of the effect comes from 20% of the causes — find that 20% before optimising anything.",
+      "source": "Vilfredo Pareto; named by Joseph Juran"
+    },
+
+    {
+      "id": "conways-law",
+      "title": "Conway's Law",
+      "family": "Laws of systems",
+      "statement": "A system's architecture mirrors the communication structure of the organisation that built it.",
+      "source": "Melvin Conway, 'How Do Committees Invent?' (1967)"
+    },
+    {
+      "id": "inverse-conway-maneuver",
+      "title": "The inverse Conway manoeuvre",
+      "family": "Laws of systems",
+      "statement": "If the architecture follows the org chart, change the org chart to get the architecture you want.",
+      "source": "Jonny LeRoy and Matt Simons, ThoughtWorks"
+    },
+    {
+      "id": "hyrums-law",
+      "title": "Hyrum's Law",
+      "family": "Laws of systems",
+      "statement": "With enough users, every observable behaviour of your system is depended on by somebody, regardless of what you promised.",
+      "source": "Hyrum Wright, Google; Software Engineering at Google"
+    },
+    {
+      "id": "brooks-law",
+      "title": "Brooks's Law",
+      "family": "Laws of systems",
+      "statement": "Adding people to a late project makes it later, because communication paths grow faster than hands do.",
+      "source": "Fred Brooks, The Mythical Man-Month (1975)"
+    },
+    {
+      "id": "essential-vs-accidental-complexity",
+      "title": "Essential vs accidental complexity",
+      "family": "Laws of systems",
+      "statement": "Tools only ever remove accidental complexity; the essential difficulty of the problem is untouched, so no single change gives an order of magnitude.",
+      "source": "Fred Brooks, 'No Silver Bullet' (1986)"
+    },
+    {
+      "id": "amdahls-law",
+      "title": "Amdahl's Law",
+      "family": "Laws of systems",
+      "statement": "Speedup is capped by the fraction you did not parallelise — optimise the bottleneck or do not bother.",
+      "source": "Gene Amdahl (1967)"
+    },
+    {
+      "id": "gustafsons-law",
+      "title": "Gustafson's Law",
+      "family": "Laws of systems",
+      "statement": "Amdahl's ceiling lifts when the problem grows with the machine — scale the work, not just the workers.",
+      "source": "John Gustafson (1988)"
+    },
+    {
+      "id": "littles-law",
+      "title": "Little's Law",
+      "family": "Laws of systems",
+      "statement": "Items in a system equal arrival rate times time spent — which is why cutting work-in-progress cuts latency.",
+      "source": "John Little (1961)"
+    },
+    {
+      "id": "universal-scalability-law",
+      "title": "The Universal Scalability Law",
+      "family": "Laws of systems",
+      "statement": "Contention flattens your scaling curve and coherency bends it downward — past some node count, adding capacity loses throughput.",
+      "source": "Neil Gunther"
+    },
+    {
+      "id": "postels-law",
+      "title": "Postel's Law, and its retraction",
+      "family": "Laws of systems",
+      "statement": "Be liberal in what you accept was protocol doctrine for forty years; RFC 9413 walked it back because tolerance ossifies protocols.",
+      "source": "Jon Postel, RFC 761 (1980); retracted in RFC 9413 (2023)"
+    },
+    {
+      "id": "end-to-end-argument",
+      "title": "The end-to-end argument",
+      "family": "Laws of systems",
+      "statement": "Put function at the endpoints; the network cannot guarantee correctness the endpoints must check anyway.",
+      "source": "Saltzer, Reed & Clark (1984)"
+    },
+    {
+      "id": "fallacies-of-distributed-computing",
+      "title": "Fallacies of distributed computing",
+      "family": "Laws of systems",
+      "statement": "The network is not reliable, latency is not zero, bandwidth is not infinite, and topology always changes.",
+      "source": "Peter Deutsch and James Gosling, Sun Microsystems"
+    },
+    {
+      "id": "tail-at-scale",
+      "title": "The tail at scale",
+      "family": "Laws of systems",
+      "statement": "Fan out to enough services and the slowest one becomes your median — p99 of a part is p50 of the whole.",
+      "source": "Jeffrey Dean & Luiz André Barroso, CACM (2013)"
+    },
+    {
+      "id": "leaky-abstractions",
+      "title": "The law of leaky abstractions",
+      "family": "Laws of systems",
+      "statement": "All non-trivial abstractions leak, so the layer you were promised you could ignore is the one you will debug.",
+      "source": "Joel Spolsky (2002)"
+    },
+    {
+      "id": "kernighans-law",
+      "title": "Kernighan's Law",
+      "family": "Laws of systems",
+      "statement": "Debugging is twice as hard as writing the code — so code at your limit and you cannot debug it.",
+      "source": "Brian Kernighan, The Elements of Programming Style"
+    },
+    {
+      "id": "lehmans-laws",
+      "title": "Lehman's laws of software evolution",
+      "family": "Laws of systems",
+      "statement": "A used system must keep changing or become less useful, and each change raises its complexity unless work is spent reducing it.",
+      "source": "Meir Lehman (1974 onward)"
+    },
+    {
+      "id": "teslers-law",
+      "title": "Tesler's Law",
+      "family": "Laws of systems",
+      "statement": "Complexity is conserved: whatever you refuse to handle in the system gets handled by the user.",
+      "source": "Larry Tesler"
+    },
+    {
+      "id": "linuss-law",
+      "title": "Linus's Law, and its limits",
+      "family": "Laws of systems",
+      "statement": "Given enough eyeballs all bugs are shallow — but Heartbleed showed eyeballs must actually be looking.",
+      "source": "Eric S. Raymond, The Cathedral and the Bazaar (1997)"
+    },
+    {
+      "id": "metcalfes-law",
+      "title": "Metcalfe's Law",
+      "family": "Laws of systems",
+      "statement": "A network's value grows with the square of its nodes, which is why the second user is worth more than the first.",
+      "source": "Robert Metcalfe"
+    },
+    {
+      "id": "cap-and-pacelc",
+      "title": "CAP and PACELC",
+      "family": "Laws of systems",
+      "statement": "Under a partition, choose consistency or availability; else, choose latency or consistency — the second half is the daily one.",
+      "source": "Eric Brewer (2000); Gilbert & Lynch (2002); Daniel Abadi (2010)"
+    },
+    {
+      "id": "dunbars-number",
+      "title": "Dunbar's number",
+      "family": "Laws of systems",
+      "statement": "Stable relationships cap out around 150, which is why organisations need structure at that size rather than more goodwill.",
+      "source": "Robin Dunbar"
+    },
+    {
+      "id": "peter-principle",
+      "title": "The Peter principle",
+      "family": "Laws of systems",
+      "statement": "People rise to their level of incompetence, because promotion rewards the previous job rather than the next one.",
+      "source": "Laurence J. Peter (1969)"
+    },
+    {
+      "id": "software-entropy",
+      "title": "Software entropy",
+      "family": "Laws of systems",
+      "statement": "One broken window signals nobody is watching, and decay accelerates from there.",
+      "source": "Hunt & Thomas, The Pragmatic Programmer (1999)"
+    },
+    {
+      "id": "boy-scout-rule",
+      "title": "The boy scout rule",
+      "family": "Laws of systems",
+      "statement": "Leave the code cleaner than you found it, in small increments nobody has to schedule.",
+      "source": "Robert C. Martin, Clean Code (2008)"
+    },
+
+    {
+      "id": "separation-of-concerns",
+      "title": "Separation of concerns",
+      "family": "Design and architecture",
+      "statement": "Study one aspect at a time, so each can be reasoned about without holding the others in your head.",
+      "source": "Edsger Dijkstra (1974)"
+    },
+    {
+      "id": "solid",
+      "title": "SOLID, and its critics",
+      "family": "Design and architecture",
+      "statement": "Five object-oriented principles worth knowing by name — and worth knowing that Dan North's CUPID argues they optimise the wrong thing.",
+      "source": "Robert C. Martin; acronym by Michael Feathers; critique by Dan North"
+    },
+    {
+      "id": "wrong-abstraction",
+      "title": "The wrong abstraction",
+      "family": "Design and architecture",
+      "statement": "Duplication is far cheaper than the wrong abstraction — prefer copying to a shared thing that fits neither caller.",
+      "source": "Sandi Metz (2016); AHA by Kent C. Dodds"
+    },
+    {
+      "id": "law-of-demeter",
+      "title": "The law of Demeter",
+      "family": "Design and architecture",
+      "statement": "Talk to your immediate collaborators only; a chain of dots is a dependency on someone else's internals.",
+      "source": "Ian Holland, Northeastern University (1987)"
+    },
+    {
+      "id": "composition-over-inheritance",
+      "title": "Composition over inheritance",
+      "family": "Design and architecture",
+      "statement": "Inheritance couples you to a parent's decisions forever; composition lets you change your mind.",
+      "source": "Gang of Four, Design Patterns (1994)"
+    },
+    {
+      "id": "strangler-fig",
+      "title": "The strangler fig",
+      "family": "Design and architecture",
+      "statement": "Replace a legacy system by routing traffic away from it piece by piece, never by a rewrite-and-switch.",
+      "source": "Martin Fowler (2004)"
+    },
+    {
+      "id": "sacrificial-architecture",
+      "title": "Sacrificial architecture",
+      "family": "Design and architecture",
+      "statement": "Build knowing you will throw it away — designing for a lifespan you will not reach costs more than the rewrite.",
+      "source": "Martin Fowler (2014)"
+    },
+    {
+      "id": "bounded-context",
+      "title": "Bounded context",
+      "family": "Design and architecture",
+      "statement": "The same word means different things to different teams; draw the boundary where the meaning changes.",
+      "source": "Eric Evans, Domain-Driven Design (2003)"
+    },
+    {
+      "id": "cqrs-and-event-sourcing",
+      "title": "CQRS and event sourcing",
+      "family": "Design and architecture",
+      "statement": "Separating reads from writes buys independent scaling and costs eventual consistency — and is wrong for most systems.",
+      "source": "Greg Young; Martin Fowler"
+    },
+    {
+      "id": "twelve-factor-app",
+      "title": "The twelve-factor app",
+      "family": "Design and architecture",
+      "statement": "Config in the environment, processes stateless and disposable, dev and prod as alike as you can make them.",
+      "source": "Adam Wiggins, Heroku (2011)"
+    },
+    {
+      "id": "make-it-work-right-fast",
+      "title": "Make it work, make it right, make it fast",
+      "family": "Design and architecture",
+      "statement": "In that order — each stage is cheaper when the one before it is done.",
+      "source": "Kent Beck"
+    },
+    {
+      "id": "premature-optimization",
+      "title": "Premature optimisation, quoted in full",
+      "family": "Design and architecture",
+      "statement": "Knuth said forget small efficiencies about 97% of the time — and immediately added that we must not pass up the critical 3%.",
+      "source": "Donald Knuth, 'Structured Programming with go to Statements' (1974)"
+    },
+    {
+      "id": "simple-made-easy",
+      "title": "Simple made easy",
+      "family": "Design and architecture",
+      "statement": "Simple means unentangled; easy means familiar. Choosing easy over simple is how systems become impossible to change.",
+      "source": "Rich Hickey, Strange Loop (2011)"
+    },
+    {
+      "id": "worse-is-better",
+      "title": "Worse is better",
+      "family": "Design and architecture",
+      "statement": "A simpler, less complete design often wins, because it ships, spreads, and gets fixed in the field.",
+      "source": "Richard P. Gabriel (1991)"
+    },
+    {
+      "id": "rule-of-least-power",
+      "title": "The rule of least power",
+      "family": "Design and architecture",
+      "statement": "Choose the least powerful language that solves the problem — weaker formats are easier to analyse and outlive their authors.",
+      "source": "Tim Berners-Lee, W3C (2006)"
+    },
+    {
+      "id": "circuit-breaker",
+      "title": "Circuit breaker and bulkhead",
+      "family": "Design and architecture",
+      "statement": "Stop calling a failing dependency, and partition resources so one saturated pool cannot take the process with it.",
+      "source": "Michael Nygard, Release It! (2007)"
+    },
+    {
+      "id": "crash-only-software",
+      "title": "Crash-only software",
+      "family": "Design and architecture",
+      "statement": "If the only way to stop is to crash, recovery is exercised constantly instead of on the worst night of the year.",
+      "source": "George Candea & Armando Fox (2003)"
+    },
+    {
+      "id": "backpressure",
+      "title": "Backpressure over buffering",
+      "family": "Design and architecture",
+      "statement": "A queue that absorbs overload converts a throughput problem into a latency problem and hides it until it is worse.",
+      "source": "Reactive Streams; Little's Law applied"
+    },
+    {
+      "id": "idempotency-keys",
+      "title": "Idempotency keys",
+      "family": "Design and architecture",
+      "statement": "Exactly-once delivery does not exist; make the operation safe to repeat and at-least-once becomes enough.",
+      "source": "Stripe engineering practice"
+    },
+    {
+      "id": "immutable-infrastructure",
+      "title": "Immutable infrastructure",
+      "family": "Design and architecture",
+      "statement": "Replace servers rather than patching them, so what is running always matches what was described.",
+      "source": "Chad Fowler (2013)"
+    },
+    {
+      "id": "hexagonal-architecture",
+      "title": "Hexagonal architecture",
+      "family": "Design and architecture",
+      "statement": "Push the database and the UI to the edges as adapters, so the domain can be tested without either.",
+      "source": "Alistair Cockburn (2005)"
+    },
+    {
+      "id": "design-for-failure",
+      "title": "Design for failure",
+      "family": "Design and architecture",
+      "statement": "Everything fails all the time — so ask what happens when this dependency is down, not whether it will be.",
+      "source": "Werner Vogels, Amazon"
+    },
+
+    {
+      "id": "choose-boring-technology",
+      "title": "Choose Boring Technology",
+      "family": "Delivery and operations",
+      "statement": "Every team gets a small budget of innovation tokens; spend them where the novelty is the product.",
+      "source": "Dan McKinley (2015)"
+    },
+    {
+      "id": "dora-four-keys",
+      "title": "The four DORA keys",
+      "family": "Delivery and operations",
+      "statement": "Deploy frequency, lead time, change failure rate and time to restore predict performance better than anything teams usually track.",
+      "source": "Forsgren, Humble & Kim, Accelerate (2018)"
+    },
+    {
+      "id": "continuous-delivery",
+      "title": "Continuous delivery",
+      "family": "Delivery and operations",
+      "statement": "Keep the software releasable at all times; batching changes makes each release riskier, not safer.",
+      "source": "Jez Humble & David Farley (2010)"
+    },
+    {
+      "id": "trunk-based-development",
+      "title": "Trunk-based development",
+      "family": "Delivery and operations",
+      "statement": "Long-lived branches defer integration pain rather than removing it; merge daily and hide incomplete work behind flags.",
+      "source": "Paul Hammant; corroborated by DORA"
+    },
+    {
+      "id": "error-budgets",
+      "title": "Error budgets",
+      "family": "Delivery and operations",
+      "statement": "100% is the wrong reliability target; pick a number, and spend the gap on shipping instead of arguing.",
+      "source": "Google SRE (2016)"
+    },
+    {
+      "id": "toil-budget",
+      "title": "The toil budget",
+      "family": "Delivery and operations",
+      "statement": "Cap manual, repetitive, automatable work at half a team's time, or operations eats all of engineering.",
+      "source": "Google SRE"
+    },
+    {
+      "id": "blameless-postmortems",
+      "title": "Blameless postmortems",
+      "family": "Delivery and operations",
+      "statement": "People act reasonably given what they knew; asking who erred buys silence, asking what made it look right buys information.",
+      "source": "John Allspaw, Etsy (2012); Google SRE"
+    },
+    {
+      "id": "five-whys-critique",
+      "title": "Five whys, and why not",
+      "family": "Delivery and operations",
+      "statement": "Asking why five times yields a single tidy cause for an event that had many — linear chains flatter the investigator.",
+      "source": "Taiichi Ohno, Toyota; critique by John Allspaw"
+    },
+    {
+      "id": "you-build-it-you-run-it",
+      "title": "You build it, you run it",
+      "family": "Delivery and operations",
+      "statement": "Carrying the pager for your own code is the fastest feedback loop in software.",
+      "source": "Werner Vogels, ACM Queue (2006)"
+    },
+    {
+      "id": "deploy-decoupled-from-release",
+      "title": "Deploy is not release",
+      "family": "Delivery and operations",
+      "statement": "Ship the code dark and turn it on separately, so deployment risk and product risk stop being the same event.",
+      "source": "Continuous delivery practice; feature-flag tooling"
+    },
+    {
+      "id": "progressive-delivery",
+      "title": "Progressive delivery",
+      "family": "Delivery and operations",
+      "statement": "Expose a change to a growing slice of traffic, so the blast radius is a dial rather than a coin flip.",
+      "source": "James Governor, RedMonk (2018)"
+    },
+    {
+      "id": "four-golden-signals",
+      "title": "The four golden signals",
+      "family": "Delivery and operations",
+      "statement": "Latency, traffic, errors, saturation — if you can only have four dashboards, have these.",
+      "source": "Google SRE"
+    },
+    {
+      "id": "red-method",
+      "title": "The RED method",
+      "family": "Delivery and operations",
+      "statement": "For every service: request rate, error rate, duration. Three metrics, uniform across everything you run.",
+      "source": "Tom Wilkie, Weaveworks"
+    },
+    {
+      "id": "use-method",
+      "title": "The USE method",
+      "family": "Delivery and operations",
+      "statement": "For every resource: utilisation, saturation, errors — the checklist that finds the bottleneck rather than describing the symptom.",
+      "source": "Brendan Gregg"
+    },
+    {
+      "id": "test-pyramid",
+      "title": "The test pyramid, and the trophy",
+      "family": "Delivery and operations",
+      "statement": "Many fast unit tests under fewer slow end-to-end ones — though Dodds argues integration tests deserve the widest band.",
+      "source": "Mike Cohn (2009); critique by Kent C. Dodds"
+    },
+    {
+      "id": "defect-cost-curve",
+      "title": "The defect cost curve",
+      "family": "Delivery and operations",
+      "statement": "A bug costs more the later it is found — directionally true, though the famous 100x figure is not well supported.",
+      "source": "Barry Boehm (1981); evidence contested since"
+    },
+    {
+      "id": "chaos-engineering",
+      "title": "Chaos engineering",
+      "family": "Delivery and operations",
+      "statement": "Inject the failure deliberately in daylight, because the alternative is discovering it at 3am.",
+      "source": "Netflix, Principles of Chaos Engineering"
+    },
+    {
+      "id": "theory-of-constraints",
+      "title": "Theory of constraints",
+      "family": "Delivery and operations",
+      "statement": "Any improvement not at the bottleneck is an illusion; find the constraint, exploit it, then subordinate everything else.",
+      "source": "Eliyahu Goldratt, The Goal (1984)"
+    },
+    {
+      "id": "cost-of-delay",
+      "title": "Cost of delay",
+      "family": "Delivery and operations",
+      "statement": "Price a week of lateness and prioritisation stops being an argument about opinions.",
+      "source": "Donald Reinertsen, Principles of Product Development Flow (2009)"
+    },
+    {
+      "id": "wip-limits",
+      "title": "WIP limits",
+      "family": "Delivery and operations",
+      "statement": "Starting less finishes more — by Little's Law, cutting work in progress cuts cycle time directly.",
+      "source": "Kanban practice; Reinertsen"
+    },
+    {
+      "id": "two-pizza-teams",
+      "title": "Two-pizza teams",
+      "family": "Delivery and operations",
+      "statement": "If a team cannot be fed by two pizzas, its coordination cost has begun to exceed its output.",
+      "source": "Amazon"
+    },
+    {
+      "id": "single-threaded-owner",
+      "title": "The single-threaded owner",
+      "family": "Delivery and operations",
+      "statement": "One person whose only job is this initiative — shared ownership of a hard thing means nobody owns it.",
+      "source": "Amazon"
+    },
+    {
+      "id": "production-readiness-review",
+      "title": "Production readiness review",
+      "family": "Delivery and operations",
+      "statement": "A service earns the right to page you: runbooks, alerts, dashboards, and an owner, before it takes traffic.",
+      "source": "Google SRE"
+    },
+    {
+      "id": "appetite-over-estimate",
+      "title": "Appetite over estimate",
+      "family": "Delivery and operations",
+      "statement": "Fix the time and vary the scope: ask how much this is worth, not how long it will take.",
+      "source": "Ryan Singer, Shape Up (2019)"
+    },
+
+    {
+      "id": "bluf",
+      "title": "BLUF",
+      "family": "Communication",
+      "statement": "Bottom line up front: the first sentence carries the conclusion and the ask.",
+      "source": "US military staff-writing doctrine"
+    },
+    {
+      "id": "pyramid-principle",
+      "title": "The pyramid principle",
+      "family": "Communication",
+      "statement": "One governing claim, a few points that each independently support it, evidence beneath those.",
+      "source": "Barbara Minto, The Pyramid Principle (1987)"
+    },
+    {
+      "id": "scqa",
+      "title": "SCQA",
+      "family": "Communication",
+      "statement": "Situation, complication, question, answer — four sentences that make a reader want the recommendation before you give it.",
+      "source": "Barbara Minto"
+    },
+    {
+      "id": "inverted-pyramid",
+      "title": "The inverted pyramid",
+      "family": "Communication",
+      "statement": "Write so an editor can cut from the bottom without losing anything essential.",
+      "source": "Newspaper practice, 19th century onward"
+    },
+    {
+      "id": "grices-maxims",
+      "title": "Grice's maxims",
+      "family": "Communication",
+      "statement": "Be as informative as needed, truthful, relevant and clear — most bad writing violates exactly one of the four.",
+      "source": "Paul Grice, 'Logic and Conversation' (1975)"
+    },
+    {
+      "id": "curse-of-knowledge",
+      "title": "The curse of knowledge",
+      "family": "Communication",
+      "statement": "Once you know something you cannot model not knowing it, which is why your context reads as throat-clearing.",
+      "source": "Camerer, Loewenstein & Weber (1989); Heath & Heath, Made to Stick"
+    },
+    {
+      "id": "ladder-of-inference",
+      "title": "The ladder of inference",
+      "family": "Communication",
+      "statement": "You climb from data to conclusion in one step and forget the climb — disagreements are usually about rungs, not conclusions.",
+      "source": "Chris Argyris"
+    },
+    {
+      "id": "advocacy-vs-inquiry",
+      "title": "Advocacy vs inquiry",
+      "family": "Communication",
+      "statement": "State your reasoning and ask for theirs; pure advocacy produces winners rather than decisions.",
+      "source": "Chris Argyris"
+    },
+    {
+      "id": "sbi-feedback",
+      "title": "Situation-behaviour-impact",
+      "family": "Communication",
+      "statement": "Name when it happened, what was done, and what followed — never the character trait you inferred.",
+      "source": "Center for Creative Leadership"
+    },
+    {
+      "id": "nonviolent-communication",
+      "title": "Nonviolent communication",
+      "family": "Communication",
+      "statement": "Observation, feeling, need, request — separating what happened from what you made it mean.",
+      "source": "Marshall Rosenberg (1999)"
+    },
+    {
+      "id": "radical-candor",
+      "title": "Radical candor",
+      "family": "Communication",
+      "statement": "Care personally and challenge directly; dropping either gives you ruinous empathy or obnoxious aggression.",
+      "source": "Kim Scott (2017)"
+    },
+    {
+      "id": "nemawashi",
+      "title": "Nemawashi",
+      "family": "Communication",
+      "statement": "Socialise a decision one-to-one before the meeting, so the meeting confirms rather than discovers.",
+      "source": "Toyota Production System"
+    },
+    {
+      "id": "narrative-memo",
+      "title": "The narrative memo",
+      "family": "Communication",
+      "statement": "Six pages of prose read in silence beats slides, because narrative exposes gaps that bullets hide.",
+      "source": "Jeff Bezos, Amazon; 2018 shareholder letter"
+    },
+    {
+      "id": "write-to-decide",
+      "title": "Write to decide, or write to inform",
+      "family": "Communication",
+      "statement": "Say which one this document is in the first line; a reader who guesses wrong reads it uselessly.",
+      "source": "Design-doc practice at Google, Uber, Oxide"
+    },
+
+    {
+      "id": "staff-archetypes",
+      "title": "The staff archetypes",
+      "family": "People, organization, influence",
+      "statement": "Tech lead, architect, solver, right hand — four shapes of the same level, and organisations need different ones.",
+      "source": "Will Larson, Staff Engineer (2021)"
+    },
+    {
+      "id": "glue-work",
+      "title": "Glue work",
+      "family": "People, organization, influence",
+      "statement": "The invisible coordination that holds projects together is essential, uncredited, and a career built only on it stalls.",
+      "source": "Tanya Reilly, 'Being Glue' (2019)"
+    },
+    {
+      "id": "trust-equation",
+      "title": "The trust equation",
+      "family": "People, organization, influence",
+      "statement": "Credibility plus reliability plus intimacy, divided by self-orientation — the denominator is what most people get wrong.",
+      "source": "David Maister, The Trusted Advisor (2000)"
+    },
+    {
+      "id": "influence-without-authority",
+      "title": "Influence without authority",
+      "family": "People, organization, influence",
+      "statement": "Find the currency the other person values and trade in it; authority is one currency among many.",
+      "source": "Allan Cohen & David Bradford (1989)"
+    },
+    {
+      "id": "crucial-conversations",
+      "title": "Crucial conversations",
+      "family": "People, organization, influence",
+      "statement": "When stakes and emotion are high, restore safety before content — nobody hears an argument they feel attacked by.",
+      "source": "Patterson, Grenny, McMillan & Switzler (2002)"
+    },
+    {
+      "id": "working-backwards",
+      "title": "Working backwards",
+      "family": "People, organization, influence",
+      "statement": "Write the press release and the FAQ first; if you cannot make it sound compelling, do not build it.",
+      "source": "Amazon PR-FAQ practice"
+    },
+    {
+      "id": "rfc-culture",
+      "title": "RFC culture",
+      "family": "People, organization, influence",
+      "statement": "Make the design reviewable in writing before it is built, so disagreement is cheap and recorded.",
+      "source": "Google design docs; Rust RFCs; Oxide RFDs"
+    },
+    {
+      "id": "daci",
+      "title": "DACI",
+      "family": "People, organization, influence",
+      "statement": "Driver, approver, contributors, informed — naming the approver is what stops a decision drifting.",
+      "source": "Intuit; popularised by Atlassian"
+    },
+    {
+      "id": "mentorship-vs-sponsorship",
+      "title": "Mentorship vs sponsorship",
+      "family": "People, organization, influence",
+      "statement": "A mentor talks to you; a sponsor talks about you in rooms you are not in. Only one changes your trajectory.",
+      "source": "Herminia Ibarra, HBR"
+    },
+    {
+      "id": "crossing-the-chasm-internal",
+      "title": "Crossing the chasm, internally",
+      "family": "People, organization, influence",
+      "statement": "Internal adoption follows the same curve as products — win the early adopters, then the pragmatists who want proof.",
+      "source": "Everett Rogers (1962); Geoffrey Moore (1991)"
+    },
+    {
+      "id": "andon-cord",
+      "title": "The andon cord",
+      "family": "People, organization, influence",
+      "statement": "Anyone can stop the line — and it only works if pulling it is celebrated rather than investigated.",
+      "source": "Toyota Production System"
+    },
+    {
+      "id": "context-not-control",
+      "title": "Context, not control",
+      "family": "People, organization, influence",
+      "statement": "If someone makes a bad call, ask what context they were missing before reaching for a process.",
+      "source": "Reed Hastings, Netflix culture deck (2009)"
+    },
+    {
+      "id": "bar-raiser",
+      "title": "The bar raiser",
+      "family": "People, organization, influence",
+      "statement": "Give one person outside the hiring team a veto, so urgency cannot quietly lower the standard.",
+      "source": "Amazon"
+    },
+    {
+      "id": "strong-opinions-weakly-held",
+      "title": "Strong opinions, weakly held — and its failure",
+      "family": "People, organization, influence",
+      "statement": "Intended as a forecasting discipline; in practice it licenses confident noise, because the strong half is louder than the weak half.",
+      "source": "Paul Saffo (2008); widely critiqued since"
+    },
+    {
+      "id": "bus-factor",
+      "title": "Bus factor",
+      "family": "People, organization, influence",
+      "statement": "Count how many people can be lost before the project stops — if the answer is one, that is the top risk.",
+      "source": "Folk term from open-source practice"
+    },
+    {
+      "id": "situational-leadership",
+      "title": "Situational leadership",
+      "family": "People, organization, influence",
+      "statement": "Match direction to competence and confidence: the same support that helps a novice insults an expert.",
+      "source": "Paul Hersey & Ken Blanchard (1969)"
+    },
+    {
+      "id": "scope-is-granted",
+      "title": "Scope is granted, not claimed",
+      "family": "People, organization, influence",
+      "statement": "You earn larger scope by handling problems slightly larger than the ones you were given, visibly.",
+      "source": "Will Larson; Tanya Reilly, The Staff Engineer's Path"
+    },
+    {
+      "id": "manager-of-one",
+      "title": "Managing up is informing, not asking",
+      "family": "People, organization, influence",
+      "statement": "Bring the decision you are about to make and the reasoning behind it, not the question.",
+      "source": "Camille Fournier, The Manager's Path (2017)"
+    },
+    {
+      "id": "hire-slow-fire-fast",
+      "title": "The cost asymmetry in hiring",
+      "family": "People, organization, influence",
+      "statement": "A false positive costs a team a year; a false negative costs one good candidate. Optimise accordingly.",
+      "source": "Widespread hiring practice; Amazon bar-raiser rationale"
+    },
+    {
+      "id": "psychological-safety",
+      "title": "Psychological safety",
+      "family": "People, organization, influence",
+      "statement": "The strongest predictor of team performance is whether people can admit mistakes without fear.",
+      "source": "Amy Edmondson (1999); Google's Project Aristotle (2015)"
+    }
+  ]
+}

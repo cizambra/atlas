@@ -177,6 +177,18 @@ th { font-family: ui-sans-serif, system-ui, sans-serif; font-size: .72rem; text-
 td.source { color: var(--muted); font-size: .85rem; white-space: nowrap; }
 .page--index { max-width: 100%; }
 .family { margin-bottom: 2.5rem; }
+.family-count {
+  font-family: ui-sans-serif, system-ui, sans-serif; font-size: .7rem;
+  font-weight: 400; color: var(--muted); vertical-align: middle;
+  border: 1px solid var(--rule); border-radius: 999px; padding: .1rem .45rem;
+}
+/* Catalogued but not yet written: present in the estate, visibly incomplete. */
+.row-pending td { opacity: .72; }
+.pending {
+  font-family: ui-sans-serif, system-ui, sans-serif; font-size: .66rem;
+  text-transform: uppercase; letter-spacing: .07em; color: var(--muted);
+  white-space: nowrap;
+}
 .razor-table { display: block; overflow-x: auto; }
 
 .cards { list-style: none; margin: 2rem 0 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); }
