@@ -19,6 +19,7 @@ function shell({ title, depth, nav, main }) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${escape(title)} · Atlas</title>
+<link rel="stylesheet" href="${prefix(depth)}katex.min.css">
 <link rel="stylesheet" href="${prefix(depth)}atlas.css">
 </head>
 <body>

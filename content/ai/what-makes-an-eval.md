@@ -45,16 +45,17 @@ online monitoring, and a real offline eval.
    score that follows, automated or not.
 4. **Score the full set.** That rate is your baseline, not your target.
 5. **Re-run on the same set after each change.** Count only the items where the two
-   versions disagree. If they disagree on N items, the winner has to lead by more than
-   **2 × √N** — otherwise you saw noise, and you do not ship on it.
+   versions disagree. If they disagree on $N$ items, the winner has to lead by more
+   than $2\sqrt{N}$ — otherwise you saw noise, and you do not ship on it.
 
 **Why it works** — one example proves nothing about a system that behaves differently
 on every input. A rate over a representative sample is the smallest thing that
 generalizes.
 
 **Numbers that govern** — ignore the two headline rates and count disagreements. Thirty
-disagreements splitting 18–12 is a lead of 6 against a bar of 2 × √30 ≈ 11, so it is
-not a win. Two annotators who agree 85% of the time cap every downstream score at 85%.
+disagreements splitting 18–12 is a lead of 6 against a bar of $2\sqrt{30} \approx 11$,
+so it is not a win. Two annotators who agree 85% of the time cap every downstream score
+at 85%.
 
 **The one failure everyone hits** — the golden set gets built from examples that were
 easy to collect, so it skews toward what somebody already thought of. The system then
@@ -106,18 +107,35 @@ versions honestly, because both were asked the same questions.
 
 ### Knowing your noise floor
 
-Where 2 × √N comes from: on the items where the two versions agree, neither is
-learning anything, so they carry no information about which is better. Only the
-disagreements do. If the versions were truly equal, each disagreement is a coin flip,
-and a fair coin flipped N times strays from even by about √N.
+Only the disagreements carry information. On an item where both versions got it right —
+or both got it wrong — nothing distinguishes them, so those items are silent about
+which version is better.
 
-Two of those is the usual 95% bar. That is the whole derivation, and it is why the
-headline rates are the wrong thing to look at — 82% versus 84% hides how many items
-actually changed hands.
+So let the two versions disagree on $N$ items, $b$ of them going to version A and
+$c = N - b$ to version B. If the versions are genuinely equally good, each disagreement
+is a coin flip:
 
-Comparing on the same set is what makes this work. Score two variants on two different
-samples and you inherit the sampling error of both, which needs a far larger set to see
-through.
+$$b \sim \text{Binomial}\left(N, \tfrac{1}{2}\right)$$
+
+The lead is $L = |b - c| = |2b - N|$. A binomial with $p = \tfrac{1}{2}$ has
+$\text{SD}(b) = \tfrac{\sqrt{N}}{2}$, and the doubling inside the absolute value
+doubles the spread:
+
+$$\text{SD}(L) = 2 \cdot \frac{\sqrt{N}}{2} = \sqrt{N}$$
+
+For $N$ above roughly 20 the binomial is close enough to normal, and about 95% of a
+normal distribution sits within two standard deviations. So when the versions really
+are equal, a lead beyond $2\sqrt{N}$ turns up less than 5% of the time. That is the bar.
+
+This is McNemar's test. Knowing the name is worth as much as the formula, because it
+lets the argument be about the method rather than about your arithmetic.
+
+Below about ten disagreements the normal approximation stops holding. Use an exact
+binomial test, or accept that you do not have enough signal yet and go get more items.
+
+Comparing on the same set is what makes any of this work. Score two variants on two
+different samples and you inherit the sampling error of both, which takes a far larger
+set to see through.
 
 For a single rate rather than a comparison, use the interval instead: 200 items at
 around 80% has a 95% interval of roughly ±5.5 points. Report it, and never report a
@@ -167,8 +185,8 @@ rates come back 82% and 84%, which looks like a win for 1024 and is not the numb
 decides it.
 
 The deciding number is the disagreements. The two versions differ on 26 items, splitting
-15 to 11 — a lead of 4 against a bar of 2 × √26 ≈ 10. So the honest report is "no
-detected difference," and chunk size gets decided on cost instead. "1024 wins" would
+15 to 11 — a lead of 4 against a bar of $2\sqrt{26} \approx 10$. So the honest report is
+"no detected difference," and chunk size gets decided on cost instead. "1024 wins" would
 have been true of this sample and false of the system.
 
 ## Next

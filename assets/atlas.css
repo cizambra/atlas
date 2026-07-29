@@ -134,6 +134,11 @@ td.source { color: var(--muted); font-size: .85rem; white-space: nowrap; }
 .card h2 { margin: 0 0 .3rem; font-size: 1.15rem; }
 .card p { margin: 0; color: var(--muted); font-size: .88rem; }
 
+/* KaTeX renders at build time; only its stylesheet and fonts ship. */
+.katex { font-size: 1.02em; }
+.katex-block, .katex-display { margin: 1.1rem 0; overflow-x: auto; overflow-y: hidden; }
+.block--speedrun .katex { font-size: 1em; }
+
 pre, code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .88em; }
 pre { background: var(--code); padding: .9rem 1rem; border-radius: 8px; overflow-x: auto; }
 code { background: var(--code); padding: .1em .35em; border-radius: 4px; }

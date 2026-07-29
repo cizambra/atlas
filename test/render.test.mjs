@@ -81,6 +81,20 @@ test('loads the mermaid runtime with a depth-correct path', () => {
   assert.match(renderPage(concept, ctx), /<script src="\.\.\/mermaid\.min\.js"><\/script>/);
 });
 
+test('renders inline and block math to static HTML at build time', () => {
+  // Replacer function, not a string: `$$` in a replacement string means a literal `$`,
+  // which would silently turn the block math into inline math.
+  const math = 'The bar is $2\\sqrt{N}$ items.\n\n$$\\text{SD}(L) = \\sqrt{N}$$';
+  const raw = conceptRaw.replace('Because.', () => math);
+  const page = loadPage('/c/math.md', raw);
+  const html = renderPage(page, { ...ctx, pagesBySlug: new Map([...ctx.pagesBySlug, ['math', page]]) });
+  assert.match(html, /<span class="katex">/);
+  assert.match(html, /katex-display/);
+  // Rendered server-side: no KaTeX JavaScript is shipped, only its stylesheet.
+  assert.match(html, /href="\.\.\/katex\.min\.css"/);
+  assert.doesNotMatch(html, /katex\.min\.js/);
+});
+
 test('renders razor blocks and the sources list', () => {
   const html = renderPage(razor, ctx);
   assert.match(html, /class="block block--limits"/);

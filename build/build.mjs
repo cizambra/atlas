@@ -1,4 +1,4 @@
-import { mkdirSync, writeFileSync, copyFileSync, rmSync, existsSync } from 'node:fs';
+import { mkdirSync, writeFileSync, copyFileSync, cpSync, rmSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createMarkdown } from './markdown.mjs';
@@ -14,7 +14,7 @@ const write = (distDir, relative, contents, written) => {
   written.push(relative);
 };
 
-export function build({ contentDir, distDir, assetsDir, mermaidBundle }) {
+export function build({ contentDir, distDir, assetsDir, mermaidBundle, katexDir }) {
   const { pages, sections } = loadContent(contentDir);
 
   const violations = [
@@ -52,6 +52,14 @@ export function build({ contentDir, distDir, assetsDir, mermaidBundle }) {
     written.push('mermaid.min.js');
   }
 
+  // KaTeX renders to HTML at build time, so only its stylesheet and fonts ship.
+  // katex.min.css references fonts at url(fonts/...), so the directory name is fixed.
+  if (katexDir && existsSync(katexDir)) {
+    copyFileSync(join(katexDir, 'katex.min.css'), join(distDir, 'katex.min.css'));
+    cpSync(join(katexDir, 'fonts'), join(distDir, 'fonts'), { recursive: true });
+    written.push('katex.min.css', 'fonts/');
+  }
+
   return { written, violations: [] };
 }
 
@@ -63,6 +71,7 @@ if (isMain) {
     distDir: join(root, 'dist'),
     assetsDir: join(root, 'assets'),
     mermaidBundle: join(root, 'node_modules', 'mermaid', 'dist', 'mermaid.min.js'),
+    katexDir: join(root, 'node_modules', 'katex', 'dist'),
   });
   if (violations.length > 0) {
     for (const v of violations) console.error(`${v.file}:${v.line} [${v.rule}] ${v.message}`);
