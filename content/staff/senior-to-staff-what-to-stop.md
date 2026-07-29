@@ -15,10 +15,13 @@ sources:
 
 ## The model
 
-The staff transition is subtractive before it is additive. The behaviours that earned
-the promotion — being the fastest implementer, personally holding the hardest problem —
-become the constraint on the scope the role requires. Nobody tells you to stop, because
-from the outside it still looks like your best work.
+Staff engineer is the first level where the job is defined by scope rather than output.
+A senior engineer is accountable for their own work landing; a staff engineer is
+accountable for outcomes spanning more work than one person can do.
+
+That is an arithmetic constraint, not a philosophy. Once what you are accountable for
+exceeds what you can personally build, time spent building is time not spent on the
+part only you can do.
 
 ## Decide it
 
@@ -30,6 +33,11 @@ from the outside it still looks like your best work.
    context across teams?**
 
 ## Why it's true
+
+The shorthand is that the transition is subtractive before it is additive. You do not
+begin by adding staff behaviours; you begin by removing the senior ones that no longer
+fit, and the gap that opens is what the new work fills. Nobody tells you to stop,
+because from the outside it still looks like your best work.
 
 ### The archetypes all point away from the keyboard
 

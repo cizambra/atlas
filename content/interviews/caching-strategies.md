@@ -10,9 +10,13 @@ next: []
 
 ## The model
 
-A cache is a bet that reads outnumber writes. The caching strategy is a second,
-separate choice: who absorbs the cost of a miss, and how much staleness a reader will
-tolerate. Answer those two and the strategy names itself.
+A cache is a copy of data kept somewhere faster to reach than the place it came from. A
+read checks the copy first; when the copy is missing or stale, something has to fetch
+the real value.
+
+The caching strategy is the rule for what happens on a write — whether the copy is
+updated, deleted, or left to expire. That rule determines how far behind the copy can
+fall.
 
 ## Decide it
 
@@ -25,6 +29,10 @@ tolerate. Answer those two and the strategy names itself.
    warm it.
 
 ## Why it's true
+
+Underneath every caching decision is a single bet: that reads outnumber writes by
+enough to pay for keeping the copy. When that bet is wrong — a key written more often
+than it is read — the cache costs more than it saves, and no strategy rescues it.
 
 ### What write-through actually buys
 

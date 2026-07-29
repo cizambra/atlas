@@ -10,10 +10,13 @@ next: []
 
 ## The model
 
-An eval is not a test suite and not a vibe check. It is a measurement with three things
-named: a population you are sampling from, an outcome you can score, and enough
-resolution to detect a change you would actually act on. Miss any of the three and you
-have a number, not an eval.
+An eval measures how well a system does a task: you run it over a set of example
+inputs and score the outputs. The result is a rate over that set — 82% of answers cited
+the right document — not a pass or fail on any one case.
+
+That makes it an estimate, not a fact. Measure the same system on a different 200
+examples and the number moves. Everything else about evals follows from that one
+property.
 
 ## Decide it
 
