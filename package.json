@@ -1,0 +1,14 @@
+{
+  "name": "atlas",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build/build.mjs",
+    "test": "node --test",
+    "serve": "python3 -m http.server -d dist 8080"
+  },
+  "dependencies": {
+    "markdown-it": "^14.1.0"
+  }
+}
