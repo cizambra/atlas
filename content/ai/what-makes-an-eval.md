@@ -1,6 +1,6 @@
 ---
 type: concept
-title: What makes something an eval
+title: What an eval is, and when to build one
 section: ai
 group: Evaluation
 summary: "An eval is a rate: how often a system gets a task right, estimated from a sample of real inputs."
@@ -89,19 +89,23 @@ what the work looks like. The defense is a held-out set nobody tunes against.
 
 ## Worked example
 
-A retrieval-augmented support assistant. The population is real support questions, so
-the set is sampled from logs by frequency rather than hand-picked — 200 items, weighted
-so common questions appear about as often as they truly do.
+A retrieval-augmented support assistant, tuned roughly weekly. Run the three questions:
+it changes often, its answers are better-or-worse rather than right-or-wrong, and a
+wrong-but-plausible answer looks fine in production metrics. All three point the same
+way, so build the eval.
+
+The population is real support questions, so the set is sampled from logs by frequency
+rather than hand-picked — 200 items, weighted so common questions appear about as often
+as they truly do.
 
 The outcome is deliberately narrow: did the answer come from the right document? A
 person can score that in ten seconds, which matters more than it sounds, because an
 outcome nobody can afford to score does not get scored.
 
-Two annotators label the same 50 items before anything else happens. They agree on 43.
-That 86% is the ceiling — a judge scoring above it is not more accurate, it is
-reproducing one annotator's bias.
+Two annotators label the same 50 items first. They agree on 43. That 86% is the ceiling
+— a judge scoring above it is not more accurate, it is reproducing one annotator's bias.
 
-Only now is the eval usable, and it answers a real decision: chunk size 512 versus
+Only now does the eval answer the question it was built for: chunk size 512 versus
 1024. If the gap is three items out of 200, that sits inside the noise, and the honest
 report is "no detected difference" rather than "1024 wins."
 

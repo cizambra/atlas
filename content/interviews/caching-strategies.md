@@ -1,6 +1,6 @@
 ---
 type: concept
-title: Read-through vs write-through caching
+title: Caching strategies
 section: interviews
 group: Building blocks
 summary: A cache is a faster copy of data; the caching strategy is the rule for what happens to that copy on a write.
