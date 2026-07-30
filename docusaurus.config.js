@@ -1,4 +1,4 @@
-import remarkSpike from './plugins/remark-spike.mjs';
+import remarkBlocks from './plugins/remark-blocks.mjs';
 
 /** @type {import('@docusaurus/types').Config} */
 export default {
@@ -19,7 +19,7 @@ export default {
         path: 'content',
         routeBasePath: '/',
         sidebarPath: './sidebars.js',
-        beforeDefaultRemarkPlugins: [remarkSpike],
+        beforeDefaultRemarkPlugins: [remarkBlocks],
       },
       blog: false,
       theme: { customCss: './src/css/custom.css' },
