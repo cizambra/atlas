@@ -16,8 +16,34 @@ const write = (distDir, relative, contents, written) => {
   written.push(relative);
 };
 
+const titleCase = (id) => id.replace(/-/g, ' ').replace(/^\w/, (c) => c.toUpperCase());
+
+// The nav this generator renders used to come straight from `_section.json`.
+// That file is gone now that Docusaurus derives its sidebar from the folder
+// tree, so this rebuilds an equivalent shape from `page.section` / `page.group`
+// (themselves derived from the folder tree by loadContent). This generator is
+// scheduled for deletion in Task 9 — until then its nav still needs a home.
+function deriveSections(pages) {
+  const sections = new Map();
+  for (const page of pages) {
+    if (!page.section) continue;
+    if (!sections.has(page.section)) {
+      sections.set(page.section, { id: page.section, title: titleCase(page.section), groups: new Map() });
+    }
+    const groups = sections.get(page.section).groups;
+    const groupId = page.group ?? '';
+    if (!groups.has(groupId)) {
+      groups.set(groupId, { id: groupId, title: titleCase(groupId), pages: [] });
+    }
+    groups.get(groupId).pages.push(page.slug);
+  }
+  for (const section of sections.values()) section.groups = [...section.groups.values()];
+  return sections;
+}
+
 export function build({ contentDir, distDir, assetsDir, mermaidBundle, katexDir }) {
-  const { pages, sections } = loadContent(contentDir);
+  const { pages } = loadContent(contentDir);
+  const sections = deriveSections(pages);
 
   const catalog = loadCatalog(contentDir);
   // The same renderer-independent check the lint CLI runs; the build simply

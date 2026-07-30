@@ -13,13 +13,13 @@ import { loadCatalog, catalogViolations } from './catalog.mjs';
  * reading. That separation is what keeps the choice of renderer a two-way door.
  */
 export function lintContent(contentDir) {
-  const { pages, sections } = loadContent(contentDir);
+  const { pages } = loadContent(contentDir);
   const catalog = loadCatalog(contentDir);
   return {
     pages: pages.length,
     violations: [
       ...pages.flatMap(lintPage),
-      ...lintCollection(pages, sections),
+      ...lintCollection(pages),
       ...catalogViolations(catalog, pages),
     ],
   };

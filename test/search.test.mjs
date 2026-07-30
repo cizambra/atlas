@@ -4,7 +4,7 @@ import { loadPage } from '../build/content.mjs';
 import { buildSearchIndex } from '../build/search.mjs';
 
 const concept = loadPage('/c/caching-strategies.md', [
-  '---', 'type: concept', 'title: Caching', 'section: interviews', 'group: Building blocks',
+  '---', 'type: concept', 'title: Caching',
   'summary: A cache is a bet that reads outnumber writes.', '---', '',
   '## The model', '', 'Thundering herd matters.', '',
   '## When to use it', '', '1. Stale?', '',
@@ -12,10 +12,10 @@ const concept = loadPage('/c/caching-strategies.md', [
   '## Going deeper', '', '### Divergence', '', 'Because.', '',
   '## See it work', '', 'Example.', '',
   '## Next', '', 'Links.', '',
-].join('\n'));
+].join('\n'), { section: 'interviews', group: 'Building blocks' });
 
 const razor = loadPage('/r/littles-law.md', [
-  '---', 'type: razor', 'title: Little\'s Law', 'section: razors', 'family: Systems',
+  '---', 'type: razor', 'title: Little\'s Law', 'family: Systems',
   'sources:', '  - "John Little (1961)"', '---', '',
   '## Statement', '', 'Queue length equals arrival rate times wait time.', '',
   '## Decides', '', 'Capacity.', '',
@@ -23,7 +23,7 @@ const razor = loadPage('/r/littles-law.md', [
   '## Example', '', 'A saturated pool.', '',
   '## Limits', '', 'Steady state only.', '',
   '## Source', '', 'Little.', '',
-].join('\n'));
+].join('\n'), { section: 'razors' });
 
 test('indexes one entry per page', () => {
   assert.equal(buildSearchIndex([concept, razor]).pages.length, 2);

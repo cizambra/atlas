@@ -5,14 +5,14 @@ import { splitBlocks } from './blocks.mjs';
 
 const asArray = (value) => (Array.isArray(value) ? value : value === undefined ? [] : [value]);
 
-export function loadPage(filePath, raw) {
+export function loadPage(filePath, raw, location = {}) {
   const { data, body, bodyStartLine } = parseFrontmatter(raw);
   return {
     slug: basename(filePath, '.md'),
     type: data.type,
     title: data.title,
-    section: data.section,
-    group: data.group,
+    section: location.section,
+    group: location.group,
     family: data.family,
     summary: data.summary,
     illustration: data.illustration,
@@ -23,34 +23,38 @@ export function loadPage(filePath, raw) {
     defines: asArray(data.defines),
     razors: asArray(data.razors),
     prereq: asArray(data.prereq),
-    next: asArray(data.next),
     sources: asArray(data.sources),
     blocks: splitBlocks(body, bodyStartLine),
     filePath,
   };
 }
 
-export function loadSections(contentDir) {
-  const sections = new Map();
-  for (const id of readdirSync(contentDir)) {
-    const dir = join(contentDir, id);
-    if (!statSync(dir).isDirectory()) continue;
-    const config = JSON.parse(readFileSync(join(dir, '_section.json'), 'utf8'));
-    sections.set(id, { id, title: config.title, groups: config.groups });
-  }
-  return sections;
-}
-
+/** Every page under contentDir, walking one level of group folders. */
 export function loadContent(contentDir) {
-  const sections = loadSections(contentDir);
   const pages = [];
-  for (const id of sections.keys()) {
-    const dir = join(contentDir, id);
-    for (const file of readdirSync(dir)) {
-      if (!file.endsWith('.md')) continue;
-      const filePath = join(dir, file);
-      pages.push(loadPage(filePath, readFileSync(filePath, 'utf8')));
+
+  for (const section of readdirSync(contentDir)) {
+    const sectionDir = join(contentDir, section);
+    if (!statSync(sectionDir).isDirectory()) continue;
+
+    for (const entry of readdirSync(sectionDir)) {
+      const entryPath = join(sectionDir, entry);
+
+      if (statSync(entryPath).isDirectory()) {
+        for (const file of readdirSync(entryPath)) {
+          if (!file.endsWith('.md')) continue;
+          const filePath = join(entryPath, file);
+          pages.push(loadPage(filePath, readFileSync(filePath, 'utf8'), { section, group: entry }));
+        }
+        continue;
+      }
+
+      // A page sitting directly in a section folder — generated index pages.
+      if (entry.endsWith('.md')) {
+        pages.push(loadPage(entryPath, readFileSync(entryPath, 'utf8'), { section, group: null }));
+      }
     }
   }
-  return { pages, sections };
+
+  return { pages };
 }

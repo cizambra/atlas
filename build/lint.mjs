@@ -187,27 +187,14 @@ export function lintPage(page) {
   return PAGE_RULES.flatMap((rule) => rule(page));
 }
 
-export function lintCollection(pages, sections) {
+export function lintCollection(pages) {
   const out = [];
   const bySlug = new Map(pages.map((p) => [p.slug, p]));
 
   for (const page of pages) {
-    for (const slug of [...page.next, ...page.razors, ...(page.prereq ?? [])]) {
+    for (const slug of [...page.razors, ...(page.prereq ?? [])]) {
       if (!bySlug.has(slug)) {
         out.push(violation('links-resolve', page, 1, `link target "${slug}" does not exist`));
-      }
-    }
-  }
-
-  const listed = new Map();
-  for (const section of sections.values()) {
-    for (const group of section.groups) {
-      for (const slug of group.pages) {
-        listed.set(slug, (listed.get(slug) ?? 0) + 1);
-        if (!bySlug.has(slug)) {
-          out.push({ rule: 'nav-orphan', file: `${section.id}/_section.json`, line: 1,
-            message: `"${slug}" is listed in the nav but has no file` });
-        }
       }
     }
   }
@@ -226,16 +213,6 @@ export function lintCollection(pages, sections) {
             `[[${label}]] has no defining page — add it to some page's "defines:" or drop the link`));
         }
       }
-    }
-  }
-
-  for (const page of pages) {
-    const count = listed.get(page.slug) ?? 0;
-    if (count !== 1) {
-      out.push(violation('nav-complete', page, 1,
-        count === 0
-          ? `"${page.slug}" is not listed in ${page.section}/_section.json — it would be unreachable`
-          : `"${page.slug}" is listed ${count} times in the nav`));
     }
   }
 

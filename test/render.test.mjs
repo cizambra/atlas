@@ -28,10 +28,10 @@ const razorRaw = [
   '## Source', '', 'Dan McKinley.', '',
 ].join('\n');
 
-const concept = loadPage('/c/caching-strategies.md', conceptRaw);
-const razor = loadPage('/r/choose-boring-technology.md', razorRaw);
+const concept = loadPage('/c/caching-strategies.md', conceptRaw, { section: 'interviews', group: 'Building blocks' });
+const razor = loadPage('/r/choose-boring-technology.md', razorRaw, { section: 'razors', group: 'Delivery' });
 // A distinct page object, so the cited-razor link asserts its own slug rather than the other razor's.
-const littlesLaw = loadPage('/r/littles-law.md', razorRaw.replace('Choose Boring Technology', "Little's Law"));
+const littlesLaw = loadPage('/r/littles-law.md', razorRaw.replace('Choose Boring Technology', "Little's Law"), { section: 'razors', group: 'Delivery' });
 
 const ctx = {
   md,
