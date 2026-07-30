@@ -1,12 +1,20 @@
 import { basename } from 'node:path';
+import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import remarkBlocks from './plugins/remark-blocks.mjs';
 import remarkTerms from './plugins/remark-terms.mjs';
+import remarkFurniture from './plugins/remark-furniture.mjs';
 import { loadContent } from './build/content.mjs';
 import { buildTermIndex } from './build/terms.mjs';
 
 const { pages } = loadContent('content');
 const terms = buildTermIndex(pages);
 const currentSlugOf = (file) => basename(file.path ?? '', '.md');
+const pagesBySlug = new Map(pages.map((p) => [p.slug, p]));
+const readAsset = (rel) => {
+  const file = join('static', rel);
+  return existsSync(file) ? readFileSync(file, 'utf8') : null;
+};
 
 /** @type {import('@docusaurus/types').Config} */
 export default {
@@ -27,7 +35,11 @@ export default {
         path: 'content',
         routeBasePath: '/',
         sidebarPath: './sidebars.js',
-        beforeDefaultRemarkPlugins: [remarkBlocks, [remarkTerms, { terms, currentSlugOf }]],
+        beforeDefaultRemarkPlugins: [
+          remarkBlocks,
+          [remarkTerms, { terms, currentSlugOf }],
+          [remarkFurniture, { pagesBySlug, readAsset }],
+        ],
       },
       blog: false,
       theme: { customCss: './src/css/custom.css' },
