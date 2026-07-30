@@ -1,0 +1,36 @@
+import remarkSpike from './plugins/remark-spike.mjs';
+
+/** @type {import('@docusaurus/types').Config} */
+export default {
+  title: 'Atlas',
+  tagline: 'AI engineering, interviews, staff engineering, communication',
+  url: 'https://example.com',
+  baseUrl: '/',
+  onBrokenLinks: 'throw',
+  favicon: 'favicon.svg',
+
+  // MANDATORY: Docusaurus 3 parses .md as MDX by default, which turns raw HTML
+  // into a JSX parse error. 'detect' means .md is CommonMark and .mdx is MDX.
+  markdown: { format: 'detect' },
+
+  presets: [
+    ['classic', {
+      docs: {
+        path: 'content',
+        routeBasePath: '/',
+        sidebarPath: './sidebars.js',
+        beforeDefaultRemarkPlugins: [remarkSpike],
+      },
+      blog: false,
+      theme: { customCss: './src/css/custom.css' },
+    }],
+  ],
+
+  themeConfig: {
+    navbar: {
+      title: 'Atlas',
+      items: [{ type: 'docSidebar', sidebarId: 'atlas', position: 'left', label: 'Sections' }],
+    },
+    colorMode: { respectPrefersColorScheme: true },
+  },
+};

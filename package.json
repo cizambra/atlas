@@ -2,15 +2,23 @@
   "name": "atlas",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "build": "node build/build.mjs",
     "lint": "node build/lint-cli.mjs",
     "test": "node --test",
-    "serve": "python3 -m http.server -d dist 8080"
+    "serve": "python3 -m http.server -d dist 8080",
+    "start": "docusaurus start",
+    "docusaurus:build": "docusaurus build",
+    "serve:docs": "docusaurus serve"
   },
   "dependencies": {
-    "markdown-it": "^14.1.0"
+    "@docusaurus/core": "^3.10.2",
+    "@docusaurus/preset-classic": "^3.10.2",
+    "@mdx-js/react": "^3.1.1",
+    "clsx": "^2.1.1",
+    "markdown-it": "^14.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@vscode/markdown-it-katex": "^1.1.2",
