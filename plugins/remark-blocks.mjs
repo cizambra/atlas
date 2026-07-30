@@ -2,9 +2,14 @@ const WORDS_PER_MINUTE = 200;
 
 const slugify = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-const headingText = (node) =>
-  node.children.filter((c) => c.type === 'text' || c.type === 'inlineCode')
-    .map((c) => c.value).join('');
+/** Flattens a heading's inline children — text nested inside emphasis, strong,
+ * links, etc. — into plain text, instead of only reading direct children. */
+function flattenText(node) {
+  if (node.type === 'text' || node.type === 'inlineCode') return node.value;
+  return (node.children ?? []).map(flattenText).join('');
+}
+
+const headingText = (node) => node.children.map(flattenText).join('');
 
 /** Words in a section's prose. Fenced code and diagrams are not prose. */
 function countWords(nodes) {

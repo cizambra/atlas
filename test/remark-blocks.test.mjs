@@ -61,3 +61,31 @@ test('leaves a tree with no ## headings untouched', () => {
   const tree = run([para('Just prose.')]);
   assert.equal(tree.children.length, 1);
 });
+
+test('slugifies headings with nested inline formatting, including the emphasised word', () => {
+  const heading = {
+    type: 'heading',
+    depth: 2,
+    children: [
+      { type: 'text', value: 'Why ' },
+      { type: 'emphasis', children: [{ type: 'text', value: "it's" }] },
+      { type: 'text', value: ' true' },
+    ],
+  };
+  const tree = run([heading, para('Because.')]);
+  const html = htmlValues(tree);
+  assert.ok(html.includes('<div class="block block--why-it-s-true">'));
+});
+
+test('injects the reading time when the Speedrun heading text is wrapped entirely in emphasis', () => {
+  const heading = {
+    type: 'heading',
+    depth: 2,
+    children: [{ type: 'emphasis', children: [{ type: 'text', value: 'Speedrun' }] }],
+  };
+  const tree = run([heading, para('word '.repeat(400))]);
+  const speedrunHeading = tree.children.find((n) => n.type === 'heading');
+  const injected = speedrunHeading.children.at(-1);
+  assert.equal(injected.type, 'html');
+  assert.equal(injected.value, '<span class="reading-time">2 min</span>');
+});
