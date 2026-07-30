@@ -57,9 +57,18 @@ export function build({ contentDir, distDir, assetsDir, mermaidBundle, katexDir 
   write(distDir, 'index.html', renderHome({ md, sections, pagesBySlug, depth: 0 }), written);
   write(distDir, 'search-index.json', JSON.stringify(buildSearchIndex(pages)), written);
 
-  for (const asset of ['atlas.css', 'search.js', 'mermaid-init.js', 'favicon.svg']) {
+  for (const asset of ['atlas.css', 'search.js', 'mermaid-init.js']) {
     copyFileSync(join(assetsDir, asset), join(distDir, asset));
     written.push(asset);
+  }
+
+  // favicon.svg moved to static/ during the docusaurus migration spike (Docusaurus
+  // expects it there). This generator is scheduled for deletion in Task 9 — until
+  // then it still needs to ship a favicon into dist/, so it reads from the new home.
+  const faviconSrc = join(assetsDir, '..', 'static', 'favicon.svg');
+  if (existsSync(faviconSrc)) {
+    copyFileSync(faviconSrc, join(distDir, 'favicon.svg'));
+    written.push('favicon.svg');
   }
 
   // Downloaded illustrations. Local copies rather than hotlinks: the site stays
