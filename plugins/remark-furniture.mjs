@@ -5,6 +5,11 @@ const asArray = (v) => (Array.isArray(v) ? v : v === undefined ? [] : [v]);
 
 const href = (page) => `/${page.section}/${page.slug}`;
 
+// Docusaurus serves `static/` at the site root, so a local asset path needs a
+// leading slash to resolve the same way at every page depth. Remote URLs pass
+// through untouched; an already-absolute local path is left as-is.
+const assetSrc = (src) => (/^https?:/.test(src) ? src : `/${src.replace(/^\/+/, '')}`);
+
 function prereqStrip(slugs, pagesBySlug) {
   if (slugs.length === 0) return null;
   const items = slugs.map((slug) => {
@@ -22,7 +27,7 @@ function illustration(fm, readAsset) {
 
   const art = inlined
     ? `<div class="illustration-art" role="img" aria-label="${escape(fm.illustration_alt)}">${inlined}</div>`
-    : `<img src="${escape(fm.illustration)}" alt="${escape(fm.illustration_alt)}">`;
+    : `<img src="${escape(assetSrc(fm.illustration))}" alt="${escape(fm.illustration_alt)}">`;
 
   const credit = fm.illustration_source
     ? `<a href="${escape(fm.illustration_source)}">${escape(fm.illustration_credit)}</a>`

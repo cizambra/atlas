@@ -78,3 +78,34 @@ test('escapes frontmatter text rather than trusting it', () => {
   assert.match(html, /&quot;quoted&quot;/);
   assert.match(html, /&lt;tag&gt;/);
 });
+
+test('a local non-SVG illustration renders with an absolute src', () => {
+  const html = run({
+    illustration: 'img/photo.png',
+    illustration_alt: 'A photo',
+    illustration_credit: 'me',
+  });
+  assert.match(html, /<img src="\/img\/photo\.png" alt="A photo">/);
+});
+
+test('a remote illustration is left exactly as authored', () => {
+  const html = run({
+    illustration: 'https://upload.wikimedia.org/x.png',
+    illustration_alt: 'OODA',
+    illustration_credit: 'me',
+  });
+  assert.match(html, /<img src="https:\/\/upload\.wikimedia\.org\/x\.png" alt="OODA">/);
+});
+
+test('a local SVG that fails to read falls back to img with an absolute path', () => {
+  const html = run(
+    {
+      illustration: 'img/missing.svg',
+      illustration_alt: 'Missing',
+      illustration_credit: 'me',
+    },
+    () => null,
+  );
+  assert.match(html, /<img src="\/img\/missing\.svg" alt="Missing">/);
+  assert.doesNotMatch(html, /<div class="illustration-art"/);
+});
