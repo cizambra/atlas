@@ -3,7 +3,9 @@ const escape = (s = '') => String(s)
 
 const asArray = (v) => (Array.isArray(v) ? v : v === undefined ? [] : [v]);
 
-const href = (page) => `/${page.section}/${page.slug}`;
+// A page inside a group folder (content/<section>/<group>/<slug>.md) routes
+// to /<section>/<group>/<slug> — the group segment can't be dropped.
+const href = (page) => `/${[page.section, page.group, page.slug].filter(Boolean).join('/')}`;
 
 // Docusaurus serves `static/` at the site root, so a local asset path needs a
 // leading slash to resolve the same way at every page depth. Remote URLs pass

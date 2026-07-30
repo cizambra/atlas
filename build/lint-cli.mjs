@@ -16,7 +16,7 @@ export function lintContent(contentDir) {
   const { pages } = loadContent(contentDir);
   const catalog = loadCatalog(contentDir);
   return {
-    pages: pages.length,
+    pages: pages.filter((p) => p.type !== 'generated').length,
     violations: [
       ...pages.flatMap(lintPage),
       ...lintCollection(pages),

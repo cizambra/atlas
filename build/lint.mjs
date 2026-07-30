@@ -184,6 +184,8 @@ const PAGE_RULES = [
 ];
 
 export function lintPage(page) {
+  // Generated index pages are not authored content and have no block contract.
+  if (page.type === 'generated') return [];
   return PAGE_RULES.flatMap((rule) => rule(page));
 }
 

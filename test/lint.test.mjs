@@ -214,3 +214,11 @@ test('violations carry file and line', () => {
   assert.equal(violation.file, '/c/caching.md');
   assert.ok(violation.line > 0);
 });
+
+test('generated pages are exempt from the whole contract', () => {
+  const page = concept();
+  page.type = 'generated';
+  page.blocks = [];
+  page.summary = undefined;
+  assert.deepEqual(lintPage(page), []);
+});

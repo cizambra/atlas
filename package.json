@@ -7,9 +7,10 @@
     "lint": "node build/lint-cli.mjs",
     "test": "node --test",
     "serve": "python3 -m http.server -d dist 8080",
-    "start": "docusaurus start",
-    "docusaurus:build": "docusaurus build",
-    "serve:docs": "docusaurus serve"
+    "generate": "node build/generate.mjs",
+    "start": "npm run generate && docusaurus start",
+    "docusaurus:build": "npm run generate && docusaurus build --out-dir build/site",
+    "serve:docs": "docusaurus serve --dir build/site"
   },
   "dependencies": {
     "@docusaurus/core": "^3.10.2",

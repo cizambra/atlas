@@ -34,7 +34,7 @@ export default function remarkTerms({ terms, currentSlugOf }) {
         if (entry && !selfLink) {
           pieces.push({
             type: 'link',
-            url: `/${entry.page.section}/${entry.page.slug}`,
+            url: `/${[entry.page.section, entry.page.group, entry.page.slug].filter(Boolean).join('/')}`,
             data: { hProperties: { className: ['term'] } },
             children: [{ type: 'text', value: label }],
           });
