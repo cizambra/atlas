@@ -22,7 +22,9 @@ all, and whether to spend capacity on hedging.
 It is a probability, not an observation. If a request touches $N$ services and each
 independently has probability $p$ of being slow, the chance that at least one is slow is
 
-$$P(\text{slow request}) = 1 - (1 - p)^N$$
+$$
+P(\text{slow request}) = 1 - (1 - p)^N
+$$
 
 Put Dean and Barroso's numbers in. One service in a hundred is slow, $p = 0.01$. Touch
 one service and 1% of requests are slow. Touch a hundred and

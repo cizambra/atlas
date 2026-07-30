@@ -138,7 +138,9 @@ use something LFU-flavoured.
 
 The whole economics of a cache is one equation, where $h$ is the hit rate:
 
-$$t_{\text{effective}} = h \cdot t_{\text{hit}} + (1 - h) \cdot t_{\text{miss}}$$
+$$
+t_{\text{effective}} = h \cdot t_{\text{hit}} + (1 - h) \cdot t_{\text{miss}}
+$$
 
 Put the numbers in. At a 95% hit rate with a 0.5 ms hit and a 5 ms miss, the effective
 read is $0.95(0.5) + 0.05(5) = 0.73$ ms — about seven times faster than going to the

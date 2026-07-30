@@ -4,6 +4,8 @@ import { join } from 'node:path';
 import remarkBlocks from './plugins/remark-blocks.mjs';
 import remarkTerms from './plugins/remark-terms.mjs';
 import remarkFurniture from './plugins/remark-furniture.mjs';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import { loadContent } from './build/content.mjs';
 import { buildTermIndex } from './build/terms.mjs';
 
@@ -27,7 +29,20 @@ export default {
 
   // MANDATORY: Docusaurus 3 parses .md as MDX by default, which turns raw HTML
   // into a JSX parse error. 'detect' means .md is CommonMark and .mdx is MDX.
-  markdown: { format: 'detect' },
+  markdown: { format: 'detect', mermaid: true },
+
+  themes: [
+    '@docusaurus/theme-mermaid',
+    ['@easyops-cn/docusaurus-search-local', { hashed: true, indexBlog: false, docsRouteBasePath: '/' }],
+  ],
+
+  // Self-hosted: see static/katex.min.css (copied from node_modules/katex/dist,
+  // along with its fonts/ directory) so math rendering has no external runtime
+  // dependency.
+  stylesheets: [{
+    href: '/katex.min.css',
+    type: 'text/css',
+  }],
 
   presets: [
     ['classic', {
@@ -40,6 +55,10 @@ export default {
           [remarkTerms, { terms, currentSlugOf }],
           [remarkFurniture, { pagesBySlug, readAsset }],
         ],
+        // remarkMath runs after our three plugins, not before, so it sees the
+        // page as they left it.
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
       },
       blog: false,
       theme: { customCss: './src/css/custom.css' },
@@ -52,5 +71,6 @@ export default {
       items: [{ type: 'docSidebar', sidebarId: 'atlas', position: 'left', label: 'Sections' }],
     },
     colorMode: { respectPrefersColorScheme: true },
+    mermaid: { theme: { light: 'neutral', dark: 'dark' } },
   },
 };

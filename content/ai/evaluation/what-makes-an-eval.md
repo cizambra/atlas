@@ -129,13 +129,17 @@ Call those two buckets the disagreements: $N$ items in total, $b$ won by the new
 version and $c = N - b$ by the old. If the versions are genuinely equally good, each
 disagreement is a coin flip:
 
-$$b \sim \text{Binomial}\left(N, \tfrac{1}{2}\right)$$
+$$
+b \sim \text{Binomial}\left(N, \tfrac{1}{2}\right)
+$$
 
 The lead is $L = |b - c| = |2b - N|$. A binomial with $p = \tfrac{1}{2}$ has
 $\text{SD}(b) = \tfrac{\sqrt{N}}{2}$, and the doubling inside the absolute value
 doubles the spread:
 
-$$\text{SD}(L) = 2 \cdot \frac{\sqrt{N}}{2} = \sqrt{N}$$
+$$
+\text{SD}(L) = 2 \cdot \frac{\sqrt{N}}{2} = \sqrt{N}
+$$
 
 For $N$ above roughly 20 the binomial is close enough to normal, and about 95% of a
 normal distribution sits within two standard deviations. So when the versions really
