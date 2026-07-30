@@ -1,4 +1,4 @@
-import { visit } from 'unist-util-visit';
+import { visit, SKIP } from 'unist-util-visit';
 import { normalize } from '../build/terms.mjs';
 
 const PATTERN = /\[\[([^\]\n]+)\]\]/g;
@@ -14,7 +14,9 @@ export default function remarkTerms({ terms, currentSlugOf }) {
   return (tree, file) => {
     const current = currentSlugOf(file);
 
-    visit(tree, 'text', (node, index, parent) => {
+    visit(tree, (node, index, parent) => {
+      if (node.type === 'link') return SKIP;
+      if (node.type !== 'text') return;
       if (!parent || index === null || !node.value.includes('[[')) return;
 
       const pieces = [];
