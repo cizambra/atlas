@@ -24,24 +24,27 @@ and what to hold back if you do.
 
 ## Why it holds
 
-A metric is almost never the thing you actually care about. It is a proxy that happened
-to move together with the real goal, across the behaviours people were exhibiting at the
-moment somebody picked it.
+You rarely get to measure the thing you actually want. Nobody can count "customers got
+helped," so you count something you can — how fast tickets close — and check that the two
+move together. They do. The number goes up on a dashboard.
 
-Applying pressure changes which behaviours people exhibit. The new ones sit outside the
-range where that correlation was ever observed, so the proxy and the goal come apart
-precisely where the pressure was applied.
+But that check was run while nobody was trying to move the number. It tells you how things
+worked when the number was still a readout, not a target.
 
-The decay is therefore not evidence of bad faith. Nobody has to be gaming anything — the
-measure simply stops carrying the information it used to carry.
+Put a bonus on it and people start looking for the shortest path to it. Those routes are
+new. Nothing you saw when you picked the number tells you the link holds along them,
+because nobody was taking them yet.
+
+So the number climbs and the thing it stood for does not. Nobody had to cheat for that to
+happen. The measure was not corrupted — it just stopped being about the thing.
 
 ## Example
 
-A support team is measured on time-to-close. Close time drops 40% in a quarter.
+Take a support team measured on time-to-close. Close time drops 40% in a quarter.
 
-What happened is that agents learned to close tickets that were not resolved, because a
-reopened ticket starts a fresh clock. Customers now file three tickets where they used
-to file one. Satisfaction falls while the dashboard improves.
+Here is the shortest path they found. Closing a ticket that is not actually resolved ends
+the clock, and when the customer comes back it starts a fresh one. Customers now file
+three tickets where they used to file one. Satisfaction falls while the dashboard improves.
 
 Nobody cheated. Time-to-close was a decent proxy for "customers get helped quickly"
 right up until it became the thing people were judged on.
