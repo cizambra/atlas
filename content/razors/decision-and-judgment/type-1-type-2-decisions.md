@@ -26,10 +26,9 @@ walking back. A **Type 1 decision** you cannot costs whatever the wrong world co
 as long as you live in it.
 
 Organisations tend to run one process for both, and it is always the heavy one, because
-the heavy process is what everyone remembers being punished for skipping. The result is
-that reversible decisions get committee time they do not need, while the genuinely
-irreversible ones get the same treatment and are therefore under-served relative to
-their stakes.
+the heavy process is what everyone remembers being punished for skipping. So the choices
+you could undo in an afternoon get committee time they never needed, and the ones you can
+never take back get no more care than the rest.
 
 Bezos's specific claim is that this gets worse with size. A large organisation defaults
 to Type 1 process everywhere, which produces "slowness, unthoughtful risk aversion,
