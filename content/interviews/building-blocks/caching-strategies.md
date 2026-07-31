@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Caching strategies
-sidebar_position: 1
+sidebar_position: 6
 group: Building blocks
 summary: A cache is a faster copy of data; the caching strategy is the rule for what happens to that copy on a write.
 defines: [cache, caching strategy, cache-aside, read-through, write-through, write-behind, write-around, refresh-ahead, TTL, eviction, hit rate, thundering herd, cache penetration, hot key]
