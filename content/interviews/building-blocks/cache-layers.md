@@ -4,7 +4,7 @@ title: Where caches live — the request path
 sidebar_position: 8
 group: Building blocks
 summary: Every hop between the user and your database can hold a copy; pushing data further out makes hits cheaper and invalidation harder.
-defines: [cache layers, CDN, edge cache, reverse proxy, in-process cache, distributed cache, buffer pool, cache key]
+defines: [cache layers, reverse proxy, in-process cache, distributed cache, buffer pool, cache key]
 razors: []
 prereq: [caching-strategies]
 ---
@@ -146,7 +146,7 @@ The standard escape is content-addressed URLs — `app.4f9c2b.js` rather than `a
 The file is immutable and cached forever, and a deploy changes the *name*, so nothing
 needs invalidating.
 
-**CDN / edge cache.** Geographically distributed copies, governed by the same headers
+**[[CDN]] / edge cache.** Geographically distributed copies, governed by the same headers
 plus a purge API. Purges are real but not instant; propagation across a global network
 takes seconds to minutes, which matters when the thing you are purging is wrong rather
 than merely stale.
