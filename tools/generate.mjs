@@ -98,7 +98,8 @@ export function renderHomeMarkdown(pages) {
       .sort((a, b) => a.title.localeCompare(b.title))
       .map((p) => `- [${cell(p.title)}](${href(p)})`)
       .join('\n');
-    return `## ${label}\n\n${items.length} pages\n\n${links}\n`;
+    const count = `${items.length} ${items.length === 1 ? 'page' : 'pages'}`;
+    return `## ${label}\n\n${count}\n\n${links}\n`;
   }).join('\n');
 
   return `---

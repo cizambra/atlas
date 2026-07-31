@@ -50,6 +50,12 @@ test('the homepage links every section and carries generated frontmatter', () =>
   assert.match(md, /\(\/interviews\/caching-strategies\)/);
 });
 
+test('the homepage says "1 page" rather than "1 pages"', () => {
+  const md = renderHomeMarkdown([{ slug: 'a', section: 'ai', title: 'A', type: 'concept' }]);
+  assert.match(md, /\n1 page\n/);
+  assert.doesNotMatch(md, /1 pages/);
+});
+
 test('the homepage counts pages per section', () => {
   const pages = [
     { slug: 'a', section: 'ai', title: 'A', type: 'concept' },
