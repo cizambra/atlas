@@ -1,10 +1,12 @@
 import { visit, SKIP } from 'unist-util-visit';
 import { normalize } from '../tools/terms.mjs';
 
-const PATTERN = /\[\[([^\]\n]+)\]\]/g;
+const PATTERN = /\[\[([^\]\n|]+)(?:\|([^\]\n]+))?\]\]/g;
 
 /**
  * `[[golden set]]` becomes a link to the page that declares the term.
+ * `[[partitioning|partitioned]]` links the same term while showing other words,
+ * so prose does not have to bend around the canonical noun.
  *
  * An unresolved term degrades to plain text: the `terms-resolve` lint rule
  * already fails the build for those, with a file and line the renderer cannot
@@ -24,6 +26,7 @@ export default function remarkTerms({ terms, currentSlugOf }) {
 
       for (const match of node.value.matchAll(PATTERN)) {
         const label = match[1].trim();
+        const display = (match[2] ?? match[1]).trim();
         const entry = terms.get(normalize(label));
         const selfLink = entry && entry.page.slug === current;
 
@@ -36,10 +39,10 @@ export default function remarkTerms({ terms, currentSlugOf }) {
             type: 'link',
             url: `/${[entry.page.section, entry.page.group, entry.page.slug].filter(Boolean).join('/')}`,
             data: { hProperties: { className: ['term'] } },
-            children: [{ type: 'text', value: label }],
+            children: [{ type: 'text', value: display }],
           });
         } else {
-          pieces.push({ type: 'text', value: label });
+          pieces.push({ type: 'text', value: display });
         }
 
         last = match.index + match[0].length;

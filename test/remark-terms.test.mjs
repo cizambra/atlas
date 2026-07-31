@@ -92,3 +92,26 @@ test('a [[term]] in ordinary prose still resolves alongside a link that has [[te
   assert.ok(link);
   assert.equal(link.url, '/ai/what-makes-an-eval');
 });
+
+test('[[term|display]] links the term but shows the display text', () => {
+  const [before, link] = run('Sample a [[golden set|golden sets]] first.');
+  assert.equal(before.value, 'Sample a ');
+  assert.equal(link.type, 'link');
+  assert.equal(link.url, '/ai/what-makes-an-eval');
+  assert.equal(link.children[0].value, 'golden sets');
+});
+
+test('an unresolved [[term|display]] degrades to the display text', () => {
+  const pieces = run('It is [[nonexistent|missing]] here.');
+  const text = pieces.map((p) => p.value ?? '').join('');
+  assert.equal(text, 'It is missing here.');
+});
+
+test('a page does not link its own term even with a display alias', () => {
+  const tree = { type: 'root', children: [{ type: 'paragraph',
+    children: [{ type: 'text', value: 'A [[golden set|golden sets]] here.' }] }] };
+  remarkTerms({ terms, currentSlugOf: () => 'what-makes-an-eval' })(tree, { path: '/c/x.md' });
+  const pieces = tree.children[0].children;
+  assert.ok(pieces.every((p) => p.type === 'text'), 'no link on the defining page');
+  assert.equal(pieces.map((p) => p.value).join(''), 'A golden sets here.');
+});

@@ -51,7 +51,7 @@ words to keep straight:
    together. This is the defect the pattern is known for.
 3. **Give every consumer its own retries and [[dead letter queue]]**, so one broken consumer
    is not everyone's outage.
-4. **Make every consumer idempotent** — delivery is [[at-least-once]].
+4. **Make every consumer [[idempotency|idempotent]]** — delivery is [[at-least-once]].
 5. **Choose choreography or orchestration deliberately**, and say which. Choreography is
    consumers reacting independently; orchestration is one coordinator directing them.
 6. **Budget for tracing before you need it.** Without a correlation id through every event,

@@ -24,7 +24,7 @@ now believe they hold it, and neither is wrong from where it is standing.
 Two workers might do the same job at once, and doing it twice is not acceptable.
 
 1. **Can you avoid needing one?** Partition the work so each key has exactly one owner, or
-   rely on [[idempotency]] so duplication is harmless. Both are cheaper and more
+   make the operation [[idempotency|idempotent]] so duplication is harmless. Both are cheaper and more
    reliable than a lock.
 2. **Is this for correctness or for efficiency?** An efficiency lock stops duplicated work
    and a duplicate is merely wasteful. A correctness lock protects something that breaks if
@@ -158,7 +158,7 @@ The best distributed lock is usually the one you did not need, and there are thr
 routes.
 
 **Partition by key.** Route all work for an entity to one consumer, using the same key you
-[[sharding]] partitions on. If only one worker ever handles order 42, nothing needs excluding. This is why
+[[sharding|shard]] on. If only one worker ever handles order 42, nothing needs excluding. This is why
 partitioned logs are such a common answer — the ordering guarantee *is* the mutual exclusion.
 
 **Make it idempotent.** If running twice is indistinguishable from running once, concurrent

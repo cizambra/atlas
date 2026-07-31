@@ -24,9 +24,16 @@ export function buildTermIndex(pages) {
 }
 
 /** Every `[[term]]` in a string, with its offset, for lint and for rendering. */
+/**
+ * `[[term]]` links using the term as its own text. `[[term|display]]` links the
+ * term while showing different words, so prose can say "partitioned" or
+ * "idempotent" without bending the sentence around the canonical noun. The part
+ * before the pipe is always what must resolve.
+ */
 export function termReferences(text) {
-  return [...text.matchAll(/\[\[([^\]\n]+)\]\]/g)].map((m) => ({
+  return [...text.matchAll(/\[\[([^\]\n|]+)(?:\|([^\]\n]+))?\]\]/g)].map((m) => ({
     label: m[1].trim(),
+    display: (m[2] ?? m[1]).trim(),
     index: m.index,
   }));
 }

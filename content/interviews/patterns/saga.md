@@ -48,11 +48,11 @@ T1 → T2 → T3 → T4 ✗
    which you cannot undo; everything before it is cheap to unwind.
 2. **Write the compensation with the step**, not later. A step whose compensation you cannot
    name is a step you do not understand.
-3. **Make every step and every compensation idempotent ([[idempotency]]).** Both will be
+3. **Make every step and every compensation [[idempotency|idempotent]].** Both will be
    retried, because the coordinator can crash between them.
 4. **Model the intermediate state explicitly** — `pending`, `reserved`, `awaiting_payment` —
    so other code reads a real state rather than an inconsistent one.
-5. **Choose orchestration for anything anyone will debug.** A [[choreography]]-based
+5. **Choose orchestration for anything anyone will debug.** A [[choreography|choreographed]]
    saga has its workflow in no single place.
 6. **Prefer forward recovery past the pivot.** Once you are past the point of no return,
    retry until it succeeds rather than trying to unwind.

@@ -158,8 +158,8 @@ flowchart TD
 
 The write path fans out for ordinary accounts and does nothing for large ones. Two hundred
 and forty thousand timeline writes a second sounds enormous and is entirely routine once
-[[partitioning]] by `user_id` — it is the one number in this design that scales by
-adding machines.
+[[partitioning|partitioned]] by `user_id` — it is the one number in this design that scales
+by adding machines.
 
 The read path assembles from three sources in parallel, with a hard timeout on the celebrity
 merge. If those queries are slow the feed ships without them, because a feed missing a few

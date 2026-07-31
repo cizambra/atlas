@@ -47,7 +47,7 @@ handler that does one lookup.
    everything, and popular links make hit rates very high.
 5. **Redirect with 302, not 301.** A 301 is cached by browsers forever, which destroys your
    analytics and removes your ability to change or revoke the link.
-6. **Make analytics asynchronous.** Emit a click event to a [[event log]]; never write to
+6. **Make analytics asynchronous.** Emit a click event to an [[event log]]; never write to
    a database on the redirect path.
 
 **Why it works** — the read path is one cache lookup and an HTTP redirect. Everything
