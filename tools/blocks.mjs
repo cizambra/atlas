@@ -51,8 +51,15 @@ export function countWords(text) {
   return trimmed === '' ? 0 : trimmed.split(/\s+/).length;
 }
 
+/**
+ * Punctuation inside an inline code span is syntax, not prose. A SQL example
+ * like `UPDATE ... WHERE id = ?` carries three sentence-enders that end no
+ * sentence, and counting them makes a three-sentence paragraph read as five.
+ */
+const stripInlineCode = (text) => text.replace(/`[^`\n]*`/g, 'code');
+
 export function countSentences(text) {
-  const matches = text.match(/[.!?](\s|$)/g);
+  const matches = stripInlineCode(text).match(/[.!?](\s|$)/g);
   return matches ? matches.length : 1;
 }
 

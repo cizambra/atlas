@@ -62,3 +62,12 @@ test('countSentences counts terminators, minimum one', () => {
 test('tokens drops short words and stopwords, and dedupes', () => {
   assert.deepEqual(tokens('The cache holds cache entries with staleness'), ['cache', 'holds', 'entries', 'staleness']);
 });
+
+test('countSentences ignores punctuation inside inline code', () => {
+  const withCode = 'Write it conditionally: `UPDATE ... WHERE id = ? AND version = 7`. Retry if it fails.';
+  assert.equal(countSentences(withCode), 2);
+});
+
+test('countSentences still counts real sentence enders around code', () => {
+  assert.equal(countSentences('Run `SELECT 1`. Then stop. Is it done?'), 3);
+});
