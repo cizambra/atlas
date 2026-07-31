@@ -1,5 +1,5 @@
 import { visit, SKIP } from 'unist-util-visit';
-import { normalize } from '../build/terms.mjs';
+import { normalize } from '../tools/terms.mjs';
 
 const PATTERN = /\[\[([^\]\n]+)\]\]/g;
 

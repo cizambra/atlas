@@ -1,7 +1,7 @@
 node_modules/
 dist/
 .docusaurus/
-build/site/
+build/
 content/razors/index.md
 content/glossary.md
 content/index.md

@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { loadPage, loadContent } from '../build/content.mjs';
+import { loadPage, loadContent } from '../tools/content.mjs';
 
 const FIXTURES = new URL('./fixtures/content/', import.meta.url).pathname;
 const SAMPLE = `${FIXTURES}ai/foundations/sample-concept.md`;

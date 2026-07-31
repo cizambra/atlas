@@ -3,14 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "node build/build.mjs",
-    "lint": "node build/lint-cli.mjs",
+    "lint": "node tools/lint-cli.mjs",
+    "generate": "node tools/generate.mjs",
     "test": "node --test",
-    "serve": "python3 -m http.server -d dist 8080",
-    "generate": "node build/generate.mjs",
     "start": "npm run generate && docusaurus start",
-    "docusaurus:build": "npm run generate && docusaurus build --out-dir build/site",
-    "serve:docs": "docusaurus serve --dir build/site"
+    "build": "npm run generate && npm run lint && docusaurus build",
+    "serve": "docusaurus serve"
   },
   "dependencies": {
     "@docusaurus/core": "^3.10.2",
@@ -19,7 +17,6 @@
     "@easyops-cn/docusaurus-search-local": "^0.55.3",
     "@mdx-js/react": "^3.1.1",
     "clsx": "^2.1.1",
-    "markdown-it": "^14.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "rehype-katex": "^7.0.1",

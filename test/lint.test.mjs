@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { loadPage } from '../build/content.mjs';
-import { lintPage } from '../build/lint.mjs';
+import { loadPage } from '../tools/content.mjs';
+import { lintPage } from '../tools/lint.mjs';
 
 // Two paragraphs, each under both paragraph limits, together over the 100-word
 // example minimum, and containing "cache" so the summary-overlap check passes.

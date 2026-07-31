@@ -1,18 +1,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildTermIndex, termReferences, duplicateDefinitions, normalize } from '../build/terms.mjs';
-import { createMarkdown } from '../build/markdown.mjs';
-import { lintCollection } from '../build/lint.mjs';
+import { buildTermIndex, termReferences, duplicateDefinitions, normalize } from '../tools/terms.mjs';
+import { lintCollection } from '../tools/lint.mjs';
 
 const page = (slug, extra = {}) => ({
   slug, section: 'ai', type: 'concept', title: slug, filePath: `/c/${slug}.md`,
   defines: [], razors: [], prereq: [], next: [], sources: [],
   blocks: [{ heading: 'The model', text: 'x', startLine: 1 }], ...extra,
 });
-
-const sections = (pages) => new Map([['ai', {
-  id: 'ai', title: 'AI', groups: [{ id: 'g', title: 'G', pages: pages.map((p) => p.slug) }],
-}]]);
 
 test('normalize makes term lookup case- and space-insensitive', () => {
   assert.equal(normalize('  Golden Set '), 'golden set');
@@ -47,7 +42,7 @@ test('duplicateDefinitions reports a term claimed by two pages', () => {
 
 test('terms-unique fails the build when two pages define the same term', () => {
   const pages = [page('a', { defines: ['golden set'] }), page('b', { defines: ['golden set'] })];
-  const rules = lintCollection(pages, sections(pages)).map((v) => v.rule);
+  const rules = lintCollection(pages).map((v) => v.rule);
   assert.ok(rules.includes('terms-unique'));
 });
 
@@ -55,7 +50,7 @@ test('terms-resolve fails the build on a term no page defines', () => {
   const pages = [page('a', {
     blocks: [{ heading: 'The model', text: 'See the [[embedding space]].', startLine: 7 }],
   })];
-  const violations = lintCollection(pages, sections(pages));
+  const violations = lintCollection(pages);
   const found = violations.find((v) => v.rule === 'terms-resolve');
   assert.ok(found);
   assert.equal(found.line, 7);
@@ -65,21 +60,8 @@ test('terms-resolve ignores bracket text inside a fence', () => {
   const pages = [page('a', {
     blocks: [{ heading: 'The model', text: '```\n[[not a term]]\n```', startLine: 1 }],
   })];
-  assert.ok(!lintCollection(pages, sections(pages)).map((v) => v.rule).includes('terms-resolve'));
+  assert.ok(!lintCollection(pages).map((v) => v.rule).includes('terms-resolve'));
 });
 
-test('a defined term renders as a link to its source page', () => {
-  const md = createMarkdown({ resolveTerm: () => '../ai/what-makes-an-eval.html' });
-  const html = md.render('Sample a [[golden set]] first.');
-  assert.match(html, /<a href="\.\.\/ai\/what-makes-an-eval\.html" class="term">golden set<\/a>/);
-});
-
-test('a page does not link a term it defines itself', () => {
-  const evals = page('what-makes-an-eval', { defines: ['golden set'] });
-  const md = createMarkdown({
-    resolveTerm: (label, env) => (env?.page?.slug === 'what-makes-an-eval' ? null : '/x.html'),
-  });
-  const html = md.render('Sample a [[golden set]] first.', { page: evals });
-  assert.match(html, /golden set/);
-  assert.doesNotMatch(html, /<a /);
-});
+// Rendering a term as a link is now remark-terms' job and is covered by
+// test/remark-terms.test.mjs. This file covers the index and the lint rules only.

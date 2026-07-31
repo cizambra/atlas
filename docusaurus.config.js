@@ -6,8 +6,8 @@ import remarkTerms from './plugins/remark-terms.mjs';
 import remarkFurniture from './plugins/remark-furniture.mjs';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import { loadContent } from './build/content.mjs';
-import { buildTermIndex } from './build/terms.mjs';
+import { loadContent } from './tools/content.mjs';
+import { buildTermIndex } from './tools/terms.mjs';
 
 const { pages } = loadContent('content');
 const terms = buildTermIndex(pages);

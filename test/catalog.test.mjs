@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mergeCatalog, catalogViolations, loadCatalog } from '../build/catalog.mjs';
+import { mergeCatalog, catalogViolations, loadCatalog } from '../tools/catalog.mjs';
 
 const CONTENT = new URL('../content/', import.meta.url).pathname;
 

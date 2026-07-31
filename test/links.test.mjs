@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { lintCollection } from '../build/lint.mjs';
+import { lintCollection } from '../tools/lint.mjs';
 
 const page = (slug, section, extra = {}) => ({
   slug, section, type: 'concept', title: slug, filePath: `/c/${slug}.md`,

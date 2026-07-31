@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseFrontmatter } from '../build/frontmatter.mjs';
+import { parseFrontmatter } from '../tools/frontmatter.mjs';
 
 test('parses scalar keys', () => {
   const raw = '---\ntype: concept\ntitle: Caching\n---\n## The model\n';
