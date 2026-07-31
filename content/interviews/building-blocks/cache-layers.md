@@ -11,9 +11,9 @@ prereq: [caching-strategies]
 
 ## The model
 
-A request passes through six places that can each hold a copy of what it asked for: the
-browser, a CDN at the edge, a reverse proxy, your application's memory, a shared store
-such as Redis, and the database's own buffer pool.
+A request passes through six places that can each hold a copy of what it asked for. These
+are the **cache layers**: the browser, a [[CDN]] at the edge, a reverse proxy, your
+application's memory, a shared store such as Redis, and the database's own buffer pool.
 
 A request stops at the first layer that has the data. So the choice is not whether to
 cache but *how far out* to push each piece — and the further out it goes, the cheaper

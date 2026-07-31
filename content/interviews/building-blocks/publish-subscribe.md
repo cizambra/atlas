@@ -4,7 +4,7 @@ title: Publish-subscribe
 sidebar_position: 11
 group: Building blocks
 summary: One event reaches many consumers who the publisher has never heard of, which buys independent evolution and costs you the ability to know what broke.
-defines: [publish-subscribe, topic, subscriber, push delivery, pull delivery, event notification, event-carried state transfer, transactional outbox, webhook]
+defines: [publish-subscribe, topic, subscriber, push delivery, pull delivery, event notification, event-carried state transfer, dual write problem, transactional outbox, webhook]
 razors: [conways-law]
 prereq: [queues-and-streams]
 ---
@@ -111,8 +111,8 @@ fan-out and backpressure at once.
 
 ### The dual write problem, and the outbox
 
-Here is the bug this pattern is known for. A service must save an order and publish
-`order.placed`. Two systems, no shared transaction:
+The **dual write problem** is the bug this pattern is known for. A service must save an
+order and publish `order.placed` — two systems, no shared transaction:
 
 Commit first, then publish — if the publish fails, the order exists and nobody downstream
 knows. Publish first, then commit — if the commit fails, consumers react to an order that
