@@ -1,0 +1,283 @@
+/**
+ * The Atlas theme.
+ *
+ * Docusaurus owns the chrome — navbar, sidebar, table of contents, prev/next,
+ * search, mobile drawer, theme toggle. This file owns the reading experience:
+ * typography, palette, and the six-block page contract that remark-blocks
+ * emits as `div.block.block--<slug>`.
+ *
+ * No component swizzling. Everything here is CSS over Infima's variables.
+ */
+
+/* ── Palette and type ───────────────────────────────────────────────── */
+
+:root {
+  --ifm-color-primary: #7a4b1e;
+  --ifm-color-primary-dark: #6e441b;
+  --ifm-color-primary-darker: #684019;
+  --ifm-color-primary-darkest: #563515;
+  --ifm-color-primary-light: #865221;
+  --ifm-color-primary-lighter: #8c5623;
+  --ifm-color-primary-lightest: #9e6129;
+
+  /* Sans for reading, serif for headings — easier at length, with texture
+     where the eye lands. */
+  --ifm-font-family-base: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --ifm-heading-font-family: ui-serif, Georgia, "Times New Roman", serif;
+  --ifm-font-size-base: 16px;
+  --ifm-line-height-base: 1.7;
+  --ifm-background-color: #fbfaf8;
+  --ifm-heading-color: #1c1b19;
+
+  --atlas-measure: 68ch;
+  --atlas-muted: #6b6660;
+  --atlas-rule: #e2ded7;
+  --atlas-model-bg: #f4f1ea;
+  --atlas-decide-bg: #eef3f0;
+  --atlas-example-bg: #f6f2ec;
+  --atlas-card: #ffffff;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #d9a066;
+  --ifm-color-primary-dark: #d2924f;
+  --ifm-color-primary-darker: #cf8b43;
+  --ifm-color-primary-darkest: #b3742f;
+  --ifm-color-primary-light: #e0ae7d;
+  --ifm-color-primary-lighter: #e3b589;
+  --ifm-color-primary-lightest: #ecccae;
+
+  --ifm-background-color: #16151a;
+  --ifm-heading-color: #e8e5e0;
+
+  --atlas-muted: #9a948c;
+  --atlas-rule: #2e2c33;
+  --atlas-model-bg: #1e1d24;
+  --atlas-decide-bg: #1b2220;
+  --atlas-example-bg: #211e1a;
+  --atlas-card: #1e1d23;
+}
+
+/* ── The page ───────────────────────────────────────────────────────── */
+
+.markdown > p,
+.markdown > ul,
+.markdown > ol,
+.markdown > h1,
+.markdown > h2,
+.markdown > h3 {
+  max-width: var(--atlas-measure);
+}
+
+.markdown h1:first-child {
+  font-size: 2.1rem;
+  line-height: 1.15;
+  margin-bottom: 0.6rem;
+}
+
+/* ── The six blocks ─────────────────────────────────────────────────── */
+
+.block {
+  margin: 0 0 1.75rem;
+  max-width: var(--atlas-measure);
+}
+
+.block > h2 {
+  font-family: var(--ifm-font-family-base);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--atlas-muted);
+  margin: 0 0 0.6rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--atlas-rule);
+}
+
+.block > h2 + * { margin-top: 0; }
+.block p:last-child { margin-bottom: 0; }
+
+/* What the thing is — the first rung of the ladder, so it reads slightly larger. */
+.block--the-model {
+  background: var(--atlas-model-bg);
+  padding: 1.1rem 1.25rem;
+  border-radius: 8px;
+}
+.block--the-model p { font-size: 1.06rem; }
+
+/* The decision. Numbered questions, so give the list room. */
+.block--when-to-use-it {
+  background: var(--atlas-decide-bg);
+  padding: 1.1rem 1.25rem;
+  border-radius: 8px;
+}
+.block--when-to-use-it ol,
+.block--when-to-use-it ul { margin: 0; padding-left: 1.3rem; }
+.block--when-to-use-it li { margin-bottom: 0.45rem; }
+
+/* The centrepiece: the five-minute read. Strongest frame on the page. */
+.block--speedrun {
+  border: 1px solid var(--atlas-rule);
+  border-left: 3px solid var(--ifm-color-primary);
+  border-radius: 8px;
+  padding: 1.1rem 1.25rem;
+  background: var(--atlas-card);
+}
+.block--speedrun p { margin: 0 0 0.75rem; }
+/* The beat labels — What, How to build one, Why it works. */
+.block--speedrun p > strong:first-child {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--ifm-color-primary);
+}
+.reading-time {
+  float: right;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  color: var(--atlas-muted);
+}
+
+/* Deliberately unboxed: this block is optional and must not compete. */
+.block--going-deeper { padding-left: 0; }
+.block--going-deeper h3 {
+  font-size: 1.15rem;
+  margin-top: 1.6rem;
+}
+
+/* The worked example runs wider than the measure, because diagrams are not prose. */
+.block--see-it-work {
+  background: var(--atlas-example-bg);
+  padding: 1.1rem 1.25rem;
+  border-radius: 8px;
+  max-width: min(100%, 54rem);
+}
+.block--see-it-work p { max-width: var(--atlas-measure); }
+
+/* Razor blocks. */
+.block--statement p { font-size: 1.2rem; line-height: 1.5; }
+.block--limits {
+  border-left: 3px solid var(--ifm-color-primary);
+  padding-left: 1rem;
+}
+
+/* ── Diagrams and math ──────────────────────────────────────────────── */
+
+.docusaurus-mermaid-container { margin: 0 0 1.4rem; text-align: center; }
+.docusaurus-mermaid-container svg { max-width: 100%; height: auto; }
+
+.katex { font-size: 1.02em; }
+.katex-display { margin: 1.2rem 0; overflow-x: auto; overflow-y: hidden; }
+.block--speedrun .katex { font-size: 1em; }
+
+/* ── Page furniture ─────────────────────────────────────────────────── */
+
+/* A term linked to the page that defines it. Marked, not loud. */
+a.term {
+  text-decoration: none;
+  border-bottom: 1px dotted var(--ifm-color-primary);
+}
+a.term:hover { border-bottom-style: solid; }
+
+.prereq {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 0.9rem;
+  margin: 0 0 2rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px dashed var(--atlas-rule);
+  border-radius: 8px;
+  font-size: 0.86rem;
+  max-width: var(--atlas-measure);
+}
+.prereq-label {
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: 0.68rem;
+  color: var(--atlas-muted);
+}
+.prereq ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.illustration { margin: 0 0 2rem; max-width: min(100%, 54rem); }
+.illustration img,
+.illustration-art svg { width: 100%; height: auto; display: block; }
+.illustration figcaption {
+  margin-top: 0.6rem;
+  color: var(--atlas-muted);
+  max-width: var(--atlas-measure);
+}
+.illustration-caption { display: block; font-size: 0.84rem; line-height: 1.5; }
+.illustration-credit { display: block; margin-top: 0.35rem; font-size: 0.7rem; opacity: 0.8; }
+
+/* Inlined SVGs inherit these, so an illustration follows the theme. */
+.ill-axis { stroke: var(--atlas-rule); stroke-width: 1; }
+.ill-divider { stroke: var(--atlas-muted); stroke-width: 1; stroke-dasharray: 3 4; opacity: 0.7; }
+.ill-shared { fill: none; stroke: var(--atlas-muted); stroke-width: 2.5; }
+.ill-metric { fill: none; stroke: var(--ifm-color-primary); stroke-width: 2.5; }
+.ill-goal { fill: none; stroke: var(--atlas-muted); stroke-width: 2.5; stroke-dasharray: 5 4; }
+.ill-metric-dot { fill: var(--ifm-color-primary); }
+.ill-goal-dot { fill: var(--atlas-muted); }
+.ill-axis-label, .ill-note { fill: var(--atlas-muted); font-size: 11px; }
+.ill-label { font-size: 12px; font-weight: 600; }
+.ill-label-metric { fill: var(--ifm-color-primary); }
+.ill-label-goal { fill: var(--atlas-muted); }
+
+.razor-links, .sources {
+  margin-top: 2.5rem;
+  font-size: 0.88rem;
+  max-width: var(--atlas-measure);
+}
+.razor-links h2, .sources h2 {
+  font-family: var(--ifm-font-family-base);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: 0.72rem;
+  color: var(--atlas-muted);
+  margin: 0 0 0.5rem;
+  border: 0;
+  padding: 0;
+}
+.razor-links ul, .sources ul { margin: 0; padding-left: 1.1rem; }
+.sources li { color: var(--atlas-muted); margin-bottom: 0.3rem; }
+
+/* ── The razor index and glossary ───────────────────────────────────── */
+
+.markdown table { font-size: 0.93rem; display: table; width: 100%; }
+.markdown th {
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--atlas-muted);
+  font-weight: 600;
+}
+.markdown td, .markdown th { vertical-align: top; }
+
+.family-count {
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--atlas-muted);
+  vertical-align: middle;
+  border: 1px solid var(--atlas-rule);
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+}
+/* Catalogued but not yet written: present in the estate, visibly incomplete. */
+.pending {
+  font-family: var(--ifm-font-family-base);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--atlas-muted);
+  white-space: nowrap;
+}

@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { splitBlocks, paragraphsOf, countWords, countSentences, tokens } from '../build/blocks.mjs';
+import { splitBlocks, paragraphsOf, countWords, countSentences, tokens } from '../tools/blocks.mjs';
 
 test('splits on ## headings and records line numbers', () => {
   const body = '## The model\n\nAlpha.\n\n## Decide it\n\nBeta.\n';

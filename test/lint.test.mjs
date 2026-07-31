@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { loadPage } from '../build/content.mjs';
-import { lintPage } from '../build/lint.mjs';
+import { loadPage } from '../tools/content.mjs';
+import { lintPage } from '../tools/lint.mjs';
 
 // Two paragraphs, each under both paragraph limits, together over the 100-word
 // example minimum, and containing "cache" so the summary-overlap check passes.
@@ -213,4 +213,12 @@ test('violations carry file and line', () => {
   const [violation] = lintPage(concept(blocks)).filter((v) => v.rule === 'model-length');
   assert.equal(violation.file, '/c/caching.md');
   assert.ok(violation.line > 0);
+});
+
+test('generated pages are exempt from the whole contract', () => {
+  const page = concept();
+  page.type = 'generated';
+  page.blocks = [];
+  page.summary = undefined;
+  assert.deepEqual(lintPage(page), []);
 });

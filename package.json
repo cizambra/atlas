@@ -2,19 +2,33 @@
   "name": "atlas",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "scripts": {
-    "build": "node build/build.mjs",
-    "lint": "node build/lint-cli.mjs",
+    "lint": "node tools/lint-cli.mjs",
+    "generate": "node tools/generate.mjs",
     "test": "node --test",
-    "serve": "python3 -m http.server -d dist 8080"
+    "start": "npm run generate && docusaurus start",
+    "build": "npm run generate && npm run lint && docusaurus build",
+    "serve": "docusaurus serve"
   },
   "dependencies": {
-    "markdown-it": "^14.1.0"
+    "@docusaurus/core": "^3.10.2",
+    "@docusaurus/preset-classic": "^3.10.2",
+    "@docusaurus/theme-mermaid": "^3.10.2",
+    "@easyops-cn/docusaurus-search-local": "^0.55.3",
+    "@mdx-js/react": "^3.1.1",
+    "clsx": "^2.1.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "@vscode/markdown-it-katex": "^1.1.2",
-    "katex": "^0.18.1",
+    "katex": "^0.16.47",
     "mermaid": "^11.16.0"
+  },
+  "optionalDependencies": {
+    "@mermaid-js/layout-elk": "^0.1.9"
   }
 }
