@@ -34,6 +34,10 @@ Three pages are generated rather than authored, and are gitignored:
   which is ESM regardless.
 - **Display maths needs `$$` on their own lines.** `remark-math` reads a
   single-line `$$x$$` as inline.
+- **`stylesheets` and `scripts` in the config are emitted verbatim.** They are
+  the only asset paths Docusaurus does not prefix with baseUrl. Import CSS from
+  `src/css/custom.css` instead, so webpack owns the URL — a missing stylesheet
+  fails silently, leaving correct markup with no styling.
 - **`[[term]]`** links to whichever page declares that term in `defines:`. An
   undefined term fails the lint with a file and line.
 

@@ -39,13 +39,12 @@ export default {
     ['@easyops-cn/docusaurus-search-local', { hashed: true, indexBlog: false, docsRouteBasePath: '/' }],
   ],
 
-  // Self-hosted: see static/katex.min.css (copied from node_modules/katex/dist,
-  // along with its fonts/ directory) so math rendering has no external runtime
-  // dependency.
-  stylesheets: [{
-    href: '/katex.min.css',
-    type: 'text/css',
-  }],
+  // KaTeX's stylesheet is imported by src/css/custom.css, not listed here.
+  // `stylesheets` and `scripts` hrefs are emitted VERBATIM — Docusaurus never
+  // prepends baseUrl to them, unlike every other asset path in the site. An
+  // href of '/katex.min.css' therefore resolves at the domain root, 404s, and
+  // leaves every √ radical at its intrinsic 400em (6400px), which drags the
+  // page sideways. Importing through webpack removes the URL entirely.
 
   presets: [
     ['classic', {

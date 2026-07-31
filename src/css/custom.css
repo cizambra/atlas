@@ -1,3 +1,8 @@
+/* Math styling, bundled from the `katex` dependency rather than vendored into
+   static/. webpack rewrites the font url()s inside it to baseUrl-correct hashed
+   asset paths, so nothing here has to know the site lives under /atlas/. */
+@import 'katex/dist/katex.min.css';
+
 /**
  * The Atlas theme.
  *
