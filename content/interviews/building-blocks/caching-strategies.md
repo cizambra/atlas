@@ -20,15 +20,17 @@ fall.
 
 ## When to use it
 
-You are choosing between four things: no cache, read-through, write-through, and
-write-behind.
+You are choosing between four things: **no cache**; **read-through**, where the cache
+fetches from the database on a miss; **write-through**, where a write lands in the cache
+and the database together; and **write-behind**, where it lands in the cache and reaches
+the database later.
 
 1. **Is the miss path an order of magnitude slower, or is the database the contended
    resource?** If neither, no cache — you would take on an invalidation problem to buy
    nothing.
 2. **Can a reader tolerate a stale value, and for how long?** If the reader is the
-   person who just made the write, usually not — that points at write-through or
-   write-around.
+   person who just made the write, usually not — that points at write-through, or
+   **write-around**, which sends writes straight to the database and skips the cache.
 3. **Is the write volume high enough that a synchronous cache write hurts?** If yes,
    write-behind, and accept a durability risk you did not have before.
 

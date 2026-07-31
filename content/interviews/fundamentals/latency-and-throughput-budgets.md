@@ -29,9 +29,9 @@ you need to know whether the design can meet the number at all.
    cheapest latency fix available.
 2. **Do these calls run in series or in parallel?** Series adds; parallel takes the
    maximum. Two 50 ms calls are either 100 ms or 50 ms, and which one is a design choice.
-3. **How loaded will this run?** Below about 70% utilisation queueing is a rounding
-   error. Above 90% it dominates everything else, and no amount of per-component tuning
-   will save you.
+3. **How loaded will this run?** **Utilisation** is the fraction of time a resource is
+   busy. Below about 70% of it, queueing is a rounding error; above 90% it dominates
+   everything else, and no amount of per-component tuning will save you.
 
 ## Speedrun
 

@@ -161,7 +161,7 @@ trailing off.
 
 Attack your own design instead. Name the bottleneck you would hit first at ten times the
 load. Name the failure mode that worries you — the [[correlated failure]] your redundancy
-does not actually cover, the hot key your partitioning will produce. Name the thing you cut
+does not actually cover, the [[hot key]] your partitioning will produce. Name the thing you cut
 during scoping that you would build next, and why.
 
 This works because it is what the second half of a real design review sounds like. Someone

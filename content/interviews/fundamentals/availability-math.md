@@ -61,9 +61,10 @@ Redundant replicas multiply unavailability: $A_{\text{total}} = 1 - (1 - A)^n$.
    dependency. Every shared thing collapses your redundancy back toward a single copy.
 5. **Convert the target into minutes and say it aloud.** "99.9% means we can be down 43
    minutes a month" is a sentence people can reason about; a percentage is not.
-6. **Check the recovery half.** Availability is $\text{MTBF}/(\text{MTBF} + \text{MTTR})$,
-   so halving your recovery time buys the same nines as doubling your time between failures
-   — usually far more cheaply.
+6. **Check the recovery half.** Uptime is not only how often you break, it is how long you
+   stay broken. **MTBF** is mean time between failures, **MTTR** is mean time to recovery,
+   and availability is $\text{MTBF}/(\text{MTBF} + \text{MTTR})$. Halving recovery time
+   buys the same nines as failing half as often, and it is usually far cheaper.
 
 **Why it works** — availability is a probability, and probabilities of independent events
 multiply. That single fact produces both rules, and it also produces the standard mistake:
@@ -153,8 +154,8 @@ $$
 A = \frac{\text{MTBF}}{\text{MTBF} + \text{MTTR}}
 $$
 
-**MTBF** is mean time between failures — how often it breaks. **MTTR** is mean time to
-recovery — how long it stays broken.
+Recall the two halves: **MTBF**, mean time between failures, is how often it breaks;
+**MTTR**, mean time to recovery, is how long it stays broken.
 
 Take a service that fails once a month and takes an hour to recover. That is $720/(720+1)$,
 about 99.86%.
