@@ -13,6 +13,13 @@ sources:
 Any organisation that designs a system will produce a design whose structure copies the
 communication structure of that organisation.
 
+## In plain terms
+
+Software comes out shaped like the org chart that built it. Two teams who talk all day produce
+parts that fit together; two teams who barely talk produce a seam between them, an API, a
+handoff. If you want a different architecture, you usually have to change who talks to whom
+first.
+
 ## Decides
 
 Whether the architecture problem in front of you is actually an architecture problem, or

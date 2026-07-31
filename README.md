@@ -12,9 +12,14 @@ communication.
 ## How it fits together
 
 `content/` is plain markdown. Every page conforms to a block contract — six
-fixed `##` sections for a concept page, six different ones for a razor —
-enforced by `npm run lint`, which reads markdown and frontmatter only and
-imports nothing from Docusaurus.
+fixed `##` sections for a concept page, seven for a razor — enforced by
+`npm run lint`, which reads markdown and frontmatter only and imports nothing
+from Docusaurus.
+
+Both contracts open with a plain-language block: `The model` on a concept page,
+`In plain terms` on a razor. A razor's `Statement` is the aphorism, compressed
+to be quotable, which is what makes it opaque on first read — the block after it
+says the same thing in words nobody has to decode.
 
 That independence is deliberate. The site generator is replaceable; the
 discipline that makes the pages worth reading is not. `tools/` holds the lint

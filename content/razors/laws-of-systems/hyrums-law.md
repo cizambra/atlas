@@ -13,6 +13,13 @@ sources:
 With a sufficient number of users, every observable behaviour of your system will be
 depended on by somebody, regardless of what you promised in the contract.
 
+## In plain terms
+
+Once enough people use your system, somebody depends on every detail of how it behaves,
+including the parts you never promised and the ones you consider bugs. Your written contract
+stops being the real contract. What you can safely change is decided by what people noticed,
+not by what you documented.
+
 ## Decides
 
 Whether you can actually change a thing — as distinct from whether you are *permitted*

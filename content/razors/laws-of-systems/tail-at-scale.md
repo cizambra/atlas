@@ -12,6 +12,12 @@ sources:
 Fan out to enough services and the slowest one becomes your median: the 99th percentile
 of a component is the 50th percentile of a request.
 
+## In plain terms
+
+One request usually needs answers from many services, and it is not finished until the slowest
+of them replies. So a delay that hits one call in a hundred stops being rare: fan out to a
+hundred services and it touches nearly every request. Rare per part becomes normal per request.
+
 ## Decides
 
 Whether to optimise the average or the tail, whether a fan-out design is affordable at

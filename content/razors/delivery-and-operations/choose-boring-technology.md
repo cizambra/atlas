@@ -11,6 +11,12 @@ sources:
 Every team gets a small budget of innovation tokens. Spend them where the novelty is
 the product, and take the boring option everywhere else.
 
+## In plain terms
+
+You only have so much attention for things that break in unfamiliar ways. Spend it on the part
+of your product that is supposed to be new, and take the dull, well-worn option everywhere
+else. Boring here means you already know how it fails.
+
 ## Decides
 
 Whether to adopt an unfamiliar technology for a particular component — a database, a

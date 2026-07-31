@@ -17,6 +17,11 @@ sources:
 
 When a measure becomes a target, it stops being a good measure.
 
+## In plain terms
+
+Judge people on a number and they start working on the number, not on the thing you were using
+it to track. The number keeps looking good. The thing it stood for quietly gets worse.
+
 ## Decides
 
 Whether to attach a goal, an incentive, or a performance review to a particular number —

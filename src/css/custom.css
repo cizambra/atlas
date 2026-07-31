@@ -162,6 +162,17 @@
 
 /* Razor blocks. */
 .block--statement p { font-size: 1.2rem; line-height: 1.5; }
+
+/* The counterpart to "The model" on a concept page: the aphorism above it said
+   in words nobody has to decode. Same tinted frame, so the ladder reads the
+   same way on both page types. */
+.block--in-plain-terms {
+  background: var(--atlas-model-bg);
+  padding: 1.1rem 1.25rem;
+  border-radius: 8px;
+}
+.block--in-plain-terms p { font-size: 1.06rem; }
+
 .block--limits {
   border-left: 3px solid var(--ifm-color-primary);
   padding-left: 1rem;

@@ -158,6 +158,7 @@ test('sources-required accepts a staff page with sources', () => {
 
 const RAZOR_BODY = [
   '## Statement', '', 'Spend innovation tokens where novelty is the product.', '',
+  '## In plain terms', '', 'Pick the dull option unless the new thing is the product.', '',
   '## Decides', '', 'Whether to adopt the new thing.', '',
   '## Why it holds', '', 'Novelty costs operational attention.', '',
   '## Example', '', 'A team picks Postgres over a new store.', '',
@@ -180,6 +181,28 @@ test('razors are exempt from the concept-only rules', () => {
   for (const rule of ['visual-present', 'speedrun-length', 'model-length', 'summary-present']) {
     assert.ok(!rules.includes(rule), `razor should not be subject to ${rule}`);
   }
+});
+
+test('a razor without "In plain terms" fails the contract', () => {
+  const body = RAZOR_BODY.replace(
+    '## In plain terms\n\nPick the dull option unless the new thing is the product.\n\n', '');
+  const rules = rulesOf(lintPage(razor(body)));
+  assert.ok(rules.includes('blocks-exact'), 'the aphorism alone is not a plain restatement');
+});
+
+test('plain-terms-length rejects a restatement longer than the cap', () => {
+  const body = RAZOR_BODY.replace(
+    'Pick the dull option unless the new thing is the product.',
+    Array.from({ length: 71 }, (_, i) => `word${i}`).join(' '));
+  assert.ok(rulesOf(lintPage(razor(body))).includes('plain-terms-length'));
+});
+
+test('plain-terms-length leaves a restatement inside the cap alone', () => {
+  assert.ok(!rulesOf(lintPage(razor())).includes('plain-terms-length'));
+});
+
+test('concept pages are not subject to plain-terms-length', () => {
+  assert.ok(!rulesOf(lintPage(concept())).includes('plain-terms-length'));
 });
 
 test('limits-present rejects an empty Limits block', () => {

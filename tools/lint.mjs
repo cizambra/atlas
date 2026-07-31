@@ -11,10 +11,16 @@ import { buildTermIndex, termReferences, duplicateDefinitions, normalize } from 
  */
 export const CONTRACTS = {
   concept: ['The model', 'When to use it', 'Speedrun', 'Going deeper', 'See it work', 'Next'],
-  razor: ['Statement', 'Decides', 'Why it holds', 'Example', 'Limits', 'Source'],
+  // "In plain terms" is the razor's counterpart to a concept page's "The model".
+  // A razor's Statement is an aphorism — compressed to be quotable, which is
+  // exactly what makes it opaque on first read. The block after it says the same
+  // thing in words nobody has to decode.
+  razor: ['Statement', 'In plain terms', 'Decides', 'Why it holds', 'Example', 'Limits', 'Source'],
 };
 
 const MAX_MODEL_WORDS = 120;
+/** The razor restatement. Tighter than a paragraph, so it cannot become an essay. */
+const MAX_PLAIN_WORDS = 70;
 /** Five minutes is absorbing, not skimming. 500 words is roughly half of it read aloud. */
 const MAX_SPEEDRUN_WORDS = 500;
 const MAX_PARAGRAPH_WORDS = 80;
@@ -36,14 +42,26 @@ function blocksExact(page) {
     `expected headings [${expected.join(' | ')}], found [${actual.join(' | ')}]`)];
 }
 
-function modelLength(page) {
-  if (page.type !== 'concept') return [];
-  const block = blockByHeading(page, 'The model');
+/** Both page types open with a plain-language block; only the budget differs. */
+function blockWordCap(page, heading, max, rule, hint) {
+  const block = blockByHeading(page, heading);
   if (!block) return [];
   const words = countWords(block.text);
-  if (words <= MAX_MODEL_WORDS) return [];
-  return [violation('model-length', page, block.startLine,
-    `"The model" is ${words} words (max ${MAX_MODEL_WORDS}) — if the model needs more, it is not yet a model`)];
+  if (words <= max) return [];
+  return [violation(rule, page, block.startLine,
+    `"${heading}" is ${words} words (max ${max}) — ${hint}`)];
+}
+
+function modelLength(page) {
+  if (page.type !== 'concept') return [];
+  return blockWordCap(page, 'The model', MAX_MODEL_WORDS, 'model-length',
+    'if the model needs more, it is not yet a model');
+}
+
+function plainTermsLength(page) {
+  if (page.type !== 'razor') return [];
+  return blockWordCap(page, 'In plain terms', MAX_PLAIN_WORDS, 'plain-terms-length',
+    'a restatement longer than a paragraph is no longer plainer than the statement');
 }
 
 /**
@@ -178,7 +196,7 @@ function summaryPresent(page) {
 }
 
 const PAGE_RULES = [
-  blocksExact, modelLength, speedrunLength, procedurePresent, paragraphSize,
+  blocksExact, modelLength, plainTermsLength, speedrunLength, procedurePresent, paragraphSize,
   examplePresent, visualPresent, limitsPresent, sourcesRequired, summaryPresent,
   illustrationCredited,
 ];

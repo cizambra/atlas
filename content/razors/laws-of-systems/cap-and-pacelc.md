@@ -16,6 +16,12 @@ During a partition you choose consistency or availability; when there is no part
 you still choose latency or consistency — and the second choice is the one you make
 every day.
 
+## In plain terms
+
+When the network splits, you have to pick: answer with data that may be stale, or refuse to
+answer until you are certain. That is the famous choice, and it is rare. The one you make every
+day is quieter, because every copy you keep in step costs you time on every single request.
+
 ## Decides
 
 Which datastore and which replication configuration a given workload needs, per

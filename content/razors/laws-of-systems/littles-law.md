@@ -13,6 +13,12 @@ sources:
 The average number of items in a system equals the arrival rate times the average time
 each one spends there: $L = \lambda W$.
 
+## In plain terms
+
+How crowded a queue gets is not a mystery. It is just how fast things arrive multiplied by how
+long each one stays. Make things leave faster and the queue shrinks; let them linger and it
+grows, even when nothing else changed.
+
 ## Decides
 
 Which of the three levers to pull when something is too slow — reduce arrivals, add

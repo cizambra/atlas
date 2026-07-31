@@ -13,6 +13,12 @@ sources:
 100% is the wrong reliability target; choose a number below it and spend the difference
 on shipping.
 
+## In plain terms
+
+Chasing perfect uptime costs more than it is worth, and it quietly stops you shipping. So pick
+the amount of failure you can live with, say one request in a thousand, and treat it as money
+to spend. While you are under budget you ship freely. When you run out, you stop and fix.
+
 ## Decides
 
 Whether the team ships the next feature or stops to stabilise — without that being an

@@ -13,6 +13,12 @@ sources:
 One-way doors deserve deliberation; two-way doors deserve speed — and most doors are
 two-way.
 
+## In plain terms
+
+Before you agonise over a decision, ask what it costs to undo. Most choices you can reverse in
+a week, so make them fast and fix them if they are wrong. A few you cannot reverse at all, and
+those are the ones worth the long meeting.
+
 ## Decides
 
 How much process a decision gets: who is consulted, how long it takes, and what evidence

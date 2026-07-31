@@ -13,6 +13,13 @@ sources:
 
 Duplication is far cheaper than the wrong abstraction.
 
+## In plain terms
+
+Two copies of similar code are annoying, and you can delete one the moment you understand the
+pattern. A shared helper that does not quite fit either caller is worse: every new case bends
+it further, and by then everything depends on it. Wait until you have seen the pattern enough
+times to be sure.
+
 ## Decides
 
 Whether to extract shared code now, or copy it again and wait until you can see what
