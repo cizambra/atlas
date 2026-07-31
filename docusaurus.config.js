@@ -22,8 +22,11 @@ const readAsset = (rel) => {
 export default {
   title: 'Atlas',
   tagline: 'AI engineering, interviews, staff engineering, communication',
-  url: 'https://example.com',
-  baseUrl: '/',
+  url: 'https://cizambra.github.io',
+  baseUrl: '/atlas/',
+  organizationName: 'cizambra',
+  projectName: 'atlas',
+  trailingSlash: false,
   onBrokenLinks: 'throw',
   favicon: 'favicon.svg',
 
