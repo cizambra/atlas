@@ -160,6 +160,37 @@
 }
 .block--see-it-work p { max-width: var(--atlas-measure); }
 
+/* Algorithm blocks. The pattern contract has its own ladder, and it maps onto
+   the same visual weights: the cues are the decision, the template is the
+   centrepiece, the trace is the worked example. */
+.block--recognise-it {
+  background: var(--atlas-decide-bg);
+  padding: 1.1rem 1.25rem;
+  border-radius: 8px;
+}
+.block--recognise-it ul,
+.block--recognise-it ol { margin: 0; padding-left: 1.3rem; }
+.block--recognise-it li { margin-bottom: 0.45rem; }
+
+.block--the-template {
+  border: 1px solid var(--atlas-rule);
+  border-left: 3px solid var(--ifm-color-primary);
+  border-radius: 8px;
+  padding: 1.1rem 1.25rem;
+  background: var(--atlas-card);
+  max-width: min(100%, 54rem);
+}
+.block--the-template pre { margin-bottom: 0.75rem; }
+
+.block--worked-example {
+  background: var(--atlas-example-bg);
+  padding: 1.1rem 1.25rem;
+  border-radius: 8px;
+}
+
+.block--classic-problems { font-size: 0.95rem; }
+.block--classic-problems li { margin-bottom: 0.5rem; }
+
 /* Razor blocks. */
 .block--statement p { font-size: 1.2rem; line-height: 1.5; }
 

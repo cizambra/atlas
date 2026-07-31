@@ -12,12 +12,20 @@ communication.
 ## How it fits together
 
 `content/` is plain markdown. Every page conforms to a block contract — six
-fixed `##` sections for a concept page, seven for a razor — enforced by
+fixed `##` sections for a concept page, seven for a razor, six different ones
+for an algorithm pattern — enforced by
 `npm run lint`, which reads markdown and frontmatter only and imports nothing
 from Docusaurus.
 
-Both contracts open with a plain-language block: `The model` on a concept page,
-`In plain terms` on a razor. A razor's `Statement` is the aphorism, compressed
+Algorithm pages carry their own contract, because they teach a different thing.
+The failure at a staff bar is not being unable to code a heap; it is being unable
+to recognise that a heap is the answer and argue the complexity. So `Recognise it`
+must be a scannable list, `The template` must carry code, and `Why it works` must
+state an actual `O(...)`. No mermaid is required — a traced execution is the visual
+those pages want.
+
+Both concept and razor contracts open with a plain-language block: `The model` on a
+concept page, `In plain terms` on a razor. A razor's `Statement` is the aphorism, compressed
 to be quotable, which is what makes it opaque on first read — the block after it
 says the same thing in words nobody has to decode.
 

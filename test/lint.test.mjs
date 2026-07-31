@@ -245,3 +245,60 @@ test('generated pages are exempt from the whole contract', () => {
   page.summary = undefined;
   assert.deepEqual(lintPage(page), []);
 });
+
+const PATTERN_BODY = [
+  '## The model', '', 'Two indices walk toward each other from the ends of a sorted array.', '',
+  '## Recognise it', '', '- The input is sorted.', '- You are asked for a pair meeting a condition.', '',
+  '## The template', '', '```python', 'lo, hi = 0, len(a) - 1', 'while lo < hi:', '    pass', '```', '',
+  '## Why it works', '', 'Each step discards one candidate, so the scan is O(n) rather than O(n squared).', '',
+  '## Worked example', '',
+  'Trace it on a small sorted input and say what each step rules out.', '',
+  'The left index rises only when the sum is too small. The right index falls only when the sum is too large.', '',
+  'So no valid pair is ever stepped over, which is the invariant the trace exists to show.', '',
+  'Every move eliminates a whole row or column of the pair space, and that is why one pass suffices here.', '',
+  'Watching the indices converge turns the claim into something a reader can reproduce on a different input.', '',
+  'The same reasoning carries to every variant an interviewer is likely to reach for, which is the point.', '',
+  'Nothing about the trace depends on the particular numbers, only on the array being sorted to begin with.', '',
+  '## Classic problems', '', 'Two Sum II, Container With Most Water, 3Sum.',
+].join('\n');
+
+function patternPage(body = PATTERN_BODY) {
+  const raw = ['---', 'type: pattern', 'title: Two pointers', 'section: interviews',
+    'summary: Two indices walking a sorted array from both ends.', '---', '', body, ''].join('\n');
+  return loadPage('/p/two-pointers.md', raw);
+}
+
+test('a conforming pattern page produces no violations', () => {
+  assert.deepEqual(lintPage(patternPage()), []);
+});
+
+test('pattern pages are exempt from the concept-only rules', () => {
+  const rules = rulesOf(lintPage(patternPage()));
+  for (const rule of ['visual-present', 'speedrun-length', 'procedure-present', 'example-present']) {
+    assert.ok(!rules.includes(rule), `pattern should not be subject to ${rule}`);
+  }
+});
+
+test('recognise-present rejects cues written as prose instead of a list', () => {
+  const body = PATTERN_BODY.replace('- The input is sorted.\n- You are asked for a pair meeting a condition.',
+    'The input is sorted and you want a pair.');
+  assert.ok(rulesOf(lintPage(patternPage(body))).includes('recognise-present'));
+});
+
+test('template-present rejects a template with no code block', () => {
+  const body = PATTERN_BODY.replace('```python\nlo, hi = 0, len(a) - 1\nwhile lo < hi:\n    pass\n```',
+    'Walk two indices toward each other.');
+  assert.ok(rulesOf(lintPage(patternPage(body))).includes('template-present'));
+});
+
+test('complexity-stated rejects a page that never states a complexity', () => {
+  const body = PATTERN_BODY.replace('so the scan is O(n) rather than O(n squared)', 'so the scan is fast');
+  assert.ok(rulesOf(lintPage(patternPage(body))).includes('complexity-stated'));
+});
+
+test('worked-example-present rejects a trace with no explanation', () => {
+  const start = PATTERN_BODY.indexOf('## Worked example');
+  const end = PATTERN_BODY.indexOf('## Classic problems');
+  const body = `${PATTERN_BODY.slice(0, start)}## Worked example\n\nSee above.\n\n${PATTERN_BODY.slice(end)}`;
+  assert.ok(rulesOf(lintPage(patternPage(body))).includes('worked-example-present'));
+});

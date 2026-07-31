@@ -16,9 +16,16 @@ export const CONTRACTS = {
   // exactly what makes it opaque on first read. The block after it says the same
   // thing in words nobody has to decode.
   razor: ['Statement', 'In plain terms', 'Decides', 'Why it holds', 'Example', 'Limits', 'Source'],
+  // Algorithm pages teach a different thing, so they get a different contract.
+  // The failure at a staff bar is not being unable to code a heap; it is being
+  // unable to recognise that a heap is the answer, and to argue the complexity.
+  // So "Recognise it" is the block doing the work, and no mermaid is required —
+  // a traced execution is the visual these pages want.
+  pattern: ['The model', 'Recognise it', 'The template', 'Why it works', 'Worked example', 'Classic problems'],
 };
 
 const MAX_MODEL_WORDS = 120;
+const MIN_WORKED_EXAMPLE_WORDS = 120;
 /** The razor restatement. Tighter than a paragraph, so it cannot become an essay. */
 const MAX_PLAIN_WORDS = 70;
 /** Five minutes is absorbing, not skimming. 500 words is roughly half of it read aloud. */
@@ -53,9 +60,55 @@ function blockWordCap(page, heading, max, rule, hint) {
 }
 
 function modelLength(page) {
-  if (page.type !== 'concept') return [];
+  if (page.type !== 'concept' && page.type !== 'pattern') return [];
   return blockWordCap(page, 'The model', MAX_MODEL_WORDS, 'model-length',
     'if the model needs more, it is not yet a model');
+}
+
+/**
+ * The three rules that make an algorithm page useful in an interview.
+ *
+ * "Recognise it" must be a list, because it is a set of cues to scan a problem
+ * statement against rather than an argument to read. "The template" must carry
+ * code, because a pattern you cannot type is not a pattern you have. And the
+ * complexity must be stated explicitly — an algorithm page that never says
+ * O(anything) has skipped the thing it is for.
+ */
+function recognisePresent(page) {
+  if (page.type !== 'pattern') return [];
+  const block = blockByHeading(page, 'Recognise it');
+  if (!block) return [];
+  if (/^\s*([-*+]|\d+\.)\s+\S/m.test(block.text)) return [];
+  return [violation('recognise-present', page, block.startLine,
+    '"Recognise it" has no list — the cues are meant to be scanned, not read')];
+}
+
+function templatePresent(page) {
+  if (page.type !== 'pattern') return [];
+  const block = blockByHeading(page, 'The template');
+  if (!block) return [];
+  if (/^\s*```/m.test(block.text)) return [];
+  return [violation('template-present', page, block.startLine,
+    '"The template" has no code block — a pattern you cannot type is not a pattern you have')];
+}
+
+function complexityStated(page) {
+  if (page.type !== 'pattern') return [];
+  const block = blockByHeading(page, 'Why it works');
+  if (!block) return [];
+  if (/\bO\(/.test(block.text)) return [];
+  return [violation('complexity-stated', page, block.startLine,
+    '"Why it works" never states a complexity — the argument is the point of the page')];
+}
+
+function workedExamplePresent(page) {
+  if (page.type !== 'pattern') return [];
+  const block = blockByHeading(page, 'Worked example');
+  if (!block) return [];
+  const words = countWords(stripFences(block.text));
+  if (words >= MIN_WORKED_EXAMPLE_WORDS) return [];
+  return [violation('worked-example-present', page, block.startLine,
+    `"Worked example" is ${words} words of prose (min ${MIN_WORKED_EXAMPLE_WORDS}) — the trace has to be explained, not just shown`)];
 }
 
 function plainTermsLength(page) {
@@ -186,8 +239,8 @@ function illustrationCredited(page) {
 }
 
 function summaryPresent(page) {
-  if (page.type !== 'concept') return [];
-  if (!page.summary) return [violation('summary-present', page, 1, 'summary is required on concept pages')];
+  if (page.type !== 'concept' && page.type !== 'pattern') return [];
+  if (!page.summary) return [violation('summary-present', page, 1, 'summary is required on concept and pattern pages')];
   const words = countWords(page.summary);
   if (words > MAX_SUMMARY_WORDS) {
     return [violation('summary-present', page, 1, `summary is ${words} words (max ${MAX_SUMMARY_WORDS})`)];
@@ -234,6 +287,7 @@ function readingOrder(pages) {
 
 const PAGE_RULES = [
   blocksExact, modelLength, plainTermsLength, speedrunLength, procedurePresent, paragraphSize,
+  recognisePresent, templatePresent, complexityStated, workedExamplePresent,
   examplePresent, visualPresent, limitsPresent, sourcesRequired, summaryPresent,
   illustrationCredited,
 ];
