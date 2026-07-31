@@ -195,6 +195,43 @@ function summaryPresent(page) {
   return [];
 }
 
+/**
+ * The sidebar is the reading order, so it has to agree with `prereq`.
+ *
+ * Docusaurus sorts a group alphabetically when `sidebar_position` is absent,
+ * which is silent and almost never right — it listed Fundamentals starting at
+ * "availability math" and ending at "scoping", the exact reverse of the ladder,
+ * and put "cache layers" above the page it declares as its own prerequisite.
+ *
+ * Only same-group prereqs are checked. Ordering across groups is decided by the
+ * `position` in each `_category_.json`, which this lint deliberately does not read.
+ */
+function readingOrder(pages) {
+  const out = [];
+  const authored = pages.filter((p) => p.type === 'concept' || p.type === 'razor');
+  const bySlug = new Map(authored.map((p) => [p.slug, p]));
+
+  for (const page of authored) {
+    if (!Number.isFinite(page.sidebarPosition)) {
+      out.push(violation('reading-order', page, 1,
+        page.sidebarPosition === undefined
+          ? 'no sidebar_position — the sidebar would fall back to alphabetical order'
+          : 'sidebar_position is not a number'));
+      continue;
+    }
+    for (const slug of page.prereq ?? []) {
+      const before = bySlug.get(slug);
+      if (!before || before.group !== page.group) continue;
+      if (!Number.isFinite(before.sidebarPosition)) continue;
+      if (before.sidebarPosition < page.sidebarPosition) continue;
+      out.push(violation('reading-order', page, 1,
+        `sidebar_position ${page.sidebarPosition} places this above its prerequisite `
+        + `"${slug}" at ${before.sidebarPosition} — a reader meets it out of order`));
+    }
+  }
+  return out;
+}
+
 const PAGE_RULES = [
   blocksExact, modelLength, plainTermsLength, speedrunLength, procedurePresent, paragraphSize,
   examplePresent, visualPresent, limitsPresent, sourcesRequired, summaryPresent,
@@ -218,6 +255,8 @@ export function lintCollection(pages) {
       }
     }
   }
+
+  out.push(...readingOrder(pages));
 
   for (const { term, page, owner } of duplicateDefinitions(pages)) {
     out.push(violation('terms-unique', page, 1,

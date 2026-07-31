@@ -1,6 +1,7 @@
 ---
 type: razor
 title: Type 1 / Type 2 decisions
+sidebar_position: 1
 family: Decision and judgment
 defines: [Type 1 decision, Type 2 decision, one-way door]
 sources:

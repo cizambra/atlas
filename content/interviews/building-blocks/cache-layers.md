@@ -1,6 +1,7 @@
 ---
 type: concept
 title: Where caches live — the request path
+sidebar_position: 2
 group: Building blocks
 summary: Every hop between the user and your database can hold a copy; pushing data further out makes hits cheaper and invalidation harder.
 defines: [cache layers, CDN, edge cache, reverse proxy, in-process cache, distributed cache, buffer pool, cache key]

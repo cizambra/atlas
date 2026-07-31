@@ -20,6 +20,13 @@ export function loadPage(filePath, raw, location = {}) {
     illustrationCaption: data.illustration_caption,
     illustrationCredit: data.illustration_credit,
     illustrationSource: data.illustration_source,
+    // Docusaurus falls back to alphabetical order without this, which put the
+    // Fundamentals group in almost exactly reverse reading order. Frontmatter
+    // scalars arrive as strings, and this one has to be compared numerically —
+    // as strings, "10" sorts before "9".
+    sidebarPosition: data.sidebar_position === undefined
+      ? undefined
+      : Number(data.sidebar_position),
     defines: asArray(data.defines),
     razors: asArray(data.razors),
     prereq: asArray(data.prereq),

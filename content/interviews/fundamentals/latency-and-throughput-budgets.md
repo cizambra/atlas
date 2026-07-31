@@ -1,6 +1,7 @@
 ---
 type: concept
 title: Latency and throughput budgets
+sidebar_position: 3
 group: Fundamentals
 summary: A latency target is a budget spent across the request path, and queueing makes the last 10% of capacity cost more than the first 90%.
 defines: [latency, throughput, percentile, latency budget, utilisation, queueing delay, concurrency]

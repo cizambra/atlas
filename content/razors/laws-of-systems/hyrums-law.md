@@ -1,6 +1,7 @@
 ---
 type: razor
 title: Hyrum's Law
+sidebar_position: 2
 family: Laws of systems
 defines: [Hyrum's Law]
 sources:

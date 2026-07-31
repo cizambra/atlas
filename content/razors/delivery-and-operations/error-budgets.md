@@ -1,6 +1,7 @@
 ---
 type: razor
 title: Error budgets
+sidebar_position: 2
 family: Delivery and operations
 defines: [error budget, SLO, SLI]
 sources:

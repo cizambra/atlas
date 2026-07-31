@@ -1,6 +1,7 @@
 ---
 type: concept
 title: Availability math
+sidebar_position: 4
 group: Fundamentals
 summary: Dependencies in series multiply their availability downward; redundancy multiplies failure downward — and both assume an independence you rarely have.
 defines: [availability, nines, MTBF, MTTR, correlated failure, redundancy]

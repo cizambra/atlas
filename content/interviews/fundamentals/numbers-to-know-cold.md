@@ -1,6 +1,7 @@
 ---
 type: concept
 title: Numbers to know cold
+sidebar_position: 2
 group: Fundamentals
 summary: A dozen memorised quantities let you size any system in your head to the nearest order of magnitude, which is the only precision that matters.
 defines: [back-of-envelope, order of magnitude, QPS, peak-to-average ratio, working set]

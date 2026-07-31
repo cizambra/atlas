@@ -1,6 +1,7 @@
 ---
 type: concept
 title: Scoping — turning a prompt into a problem
+sidebar_position: 1
 group: Fundamentals
 summary: A design prompt names a topic, not a problem; scoping cuts it down to one system you can build in the time.
 defines: [functional requirement, non-functional requirement, scope cut, actor, critical path]

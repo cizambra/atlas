@@ -1,6 +1,7 @@
 ---
 type: razor
 title: Goodhart's Law
+sidebar_position: 2
 family: Decision and judgment
 defines: [Goodhart's Law]
 illustration: img/goodhart-divergence.svg

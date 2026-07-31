@@ -1,6 +1,7 @@
 ---
 type: razor
 title: CAP and PACELC
+sidebar_position: 5
 family: Laws of systems
 defines: [CAP theorem, PACELC, linearizability]
 sources:

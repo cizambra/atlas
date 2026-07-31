@@ -1,6 +1,7 @@
 ---
 type: concept
 title: What an eval is, and when to build one
+sidebar_position: 1
 group: Evaluation
 summary: "An eval is a rate: how often a system gets a task right, estimated from a sample of real inputs."
 defines: [eval, golden set, annotators, held-out set]

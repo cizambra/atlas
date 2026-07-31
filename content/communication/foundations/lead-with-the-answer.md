@@ -1,6 +1,7 @@
 ---
 type: concept
 title: Lead with the answer
+sidebar_position: 1
 group: Foundations
 summary: Put the conclusion in the first sentence and the support beneath it, because a reader decides at every line whether to keep going.
 defines: [BLUF, pyramid principle, SCQA, inverted pyramid, curse of knowledge]

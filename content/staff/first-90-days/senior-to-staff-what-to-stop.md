@@ -1,6 +1,7 @@
 ---
 type: concept
 title: Senior to staff — what to stop doing
+sidebar_position: 1
 group: The first 90 days
 summary: Staff engineering is accountable for outcomes larger than one person can build, which changes what your own hands should be doing.
 defines: [staff archetypes, glue work]

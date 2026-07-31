@@ -1,6 +1,7 @@
 ---
 type: concept
 title: How to run the 45 minutes
+sidebar_position: 5
 group: Fundamentals
 summary: The interview is a time budget, and the usual failure is not weak knowledge but spending thirty minutes on the problem's first ten.
 defines: [high-level design, deep dive, driving the interview]

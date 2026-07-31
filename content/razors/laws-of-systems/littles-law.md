@@ -1,6 +1,7 @@
 ---
 type: razor
 title: Little's Law
+sidebar_position: 3
 family: Laws of systems
 defines: [Little's Law, work in progress]
 sources:

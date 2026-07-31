@@ -1,6 +1,7 @@
 ---
 type: razor
 title: Choose Boring Technology
+sidebar_position: 1
 family: Delivery and operations
 sources:
   - "Dan McKinley, 'Choose Boring Technology' (2015), mcfunley.com"

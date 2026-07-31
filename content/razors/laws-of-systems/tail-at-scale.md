@@ -1,6 +1,7 @@
 ---
 type: razor
 title: The tail at scale
+sidebar_position: 4
 family: Laws of systems
 defines: [the tail at scale, tail latency, hedged request, tail-tolerant]
 sources:

@@ -1,6 +1,7 @@
 ---
 type: razor
 title: Conway's Law
+sidebar_position: 1
 family: Laws of systems
 defines: [Conway's Law]
 sources:

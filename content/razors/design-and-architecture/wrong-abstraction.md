@@ -1,6 +1,7 @@
 ---
 type: razor
 title: The wrong abstraction
+sidebar_position: 1
 family: Design and architecture
 defines: [the wrong abstraction, AHA]
 sources:
