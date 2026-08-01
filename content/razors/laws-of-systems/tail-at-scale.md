@@ -16,8 +16,11 @@ of a component is the 50th percentile of a request.
 ## In plain terms
 
 One request usually needs answers from many services, and it is not finished until the slowest
-of them replies. So a delay that hits one call in a hundred stops being rare: fan out to a
-hundred services and it touches nearly every request. Rare per part becomes normal per request.
+of them replies. So the **tail latency** of one component — the delay that hits one call in a
+hundred — stops being rare.
+
+Fan out to a hundred services and it touches nearly every request. Rare per part becomes normal
+per request.
 
 ## Decides
 

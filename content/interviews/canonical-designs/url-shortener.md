@@ -73,7 +73,7 @@ service, then hands them out locally with no further coordination. One round tri
 writes rather than per write, and gaps in the sequence when a server dies, which nobody
 cares about.
 
-**Hash-based.** Hash the long URL, take the first 7 characters. Deterministic — the same URL
+**Hash-based ids.** Hash the long URL and take the first 7 characters. Deterministic — the same URL
 always gives the same code, which deduplicates for free. The costs are collisions, which must
 be detected and resolved with a probe or a salt, and the fact that determinism is sometimes
 wrong: two users shortening the same URL may want separate analytics.

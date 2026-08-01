@@ -55,7 +55,7 @@ becomes the context you hold across teams.
 5. **Say "if it slips, that is on me."** Then hold to it in the retro, which is the
    only place it counts.
 
-**The four archetypes** — Larson's map of what staff work looks like: *tech lead*
+**The four staff archetypes** — Larson's map of what staff work looks like: *tech lead*
 (guides one team's execution), *architect* (owns direction in a critical area across
 teams), *solver* (parachutes into the hardest current problem), *right hand* (operates
 with a senior leader's authority). All four share one property — the bottleneck on

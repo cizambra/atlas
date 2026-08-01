@@ -20,8 +20,9 @@ When a measure becomes a target, it stops being a good measure.
 
 ## In plain terms
 
-Judge people on a number and they start working on the number, not on the thing you were using
-it to track. The number keeps looking good. The thing it stood for quietly gets worse.
+**Goodhart's Law** says that judging people on a number makes them work on the number rather
+than on the thing you were using it to track. The number keeps looking good. The thing it
+stood for quietly gets worse.
 
 ## Decides
 

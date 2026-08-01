@@ -4,7 +4,7 @@ title: Multi-region
 sidebar_position: 7
 group: Patterns
 summary: Serving from several regions buys latency and survival, and charges you the speed of light on every write that has to agree.
-defines: [multi-region, active-passive, active-active, geo-partitioning, home region, read-local write-global, recovery point objective, recovery time objective]
+defines: [multi-region, active-passive, active-active, geo-partitioning, home region, recovery point objective, recovery time objective]
 razors: [cap-and-pacelc]
 prereq: []
 ---

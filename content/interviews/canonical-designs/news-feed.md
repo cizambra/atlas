@@ -4,7 +4,7 @@ title: Design a news feed
 sidebar_position: 2
 group: Canonical designs
 summary: The classic hard one, where the follower distribution forces a hybrid fan-out and ranking turns a list into a system of its own.
-defines: [feed generation, feed ranking, candidate generation, feed cache, backfill]
+defines: [candidate generation, feed cache, backfill]
 razors: [tail-at-scale]
 prereq: [fan-out-on-write-vs-read]
 ---

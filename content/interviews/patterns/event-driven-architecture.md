@@ -4,7 +4,7 @@ title: Event-driven architecture
 sidebar_position: 3
 group: Patterns
 summary: Services react to facts rather than calling each other, which decouples them in time and ownership and moves the difficulty into observability.
-defines: [event-driven architecture, choreography, orchestration, command, event, eventual workflow, temporal decoupling]
+defines: [event-driven architecture, choreography, orchestration, command, event, temporal decoupling]
 razors: [conways-law]
 prereq: []
 ---

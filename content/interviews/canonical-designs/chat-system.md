@@ -4,7 +4,7 @@ title: Design a chat system
 sidebar_position: 3
 group: Canonical designs
 summary: Persistent connections change the shape of everything — routing a message means finding which server holds the recipient's socket.
-defines: [WebSocket, connection registry, presence, delivery receipt, message ordering key, offline queue, push notification fallback]
+defines: [WebSocket, connection registry, presence, delivery receipt, offline queue, push notification fallback]
 razors: [littles-law]
 prereq: [queues-and-streams]
 ---
@@ -113,8 +113,8 @@ clocks on servers disagree slightly, and a monotonic per-conversation counter si
 
 The client-side subtlety worth raising: a message must appear immediately for the sender,
 before the server has confirmed it. That means an optimistic local id, reconciled with the
-server's sequence number on acknowledgement, and it is why sent/delivered/read are three
-distinct states rather than a single boolean.
+server's sequence number on acknowledgement, and it is why a **delivery receipt** is one of three
+distinct states — sent, delivered, read — rather than a single boolean.
 
 ### Offline, which is the common case
 

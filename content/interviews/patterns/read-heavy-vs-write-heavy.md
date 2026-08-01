@@ -4,7 +4,7 @@ title: Read-heavy vs write-heavy
 sidebar_position: 1
 group: Patterns
 summary: The read-to-write ratio is the first number that shapes an architecture, because it decides where you are allowed to move work.
-defines: [read-to-write ratio, read amplification, write amplification path, precomputation, read path, write path]
+defines: [read-to-write ratio, read amplification, precomputation]
 razors: []
 prereq: []
 ---

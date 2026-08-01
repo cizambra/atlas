@@ -20,8 +20,10 @@ every day.
 ## In plain terms
 
 When the network splits, you have to pick: answer with data that may be stale, or refuse to
-answer until you are certain. That is the famous choice, and it is rare. The one you make every
-day is quieter, because every copy you keep in step costs you time on every single request.
+answer until you are certain. That is the famous choice — the **CAP theorem** — and it is rare.
+
+The one you make every day is quieter, because every copy you keep in step costs you time on
+every single request.
 
 ## Decides
 

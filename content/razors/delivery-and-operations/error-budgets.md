@@ -16,9 +16,11 @@ on shipping.
 
 ## In plain terms
 
-Chasing perfect uptime costs more than it is worth, and it quietly stops you shipping. So pick
-the amount of failure you can live with, say one request in a thousand, and treat it as money
-to spend. While you are under budget you ship freely. When you run out, you stop and fix.
+Chasing perfect uptime costs more than it is worth, and it quietly stops you shipping.
+
+So pick the amount of failure you can live with — say one request in a thousand — and treat
+that allowance as an **error budget**, money to spend. While you are under it you ship freely.
+When you run out, you stop and fix.
 
 ## Decides
 

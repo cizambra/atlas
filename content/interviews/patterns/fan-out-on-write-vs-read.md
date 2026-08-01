@@ -4,7 +4,7 @@ title: Fan-out on write vs read
 sidebar_position: 2
 group: Patterns
 summary: Deliver a post to every follower's timeline at write time, or assemble it on request — and use both, split by follower count.
-defines: [fan-out on write, fan-out on read, push model, pull model, hybrid fan-out, timeline, celebrity problem]
+defines: [fan-out on write, fan-out on read, hybrid fan-out, timeline, celebrity problem]
 razors: [tail-at-scale]
 prereq: [read-heavy-vs-write-heavy]
 ---
@@ -104,10 +104,10 @@ The saving grace is cacheability: an assembled timeline can be cached for a few 
 at high read volume that collapses most of the cost. Which is to say pull with a cache is
 push with a shorter horizon — the two converge more than the clean dichotomy suggests.
 
-### The hybrid, which is what everyone actually builds
+### Hybrid fan-out, which is what everyone actually builds
 
-The follower distribution is a power law: almost everyone has few followers, a tiny number
-have millions. So the design splits on that.
+**Hybrid fan-out** splits the strategy by follower count, because the distribution is a power
+law: almost everyone has few followers and a tiny number have millions.
 
 **Ordinary accounts push.** A post fans out to followers' timelines as it is written.
 Cheap — a few hundred writes — and the reader gets a precomputed list.
