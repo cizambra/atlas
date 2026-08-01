@@ -4,7 +4,7 @@ title: Complexity, and how to argue it
 sidebar_position: 1
 group: Algorithms
 summary: Big-O describes how cost grows with input size, and the interview tests whether you can derive it out loud rather than recall it.
-defines: [big-O, amortised analysis, time complexity, space complexity, dominant term, logarithmic factor]
+defines: [big-O, amortised analysis, time complexity, space complexity]
 razors: []
 prereq: []
 ---
@@ -41,7 +41,7 @@ Derive it by counting, not by pattern-matching on shape:
 # 2. Count operations per level of the structure.
 # 3. Multiply nested, add sequential.
 # 4. Drop constants and lower-order terms.
-# 5. State time AND space, separately.
+# 5. State time complexity AND space complexity, separately.
 
 def two_sum(nums, target):
     seen = {}                      # O(n) space — say this out loud

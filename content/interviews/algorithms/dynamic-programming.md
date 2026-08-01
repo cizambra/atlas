@@ -36,7 +36,7 @@ And the surface tells that usually accompany them:
 - The word "**subsequence**" appears — contiguous means [[sliding window]], non-contiguous
   usually means DP.
 
-The tell against it: if a locally best choice is provably globally best, it is greedy and
+The tell against it: if a locally best choice is provably globally best, it is [[greedy algorithm|greedy]] and
 much cheaper. If you must enumerate actual solutions rather
 than count or optimise, it is backtracking.
 

@@ -4,7 +4,7 @@ title: Sliding window
 sidebar_position: 3
 group: Algorithms
 summary: A contiguous range that grows on the right and shrinks on the left, so every subarray question becomes one pass instead of n².
-defines: [sliding window, fixed window, variable window, window invariant, expand-contract]
+defines: [sliding window, fixed window, variable window, window invariant]
 razors: []
 prereq: [two-pointers]
 ---

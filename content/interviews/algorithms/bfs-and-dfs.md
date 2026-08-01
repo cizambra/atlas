@@ -130,7 +130,7 @@ path reaches — and forgetting to look is the difference between passing and no
 - **Word Ladder** — shortest transformation, where the hard part is realising that words are
   nodes and one-letter differences are edges.
 - **Clone Graph** — traversal plus a map from original to copy, so cycles terminate.
-- **Course Schedule** — cycle detection with DFS, which is topological sorting in disguise.
+- **Course Schedule** — cycle detection with DFS, which is [[topological sort|topological sorting]] in disguise.
 - **Pacific Atlantic Water Flow** — two multi-source traversals from the borders inward,
   which is much easier than simulating flow outward from each cell.
 - **Walls and Gates** / **01 Matrix** — multi-source BFS from all the zeros at once.

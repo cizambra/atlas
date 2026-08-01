@@ -4,7 +4,7 @@ title: Two pointers
 sidebar_position: 2
 group: Algorithms
 summary: Two indices walking a sorted array, where each move eliminates a whole set of candidates and turns a quadratic scan into a single pass.
-defines: [two pointers, opposite-direction pointers, same-direction pointers, monotonic movement]
+defines: [two pointers, monotonic movement]
 razors: []
 prereq: [complexity]
 ---
