@@ -285,11 +285,33 @@ function readingOrder(pages) {
   return out;
 }
 
+/**
+ * A term in `defines:` is a promise to the glossary: "this page is where you
+ * learn this word." A page that declares a term and never says it sends every
+ * inbound link to a page that does not contain what the reader clicked.
+ *
+ * Four razors shipped that way — goodharts-law, error-budgets, cap-and-pacelc
+ * and tail-at-scale each declared their own name and never used it in the body,
+ * which broke the most-linked pages in the atlas while every build stayed green.
+ *
+ * This checks only that the term APPEARS, not that its appearance defines it.
+ * The stronger check needs judgment; this one is mechanical and catches the
+ * defect that actually ships.
+ */
+function termsDelivered(page) {
+  if (!page.defines?.length) return [];
+  const body = page.blocks.map((b) => b.text).join(" ").replace(/\s+/g, " ").toLowerCase();
+  return page.defines
+    .filter((term) => !body.includes(term.toLowerCase()))
+    .map((term) => violation("terms-delivered", page, firstLine(page),
+      `"${term}" is in defines: but never appears in the body — a link to it would land on a page that does not contain it`));
+}
+
 const PAGE_RULES = [
   blocksExact, modelLength, plainTermsLength, speedrunLength, procedurePresent, paragraphSize,
   recognisePresent, templatePresent, complexityStated, workedExamplePresent,
   examplePresent, visualPresent, limitsPresent, sourcesRequired, summaryPresent,
-  illustrationCredited,
+  illustrationCredited, termsDelivered,
 ];
 
 export function lintPage(page) {

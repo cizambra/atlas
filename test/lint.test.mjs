@@ -302,3 +302,28 @@ test('worked-example-present rejects a trace with no explanation', () => {
   const body = `${PATTERN_BODY.slice(0, start)}## Worked example\n\nSee above.\n\n${PATTERN_BODY.slice(end)}`;
   assert.ok(rulesOf(lintPage(patternPage(body))).includes('worked-example-present'));
 });
+
+test('terms-delivered rejects a term declared but never used in the body', () => {
+  const page = concept();
+  page.defines = ['cache', 'write-behind'];       // the body never says write-behind
+  assert.ok(rulesOf(lintPage(page)).includes('terms-delivered'));
+});
+
+test('terms-delivered accepts a term the body actually contains', () => {
+  const page = concept();
+  page.defines = ['cache'];
+  assert.ok(!rulesOf(lintPage(page)).includes('terms-delivered'));
+});
+
+test('terms-delivered matches a term wrapped across lines', () => {
+  const blocks = CONCEPT_BLOCKS.replace('A model.', 'The tortoise and\nhare walk together.');
+  const page = concept(blocks);
+  page.defines = ['tortoise and hare'];
+  assert.ok(!rulesOf(lintPage(page)).includes('terms-delivered'));
+});
+
+test('terms-delivered is case-insensitive', () => {
+  const page = concept();
+  page.defines = ['CACHE'];
+  assert.ok(!rulesOf(lintPage(page)).includes('terms-delivered'));
+});
