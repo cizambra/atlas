@@ -4,7 +4,7 @@ title: Design a RAG assistant
 sidebar_position: 1
 group: ML system design
 summary: Retrieval-augmented generation, where the model is the least interesting component and retrieval quality decides whether the answer is right.
-defines: [retrieval-augmented generation, embedding, vector index, chunking strategy, hybrid retrieval, reranking, grounding, context window]
+defines: [retrieval-augmented generation, grounding, context window]
 razors: [goodharts-law]
 prereq: [search]
 ---
