@@ -92,7 +92,7 @@ Everything competes for the same budget. A 128k window sounds enormous until a s
 it is also not free — cost scales with what you put in, and quality frequently *falls* as the
 window fills.
 
-The **lost in the middle** effect is the reason. Models attend most reliably to the beginning and
+The [[lost in the middle]] effect is the reason. Models attend most reliably to the beginning and
 end of a long context, so a critical instruction placed halfway through a 60k-token window is
 measurably more likely to be missed than the same instruction at the top. Put instructions at the
 edges, and treat a longer context as a cost rather than a feature.
