@@ -4,7 +4,7 @@ title: Team boundaries and Conway's Law
 sidebar_position: 1
 group: Organisational systems
 summary: Team structure and system structure converge, so an architecture argument is often an organisational argument that nobody has named.
-defines: [inverse Conway manoeuvre, cognitive load, ownership boundary]
+defines: [cognitive load, ownership boundary]
 razors: [conways-law]
 prereq: []
 sources:
@@ -91,7 +91,7 @@ communication requirement is pushing through it.
 
 ### The inverse Conway manoeuvre
 
-The **inverse Conway manoeuvre** is deliberately restructuring teams to produce the architecture
+[[inverse Conway manoeuvre|The inverse Conway manoeuvre]] is deliberately restructuring teams to produce the architecture
 you want, rather than designing an architecture and hoping the organisation accommodates it.
 
 It is the highest-leverage version of this insight and the one staff engineers can least often
