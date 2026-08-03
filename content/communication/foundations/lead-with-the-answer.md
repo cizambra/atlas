@@ -4,7 +4,7 @@ title: Lead with the answer
 sidebar_position: 1
 group: Foundations
 summary: Put the conclusion in the first sentence and the support beneath it, because a reader decides at every line whether to keep going.
-defines: [BLUF, pyramid principle, SCQA, inverted pyramid, curse of knowledge]
+defines: [lead with the answer]
 razors: []
 prereq: []
 sources:
@@ -40,9 +40,9 @@ with the question.
 ## Speedrun
 
 **What** — the conclusion in the first sentence, then its support. Military staff
-writing calls it **BLUF**, bottom line up front; newspapers call the same shape the
-**inverted pyramid**; Barbara Minto formalised it at McKinsey as the **pyramid
-principle**.
+writing calls it [[BLUF]], bottom line up front; newspapers call the same shape the
+[[inverted pyramid]]; Barbara Minto formalised it at McKinsey as the
+[[pyramid principle]].
 
 **How to restructure anything**
 
@@ -55,7 +55,7 @@ principle**.
 5. **Cut anything that supports no point above it.** If it supports nothing it is not
    context, it is noise.
 
-**SCQA, when the answer needs a run-up** — Minto's four-sentence opener: *Situation*
+[[SCQA]], **when the answer needs a run-up** — Minto's four-sentence opener: *Situation*
 (what we already agree on), *Complication* (what changed), *Question* (what that forces
 us to decide), *Answer* (your recommendation). Four sentences and the reader knows
 exactly why they are reading.
@@ -77,12 +77,12 @@ it.
 
 ### What leading with the answer actually means
 
-Three names for one idea, arrived at separately by three fields. **BLUF** is US military
+**Leading with the answer** has three names, arrived at separately by three fields. BLUF is US military
 staff-writing doctrine, where a reader may act on the first line and never reach the
-second. The **inverted pyramid** is newspaper practice: a story written so an editor can
+second. The inverted pyramid is newspaper practice: a story written so an editor can
 cut from the bottom without losing anything essential.
 
-**Minto's pyramid principle** is the version with the most structure behind it. She
+Minto's pyramid principle is the version with the most structure behind it. She
 taught it at McKinsey in the 1970s, and the shape is literal — one governing claim on
 top, a few supporting arguments beneath, evidence beneath those, with every level
 summarising the level below it.
@@ -100,7 +100,7 @@ one most likely to go unread.
 
 **Deleting everything above it** is the step people resist hardest, and the reason has a
 name. The background feels necessary because it was necessary *to you* — that is the
-**curse of knowledge**, the difficulty of modelling not knowing something once you know
+[[curse of knowledge]], the difficulty of modelling not knowing something once you know
 it. Context that is load-bearing for the author reads as throat-clearing to a reader who
 only needs the decision.
 

@@ -4,7 +4,7 @@ title: Giving feedback
 sidebar_position: 1
 group: Difficult conversations
 summary: Useful feedback is specific, prompt and about behaviour rather than character, and it is withheld for the giver's comfort.
-defines: [SBI, ruinous empathy, feedback latency, behaviour not character]
+defines: [ruinous empathy, feedback latency, behaviour not character]
 razors: []
 prereq: []
 sources:
@@ -86,7 +86,7 @@ rather than saving the channel for something serious.
 
 ### SBI, and why it works
 
-**SBI** — situation, behaviour, impact — is the most reliable structure available, and each part
+[[SBI]] — situation, behaviour, impact — is the most reliable structure available, and each part
 does a specific job.
 
 **Situation** anchors it in time and place. "In yesterday's design review" makes the feedback
