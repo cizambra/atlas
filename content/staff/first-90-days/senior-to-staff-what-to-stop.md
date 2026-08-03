@@ -4,7 +4,7 @@ title: Senior to staff — what to stop doing
 sidebar_position: 1
 group: The first 90 days
 summary: Staff engineering is accountable for outcomes larger than one person can build, which changes what your own hands should be doing.
-defines: [staff archetypes, glue work]
+defines: [staff archetypes]
 razors: []
 prereq: []
 sources:
@@ -134,7 +134,7 @@ decoration, and your next handover gets refused.
 
 ### Glue work: the necessary counterweight
 
-Reilly's argument is more careful than the version usually quoted. **Glue work** —
+Reilly's argument is more careful than the version usually quoted. [[Glue work]] —
 noticing the gap between two teams, writing the document nobody owns, onboarding the new
 person — is essential, mostly invisible, and disproportionately done by women and
 underrepresented engineers.
