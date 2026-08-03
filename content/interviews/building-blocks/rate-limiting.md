@@ -4,7 +4,7 @@ title: Rate limiting
 sidebar_position: 13
 group: Building blocks
 summary: Refusing some requests on purpose so the system survives the rest, and choosing an algorithm by how much bursting you will forgive.
-defines: [rate limiting, token bucket, leaky bucket, fixed window counter, sliding window log, sliding window counter, throttling, quota, load shedding, circuit breaker, jitter]
+defines: [rate limiting, token bucket, leaky bucket, fixed window counter, sliding window log, sliding window counter, throttling, quota, load shedding, jitter]
 razors: [error-budgets]
 prereq: []
 ---
@@ -163,7 +163,7 @@ Exponential backoff with **jitter** — a random offset added to each delay, so 
 rejected together do not return together — is what breaks the synchronisation. The jitter is
 the half people omit, and without it the backoff only moves the spike later.
 
-The related mechanism is the **circuit breaker**: after N consecutive failures against a
+The related mechanism is the [[circuit breaker]]: after N consecutive failures against a
 dependency, stop calling it entirely for a cooldown, then let one probe through. Rate
 limiting protects you from your callers; a circuit breaker protects your dependencies from
 you, and protects you from waiting on something already known to be broken.
