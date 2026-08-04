@@ -31,7 +31,7 @@ problem is staking something on the outcome, so the decision is made on evidence
 something comparable — and that evidence has to exist before the assignment.
 
 Which produces the ordering people find frustrating: you demonstrate the level, then you get the
-title and the scope. Waiting to be given scope in order to demonstrate it is a loop with no entry
+title and the scope. Waiting to be given scope so you can demonstrate it is a loop with no entry
 point.
 
 The increment is the mechanism. Slightly larger is a bet someone will take; substantially larger is

@@ -46,7 +46,7 @@ You have a manager, or a manager counterpart on a team you work with.
 1. **Have the split conversation, out loud, early.** "You own the people and the roadmap; I own
    the technical direction and I will bring you the risks" takes ten minutes and prevents months.
 2. **Never let them be surprised.** A manager blindsided in front of their own boss loses standing
-   they need in order to be useful to you.
+   they need to be useful to you.
 3. **Bring problems with a recommendation.** "Here is the issue, here are the options, here is what
    I would do, here is what I need from you" is what makes you easy to back.
 4. **Ask for [[air cover]] explicitly.** Protection from interrupts, permission to spend a quarter

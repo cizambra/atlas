@@ -197,5 +197,5 @@ yes is what funds every no.
 
 ## Next
 
-The Scaling yourself group takes this further: not only which requests to accept, but how to make
-your attention go further than one person's week allows.
+The Scaling yourself group takes this further. Deciding what to accept is one half; the other is
+making your attention go further than one person's week allows.

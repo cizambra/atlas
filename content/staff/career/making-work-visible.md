@@ -61,7 +61,7 @@ whatever description of your work reached them. You are choosing between supplyi
 and letting one be inferred.
 
 **The reframing that makes this comfortable** — you are not promoting yourself. You are making sure
-the organisation knows what it got, which is information it needs in order to decide what to fund
+the organisation knows what it got, which is what it needs to decide what to fund
 next.
 
 ## Going deeper
