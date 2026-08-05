@@ -201,5 +201,5 @@ accountable without doing.
 
 ## Next
 
-Days 1–30, picking the wedge, and the traps are the pages that follow — this one is what
-to stop, and those are what to start.
+The first conversations comes next — the ones that renegotiate what everyone around you
+expects, before the month of learning starts.

@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Picking your wedge
-sidebar_position: 3
+sidebar_position: 4
 group: The first 90 days
 summary: One problem, chosen for what solving it unlocks rather than for how hard it is, is what converts a title into actual scope.
 defines: [the wedge, scope, sponsor, load-bearing problem]

@@ -82,25 +82,71 @@ const SECTION_LABELS = {
 };
 
 /**
+ * A reader arriving with a specific reason should not have to infer where to
+ * start from an alphabetical list. Each route names the reader, not the topic.
+ */
+const START_HERE = [
+  ['You have just been promoted to staff', '/staff/first-90-days/senior-to-staff-what-to-stop',
+   'What to stop doing, then days 1–30, the traps, and picking your wedge.'],
+  ['You are preparing for a system design interview', '/interviews/fundamentals/scoping-the-problem',
+   'Scoping, the 45 minutes, the numbers, then the building blocks.'],
+  ['You are shipping something a model powers', '/ai/foundations/what-a-model-is-doing',
+   'What the model is doing, what it costs, and how to tell whether it works.'],
+  ['Your writing is not landing', '/communication/foundations/lead-with-the-answer',
+   'Lead with the answer, know your audience, cut, and signpost.'],
+];
+
+const byPosition = (a, b) => (a.position ?? Infinity) - (b.position ?? Infinity);
+
+/**
  * The site root. `routeBasePath: '/'` makes it a doc route, and
  * `onBrokenLinks: 'throw'` fails the build if nothing is there.
+ *
+ * Pages are listed in the order the sidebar shows them — section position,
+ * then group position, then sidebar_position within the group. Sorting by
+ * title instead buried "Senior to staff — what to stop doing" at position 21
+ * of the Staff Engineering list, which is where a new staff engineer starts.
  */
-export function renderHomeMarkdown(pages) {
+export function renderHomeMarkdown(pages, categories = new Map()) {
+  const cat = (key) => categories.get(key) ?? {};
+
   const bySection = new Map();
   for (const page of pages) {
     if (!bySection.has(page.section)) bySection.set(page.section, []);
     bySection.get(page.section).push(page);
   }
 
-  const sections = [...bySection.entries()].map(([section, items]) => {
-    const label = SECTION_LABELS[section] ?? section;
-    const links = items
-      .sort((a, b) => a.title.localeCompare(b.title))
-      .map((p) => `- [${cell(p.title)}](${href(p)})`)
-      .join('\n');
-    const count = `${items.length} ${items.length === 1 ? 'page' : 'pages'}`;
-    return `## ${label}\n\n${count}\n\n${links}\n`;
-  }).join('\n');
+  const sections = [...bySection.entries()]
+    .sort(([a], [b]) => byPosition(cat(a), cat(b)))
+    .map(([section, items]) => {
+      const label = cat(section).label ?? SECTION_LABELS[section] ?? section;
+
+      const byGroup = new Map();
+      for (const page of items) {
+        const key = page.group ?? '';
+        if (!byGroup.has(key)) byGroup.set(key, []);
+        byGroup.get(key).push(page);
+      }
+
+      const groups = [...byGroup.entries()]
+        .sort(([a], [b]) => byPosition(cat(`${section}/${a}`), cat(`${section}/${b}`)))
+        .map(([group, groupPages]) => {
+          const links = groupPages
+            .sort((a, b) => (a.sidebarPosition ?? Infinity) - (b.sidebarPosition ?? Infinity)
+                            || a.title.localeCompare(b.title))
+            .map((p) => `- [${cell(p.title)}](${href(p)})`)
+            .join('\n');
+          const heading = cat(`${section}/${group}`).label;
+          return heading ? `### ${heading}\n\n${links}\n` : `${links}\n`;
+        }).join('\n');
+
+      const count = `${items.length} ${items.length === 1 ? 'page' : 'pages'}`;
+      return `## ${label}\n\n${count}\n\n${groups}`;
+    }).join('\n');
+
+  const startHere = START_HERE
+    .map(([who, path, what]) => `- **[${who}](${path})** — ${what}`)
+    .join('\n');
 
   return `---
 type: generated
@@ -114,11 +160,19 @@ sidebar_position: 0
 AI engineering, technical interviews, staff engineering and communication — the model,
 the decision, the mechanism, the example.
 
+Every page answers four questions in the same order: what the model is, when to reach for
+it, how it works, and what it looks like in a real case. Read a group top to bottom and it
+builds; drop into one page and it stands alone.
+
+## Start here
+
+${startHere}
+
 ${sections}`;
 }
 
 export function generate(contentDir) {
-  const { pages } = loadContent(contentDir);
+  const { pages, categories } = loadContent(contentDir);
   const catalog = loadCatalog(contentDir);
   const authored = pages.filter((p) => p.type === 'concept' || p.type === 'razor');
 
@@ -127,7 +181,7 @@ export function generate(contentDir) {
   writeFileSync(join(contentDir, 'glossary.md'),
     renderGlossaryMarkdown(buildTermIndex(pages)));
   writeFileSync(join(contentDir, 'index.md'),
-    renderHomeMarkdown(authored));
+    renderHomeMarkdown(authored, categories));
 }
 
 const isMain = process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1];

@@ -1,7 +1,7 @@
 ---
 type: concept
 title: The traps
-sidebar_position: 4
+sidebar_position: 5
 group: The first 90 days
 summary: Every failure mode in a new staff role feels like good behaviour from inside it, so naming them in advance is the only defence.
 defines: [the hero trap, the architect astronaut, the shadow manager, credibility budget]

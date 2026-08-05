@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { basename, join } from 'node:path';
 import { parseFrontmatter } from './frontmatter.mjs';
 import { splitBlocks } from './blocks.mjs';
@@ -36,18 +36,39 @@ export function loadPage(filePath, raw, location = {}) {
   };
 }
 
+/**
+ * Docusaurus reads `_category_.json` for a folder's label and its position in
+ * the sidebar; nothing else did, so the generated homepage had no way to order
+ * groups or name them. Read them once here and hand them to the generator.
+ */
+function readCategory(dir) {
+  const file = join(dir, '_category_.json');
+  if (!existsSync(file)) return null;
+  const { label, position } = JSON.parse(readFileSync(file, 'utf8'));
+  // A category file may omit position; Number(undefined) is NaN, which makes
+  // every comparison false and silently scrambles the order.
+  return { label, position: position === undefined ? Infinity : Number(position) };
+}
+
 /** Every page under contentDir, walking one level of group folders. */
 export function loadContent(contentDir) {
   const pages = [];
+  const categories = new Map();
 
   for (const section of readdirSync(contentDir)) {
     const sectionDir = join(contentDir, section);
     if (!statSync(sectionDir).isDirectory()) continue;
 
+    const sectionCategory = readCategory(sectionDir);
+    if (sectionCategory) categories.set(section, sectionCategory);
+
     for (const entry of readdirSync(sectionDir)) {
       const entryPath = join(sectionDir, entry);
 
       if (statSync(entryPath).isDirectory()) {
+        const groupCategory = readCategory(entryPath);
+        if (groupCategory) categories.set(`${section}/${entry}`, groupCategory);
+
         for (const file of readdirSync(entryPath)) {
           if (!file.endsWith('.md')) continue;
           const filePath = join(entryPath, file);
@@ -63,5 +84,5 @@ export function loadContent(contentDir) {
     }
   }
 
-  return { pages };
+  return { pages, categories };
 }

@@ -43,3 +43,11 @@ test('loadContent returns every page', () => {
   const { pages } = loadContent(FIXTURES);
   assert.deepEqual(pages.map((p) => p.slug).sort(), ['sample-concept', 'sample-razor']);
 });
+
+test('loadContent reads _category_.json so groups carry a label and an order', () => {
+  const { categories } = loadContent(FIXTURES);
+  assert.equal(categories.get('ai').label, 'AI Engineering');
+  assert.equal(categories.get('ai').position, 1);
+  assert.equal(categories.get('ai/foundations').label, 'Foundations');
+  assert.equal(categories.get('ai/foundations').position, 1);
+});

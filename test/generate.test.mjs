@@ -82,3 +82,39 @@ test('glossary terms are sorted and keep their authored spelling', () => {
   assert.ok(md.indexOf('cache') < md.indexOf('TTL'));
   assert.match(md, /TTL/);
 });
+
+// The homepage listed every page alphabetically, which put "Building alignment"
+// above "Senior to staff — what to stop doing" and made reading order invisible
+// to a first-time reader. It has to follow the same order as the sidebar.
+const orderedPages = [
+  { slug: 'the-traps', title: 'The traps', section: 'staff', group: 'first-90-days', sidebarPosition: 4 },
+  { slug: 'stop', title: 'Senior to staff', section: 'staff', group: 'first-90-days', sidebarPosition: 1 },
+  { slug: 'alignment', title: 'Building alignment', section: 'staff', group: 'influence', sidebarPosition: 2 },
+  { slug: 'decisions', title: 'How decisions get made', section: 'staff', group: 'influence', sidebarPosition: 1 },
+];
+const orderedCats = new Map([
+  ['staff', { label: 'Staff Engineering', position: 4 }],
+  ['staff/first-90-days', { label: 'The first 90 days', position: 1 }],
+  ['staff/influence', { label: 'Influence without authority', position: 3 }],
+]);
+
+test('the homepage lists pages in reading order, not alphabetically', () => {
+  const md = renderHomeMarkdown(orderedPages, orderedCats);
+  assert.ok(md.indexOf('Senior to staff') < md.indexOf('The traps'),
+    'position 1 must come before position 4');
+  assert.ok(md.indexOf('How decisions get made') < md.indexOf('Building alignment'));
+});
+
+test('the homepage groups pages under their group heading, in group order', () => {
+  const md = renderHomeMarkdown(orderedPages, orderedCats);
+  assert.match(md, /The first 90 days/);
+  assert.match(md, /Influence without authority/);
+  assert.ok(md.indexOf('The first 90 days') < md.indexOf('Influence without authority'),
+    'group position 1 must come before group position 3');
+});
+
+test('the homepage opens with a start-here route for a named reader', () => {
+  const md = renderHomeMarkdown(orderedPages, orderedCats);
+  assert.match(md, /## Start here/);
+  assert.match(md, /just been promoted/i);
+});

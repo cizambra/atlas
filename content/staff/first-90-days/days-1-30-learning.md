@@ -1,7 +1,7 @@
 ---
 type: concept
 title: Days 1–30 — learning before acting
-sidebar_position: 2
+sidebar_position: 3
 group: The first 90 days
 summary: The first month buys you a map, and the pressure to demonstrate value early is what makes people build the wrong one.
 defines: [learning agenda, the three maps, listening tour, early win]
